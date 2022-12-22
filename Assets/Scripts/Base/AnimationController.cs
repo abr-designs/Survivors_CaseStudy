@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Survivors.Animation;
 using UnityEngine;
 
 namespace Survivors
@@ -9,18 +10,7 @@ namespace Survivors
     {
         //============================================================================================================//
         
-        [Serializable]
-        public class AnimationStateData
-        {
-            public string name;
-            
-            public bool looping = true;
-            public STATE state;
-            [NonSerialized]
-            public int Count;
-            [NonReorderable]
-            public Sprite[] sprites;
-        }
+        
         
         //============================================================================================================//
 

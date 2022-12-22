@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Survivors.Base.Interfaces;
+using UnityEngine;
 
-namespace Survivors
+namespace Survivors.Base
 {
-    public class MovementController : MonoBehaviour
+    public abstract class MovementControllerBase : MonoBehaviour, IMovementController
     {
         private Transform _transform;
 
@@ -14,12 +15,6 @@ namespace Survivors
         private int _inputX, _inputY;
 
         //============================================================================================================//
-        // Start is called before the first frame update\
-        private void OnEnable()
-        {
-            InputDelegator.OnMovementChanged += OnMovementChanged;
-        }
-
         private void Start()
         {
             _transform = gameObject.transform;
@@ -37,15 +32,10 @@ namespace Survivors
 
             _transform.position = currentPos;
         }
-        
-        private void OnDisable()
-        {
-            InputDelegator.OnMovementChanged -= OnMovementChanged;
-        }
 
         //============================================================================================================//
 
-        private void OnMovementChanged(float x, float y)
+        protected virtual void OnMovementChanged(float x, float y)
         {
             _inputX = Mathf.RoundToInt(x);
             _inputY = Mathf.RoundToInt(y);

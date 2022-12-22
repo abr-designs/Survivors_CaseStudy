@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Survivors.Base.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Survivors
 {
     [RequireComponent(typeof(AnimationController))]
-    [RequireComponent(typeof(MovementController))]
+    [RequireComponent(typeof(IMovementController))]
     public class CharacterController : MonoBehaviour
     {
         //Properties
@@ -15,7 +16,7 @@ namespace Survivors
         private bool _isDead;
         
         private AnimationController _animationController;
-        private MovementController _movementController;
+        private IMovementController _movementControllerBase;
         private SpriteRenderer _spriteRenderer;
 
         [SerializeField]
@@ -36,7 +37,7 @@ namespace Survivors
         // Start is called before the first frame update
         private void Start()
         {
-            _movementController = GetComponent<MovementController>();
+            _movementControllerBase = GetComponent<IMovementController>();
             _animationController = GetComponent<AnimationController>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -67,7 +68,7 @@ namespace Survivors
             {
                 case STATE.DEATH:
                     _isDead = true;
-                    _movementController.enabled = false;
+                    _movementControllerBase.enabled = false;
                     break;
             }
         }
@@ -87,7 +88,7 @@ namespace Survivors
 
         private void IdleState()
         {
-            if(_movementController.IsMoving == false)
+            if(_movementControllerBase.IsMoving == false)
                 return;
             
             SetState(STATE.RUN);
@@ -95,7 +96,7 @@ namespace Survivors
 
         private void RunState()
         {
-            if(_movementController.IsMoving)
+            if(_movementControllerBase.IsMoving)
                 return;
             
             SetState(STATE.IDLE);
