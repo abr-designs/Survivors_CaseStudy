@@ -1,22 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Survivors.Base.Interfaces;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Survivors
 {
-    [RequireComponent(typeof(AnimationController))]
+    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(IAnimationController))]
     [RequireComponent(typeof(IMovementController))]
-    public class CharacterController : MonoBehaviour
+    public abstract class StateControllerBase : MonoBehaviour
     {
         //Properties
         //============================================================================================================//
         private bool _isDead;
         
-        private AnimationController _animationController;
-        private IMovementController _movementControllerBase;
+        private IAnimationController _animationController;
+        private IMovementController _movementController;
         private SpriteRenderer _spriteRenderer;
 
         [SerializeField]
@@ -25,20 +22,12 @@ namespace Survivors
 
         //Unity Functions
         //============================================================================================================//
-        private void OnEnable()
-        {
-            InputDelegator.OnMovementChanged += OnMovementChanged;
-            InputDelegator.OnKillPressed += () =>
-            {
-                SetState(STATE.DEATH);
-            };
-        }
 
         // Start is called before the first frame update
         private void Start()
         {
-            _movementControllerBase = GetComponent<IMovementController>();
-            _animationController = GetComponent<AnimationController>();
+            _movementController = GetComponent<IMovementController>();
+            _animationController = GetComponent<IAnimationController>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
             SetState(defaultAnimationState);
@@ -52,15 +41,10 @@ namespace Survivors
             UpdateState();
         }
 
-        private void OnDisable()
-        {
-            InputDelegator.OnMovementChanged -= OnMovementChanged;
-        }
-
         //State Functions
         //============================================================================================================//
 
-        private void SetState(in STATE newState)
+        protected void SetState(in STATE newState)
         {
             _currentAnimationState = newState;
             _animationController.SetCurrentState(newState);
@@ -68,7 +52,7 @@ namespace Survivors
             {
                 case STATE.DEATH:
                     _isDead = true;
-                    _movementControllerBase.enabled = false;
+                    _movementController.SetActive(false);
                     break;
             }
         }
@@ -86,17 +70,17 @@ namespace Survivors
             }
         }
 
-        private void IdleState()
+        protected virtual void IdleState()
         {
-            if(_movementControllerBase.IsMoving == false)
+            if(_movementController.IsMoving == false)
                 return;
             
             SetState(STATE.RUN);
         }
 
-        private void RunState()
+        protected virtual void RunState()
         {
-            if(_movementControllerBase.IsMoving)
+            if(_movementController.IsMoving)
                 return;
             
             SetState(STATE.IDLE);
@@ -105,15 +89,20 @@ namespace Survivors
         //Callback Functions
         //============================================================================================================//
         
-        private void OnMovementChanged(float x, float _)
+        protected void OnMovementChanged(float x, float _)
         {
             if (_isDead)
                 return;
-            
-            if (x < 0)
-                _spriteRenderer.flipX = true;
-            else if (x > 0)
-                _spriteRenderer.flipX = false;
+
+            switch (x)
+            {
+                case < 0:
+                    _spriteRenderer.flipX = true;
+                    break;
+                case > 0:
+                    _spriteRenderer.flipX = false;
+                    break;
+            }
         }
         //============================================================================================================//
     }

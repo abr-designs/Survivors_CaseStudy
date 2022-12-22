@@ -1,6 +1,6 @@
 ﻿namespace Survivors.Player
 {
-    public class PlayerController : CharacterController
+    public class PlayerStateControllerBase : StateControllerBase
     {
         private void OnEnable()
         {

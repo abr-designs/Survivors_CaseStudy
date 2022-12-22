@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8260094094567917908}
-  - component: {fileID: 8260094094567917910}
+  - component: {fileID: 3111930516915142465}
   - component: {fileID: 8260094094567917909}
-  - component: {fileID: 8260094094567917911}
+  - component: {fileID: 8120966354950536133}
   - component: {fileID: 8260094094567917899}
   m_Layer: 0
   m_Name: PlayerCharacter
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8260094094567917910
+--- !u!114 &3111930516915142465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8260094094567917898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b16503f0ab3394dae95f4af9be9a63, type: 3}
+  m_Script: {fileID: 11500000, guid: e5bea50f32d74de08edff10ea76dcd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAnimationState: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
     - {fileID: 1913499019, guid: 5ab078b9ad199214bb83a3f9f1d7ecfb, type: 3}
     - {fileID: 1949478470, guid: 5ab078b9ad199214bb83a3f9f1d7ecfb, type: 3}
     - {fileID: -1913626541, guid: 5ab078b9ad199214bb83a3f9f1d7ecfb, type: 3}
---- !u!114 &8260094094567917911
+--- !u!114 &8120966354950536133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8260094094567917898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b973ef0315f4261b596d01544a4bdc9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4531834a6d0d4bcbbf1f7f6ea0876502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.75

@@ -11,8 +11,11 @@ namespace Survivors.Base
         private float speed;
 
         public bool IsMoving => _isMoving;
+        public int MoveDirection => _xDirection;
+
+
         private bool _isMoving;
-        private int _inputX, _inputY;
+        private int _xDirection, _yDirection;
 
         //============================================================================================================//
         private void Start()
@@ -27,20 +30,25 @@ namespace Survivors.Base
                 return;
             
             var currentPos = _transform.position;
-            currentPos.x += _inputX * speed * Time.deltaTime;
-            currentPos.y += _inputY * speed * Time.deltaTime;
+            currentPos.x += _xDirection * speed * Time.deltaTime;
+            currentPos.y += _yDirection * speed * Time.deltaTime;
 
             _transform.position = currentPos;
+        }
+        
+        public void SetActive(bool state)
+        {
+            enabled = state;
         }
 
         //============================================================================================================//
 
         protected virtual void OnMovementChanged(float x, float y)
         {
-            _inputX = Mathf.RoundToInt(x);
-            _inputY = Mathf.RoundToInt(y);
+            _xDirection = Mathf.RoundToInt(x);
+            _yDirection = Mathf.RoundToInt(y);
 
-            _isMoving = _inputX != 0 || _inputY != 0;
+            _isMoving = _xDirection != 0 || _yDirection != 0;
         }
 
         //============================================================================================================//

@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Survivors.Animation;
+using Survivors.Base.Interfaces;
 using UnityEngine;
 
 namespace Survivors
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class AnimationController : MonoBehaviour
+    [DefaultExecutionOrder(-100)]
+    public class AnimationControllerBase : MonoBehaviour, IAnimationController
     {
-        //============================================================================================================//
-        
-        
-        
         //============================================================================================================//
 
         [SerializeField, Min(0)]
@@ -89,6 +87,9 @@ namespace Survivors
         
         public void SetCurrentState(in STATE state)
         {
+            if (_currentStateIndicies == null)
+                return;
+            
             if (_currentStateIndicies.ContainsKey(state) == false)
                 throw new NotImplementedException();
             
