@@ -748,6 +748,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3111930516915142465, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: animationProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: 67cf189441f44d544be50bea1ab475c4, type: 2}
     - target: {fileID: 8260094094567917898, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter

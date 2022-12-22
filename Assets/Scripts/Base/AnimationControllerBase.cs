@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Survivors.Animation;
 using Survivors.Base.Interfaces;
+using Survivors.ScriptableObjets.Animation;
 using UnityEngine;
 
 namespace Survivors
@@ -12,15 +13,10 @@ namespace Survivors
     {
         //============================================================================================================//
 
-        [SerializeField, Min(0)]
-        private int framesPerSecond;
-
         private float _frameTime;
         private float _frameTimer;
-        
-        
-        [SerializeField][NonReorderable]
-        private AnimationStateData[] animationStateDatas;
+
+        private IReadOnlyList<AnimationStateData> _animationStateDatas;
 
         private STATE _currentState;
         private int _currentStateIndex;
@@ -36,25 +32,8 @@ namespace Survivors
 
         private void Start()
         {
-            _frameTime = 1f / framesPerSecond;
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             
-            _currentStateIndicies = new Dictionary<STATE, int>();
-
-            for (var i = 0; i < animationStateDatas.Length; i++)
-            {
-                var index = i;
-                var state = animationStateDatas[i].state;
-
-                animationStateDatas[i].Count = animationStateDatas[i].sprites.Length;
-
-                if (_currentStateIndicies.ContainsKey(state))
-                    throw new Exception();
-                
-                _currentStateIndicies.Add(state, index);
-            }
-
-            SetCurrentState(STATE.IDLE);
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
@@ -68,7 +47,7 @@ namespace Survivors
                 return;
             }
 
-            var animationData = animationStateDatas[_currentStateIndex];
+            var animationData = _animationStateDatas[_currentStateIndex];
 
             if (_currentAnimationIndex >= animationData.Count)
             {
@@ -84,6 +63,29 @@ namespace Survivors
         }
 
         //============================================================================================================//
+
+        public void SetAnimationProfile(in AnimationProfileScriptableObject animationProfileScriptableObject)
+        {
+            _frameTime = 1f / animationProfileScriptableObject.framesPerSecond;
+            _frameTimer = 0f;
+            _currentState = STATE.NONE;
+            
+            _animationStateDatas = animationProfileScriptableObject.AnimationStateDatas;
+            _currentStateIndicies = new Dictionary<STATE, int>(_animationStateDatas.Count);
+
+            for (var i = 0; i < _animationStateDatas.Count; i++)
+            {
+                var index = i;
+                var state = _animationStateDatas[i].state;
+
+                _animationStateDatas[i].Count = _animationStateDatas[i].sprites.Length;
+
+                if (_currentStateIndicies.ContainsKey(state))
+                    throw new Exception();
+                
+                _currentStateIndicies.Add(state, index);
+            }
+        }
         
         public void SetCurrentState(in STATE state)
         {

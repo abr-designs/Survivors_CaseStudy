@@ -12,7 +12,7 @@ namespace Survivors
         //============================================================================================================//
         private bool _isDead;
         
-        private IAnimationController _animationController;
+        protected IAnimationController AnimationController;
         private IMovementController _movementController;
         private SpriteRenderer _spriteRenderer;
 
@@ -24,10 +24,11 @@ namespace Survivors
         //============================================================================================================//
 
         // Start is called before the first frame update
-        private void Start()
+        //FIXME I dont want this to be a virtual, to prevent accidental overwrites
+        protected virtual void Start()
         {
             _movementController = GetComponent<IMovementController>();
-            _animationController = GetComponent<IAnimationController>();
+            AnimationController = GetComponent<IAnimationController>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
             SetState(defaultAnimationState);
@@ -47,7 +48,7 @@ namespace Survivors
         protected void SetState(in STATE newState)
         {
             _currentAnimationState = newState;
-            _animationController.SetCurrentState(newState);
+            AnimationController.SetCurrentState(newState);
             switch (newState)
             {
                 case STATE.DEATH:
