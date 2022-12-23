@@ -1,5 +1,6 @@
 using System;
 using Survivors.Base.Interfaces;
+using Survivors.Managers;
 using UnityEngine;
 
 namespace Survivors.Base
@@ -18,11 +19,18 @@ namespace Survivors.Base
         private SpriteRenderer _spriteRenderer;
 
         [SerializeField]
-        private STATE defaultAnimationState;
+        protected STATE defaultAnimationState;
         private STATE _currentAnimationState;
+
+        [SerializeField] private float shadowOffset;
 
         //Unity Functions
         //============================================================================================================//
+
+        protected virtual void OnEnable()
+        {
+            ShadowCastManager.AddShadow(transform, shadowOffset);
+        }
 
         // Start is called before the first frame update
         //FIXME I dont want this to be a virtual, to prevent accidental overwrites

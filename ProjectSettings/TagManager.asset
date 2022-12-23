@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - Player
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 1777661505
+    locked: 0
+  - name: UI
+    uniqueID: 3026862701
     locked: 0

@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b7845674a666f469b6607e8e05b309, type: 3}
   m_Name: Bat Animation Profile
   m_EditorClassIdentifier: 
-  framesPerSecond: 0
-  animationStateDatas: []
+  framesPerSecond: 24
+  animationStateDatas:
+  - name: Fly
+    looping: 1
+    state: 2
+    sprites:
+    - {fileID: -623043036, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: -416277050, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: 2106832338, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: -390973046, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: -1869005004, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: -373581235, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: 1281112105, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+    - {fileID: -516329302, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}

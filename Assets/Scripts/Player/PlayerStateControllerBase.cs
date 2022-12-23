@@ -10,8 +10,9 @@ namespace Survivors.Player
         [SerializeField]
         private AnimationProfileScriptableObject animationProfile;
         
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             InputDelegator.OnMovementChanged += OnMovementChanged;
             InputDelegator.OnKillPressed += () =>
             {

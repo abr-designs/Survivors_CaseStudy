@@ -91,9 +91,11 @@ namespace Survivors.Base
         {
             if (_currentStateIndicies == null)
                 return;
+            if (state == STATE.NONE)
+                return;
             
             if (_currentStateIndicies.ContainsKey(state) == false)
-                throw new NotImplementedException();
+                throw new NotImplementedException($"{gameObject.name} does not contain state: {state}");
             
             _currentState = state;
             _currentStateIndex = _currentStateIndicies[state];

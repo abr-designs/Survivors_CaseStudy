@@ -1,5 +1,4 @@
-﻿using Survivors;
-using Survivors.Base;
+﻿using Survivors.Base;
 using Survivors.Player;
 using Survivors.ScriptableObjets.Animation;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace Enemies
             _enemyMovementController = (EnemyMovementController) MovementController;
             
             AnimationController.SetAnimationProfile(animationProfile);
-            SetState(STATE.RUN);
+            SetState(defaultAnimationState);
         }
 
         protected override void RunState()
