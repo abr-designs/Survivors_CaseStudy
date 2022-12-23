@@ -5,7 +5,7 @@ using Survivors.Base.Interfaces;
 using Survivors.ScriptableObjets.Animation;
 using UnityEngine;
 
-namespace Survivors
+namespace Survivors.Base
 {
     [RequireComponent(typeof(SpriteRenderer))]
     [DefaultExecutionOrder(-100)]

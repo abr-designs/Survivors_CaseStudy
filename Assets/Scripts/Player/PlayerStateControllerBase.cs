@@ -1,4 +1,5 @@
-﻿using Survivors.ScriptableObjets.Animation;
+﻿using Survivors.Base;
+using Survivors.ScriptableObjets.Animation;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,7 +7,7 @@ namespace Survivors.Player
 {
     public class PlayerStateControllerBase : StateControllerBase
     {
-        [FormerlySerializedAs("_animationProfile")] [SerializeField]
+        [SerializeField]
         private AnimationProfileScriptableObject animationProfile;
         
         private void OnEnable()
@@ -29,5 +30,24 @@ namespace Survivors.Player
         {
             InputDelegator.OnMovementChanged -= OnMovementChanged;
         }
+        
+        protected override void IdleState()
+        {
+            if(MovementController.IsMoving == false)
+                return;
+            
+            SetState(STATE.RUN);
+        }
+
+        protected override void RunState()
+        {
+            if(MovementController.IsMoving)
+                return;
+            
+            SetState(STATE.IDLE);
+        }
+
+        protected override void DeathState()
+        { }
     }
 }

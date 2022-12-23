@@ -1,7 +1,8 @@
+using System;
 using Survivors.Base.Interfaces;
 using UnityEngine;
 
-namespace Survivors
+namespace Survivors.Base
 {
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(IAnimationController))]
@@ -13,7 +14,7 @@ namespace Survivors
         private bool _isDead;
         
         protected IAnimationController AnimationController;
-        private IMovementController _movementController;
+        protected IMovementController MovementController;
         private SpriteRenderer _spriteRenderer;
 
         [SerializeField]
@@ -27,7 +28,7 @@ namespace Survivors
         //FIXME I dont want this to be a virtual, to prevent accidental overwrites
         protected virtual void Start()
         {
-            _movementController = GetComponent<IMovementController>();
+            MovementController = GetComponent<IMovementController>();
             AnimationController = GetComponent<IAnimationController>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -53,7 +54,7 @@ namespace Survivors
             {
                 case STATE.DEATH:
                     _isDead = true;
-                    _movementController.SetActive(false);
+                    MovementController.SetActive(false);
                     break;
             }
         }
@@ -62,30 +63,39 @@ namespace Survivors
         {
             switch (_currentAnimationState)
             {
+                case STATE.NONE:
+                    return;
                 case STATE.IDLE:
                     IdleState();
                     break;
                 case STATE.RUN:
                     RunState();
                     break;
+                case STATE.ATTACK:
+                    break;
+                case STATE.DEATH:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         protected virtual void IdleState()
         {
-            if(_movementController.IsMoving == false)
-                return;
-            
-            SetState(STATE.RUN);
+            throw new NotImplementedException( "Make sure you fill out the state in override function");
         }
 
         protected virtual void RunState()
         {
-            if(_movementController.IsMoving)
-                return;
-            
-            SetState(STATE.IDLE);
+            throw new NotImplementedException( "Make sure you fill out the state in override function");
         }
+
+        protected virtual void AttackState()
+        {
+            throw new NotImplementedException( "Make sure you fill out the state in override function");
+        }
+
+        protected abstract void DeathState();
 
         //Callback Functions
         //============================================================================================================//

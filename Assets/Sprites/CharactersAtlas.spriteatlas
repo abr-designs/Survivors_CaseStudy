@@ -50,6 +50,14 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 2106832338, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -390973046, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -623043036, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -416277050, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: 1281112105, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -516329302, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -1869005004, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: -373581235, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
   - {fileID: 334454441, guid: dc3f6519ecd740e4a97fb1381088d2c3, type: 3}
   - {fileID: 1387442946, guid: dc3f6519ecd740e4a97fb1381088d2c3, type: 3}
   - {fileID: -926560229, guid: dc3f6519ecd740e4a97fb1381088d2c3, type: 3}
@@ -89,6 +97,14 @@ SpriteAtlas:
   - {fileID: 207159345, guid: 858b98aab146a22408904b6091fb98cc, type: 3}
   - {fileID: 97906742, guid: 858b98aab146a22408904b6091fb98cc, type: 3}
   m_PackedSpriteNamesToIndex:
+  - noBKG_BatFlight_strip_2
+  - noBKG_BatFlight_strip_3
+  - noBKG_BatFlight_strip_0
+  - noBKG_BatFlight_strip_1
+  - noBKG_BatFlight_strip_6
+  - noBKG_BatFlight_strip_7
+  - noBKG_BatFlight_strip_4
+  - noBKG_BatFlight_strip_5
   - noBKG_KnightIdle_strip_14
   - noBKG_KnightIdle_strip_11
   - noBKG_KnightIdle_strip_10
