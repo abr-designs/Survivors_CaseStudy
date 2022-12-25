@@ -16,13 +16,13 @@ namespace Survivors.Base
         
         protected IAnimationController AnimationController;
         protected IMovementController MovementController;
-        private SpriteRenderer _spriteRenderer;
+        protected SpriteRenderer SpriteRenderer;
 
         [SerializeField]
         protected STATE defaultAnimationState;
         private STATE _currentAnimationState;
 
-        [SerializeField] private float shadowOffset;
+        [SerializeField] protected float shadowOffset;
 
         //Unity Functions
         //============================================================================================================//
@@ -38,7 +38,7 @@ namespace Survivors.Base
         {
             MovementController = GetComponent<IMovementController>();
             AnimationController = GetComponent<IAnimationController>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
 
             SetState(defaultAnimationState);
         }
@@ -104,6 +104,7 @@ namespace Survivors.Base
         }
 
         protected abstract void DeathState();
+        //============================================================================================================//
 
         //Callback Functions
         //============================================================================================================//
@@ -116,10 +117,10 @@ namespace Survivors.Base
             switch (x)
             {
                 case < 0:
-                    _spriteRenderer.flipX = true;
+                    SpriteRenderer.flipX = true;
                     break;
                 case > 0:
-                    _spriteRenderer.flipX = false;
+                    SpriteRenderer.flipX = false;
                     break;
             }
         }

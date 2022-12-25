@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Survivors.Base;
 using Survivors.Base.Interfaces;
 using UnityEngine;
 
@@ -56,14 +57,14 @@ namespace Survivors.Managers
         [SerializeField]
         private float healthBarYOffset;
         
-        private static HealthManager _instance;
         private List<IHealth> _healthObjectsWithDisplay;
         private List<HealthBar> _trackedHealthBars;
 
         //============================================================================================================//
-        private void Awake()
+        private void OnEnable()
         {
-            _instance = this;
+            HealthBase.OnNewHealth += TryAddTrackedHealth;
+            HealthBase.OnHealthRemoved += TryRemoveTrackedHealth;
         }
 
         private void LateUpdate()
@@ -78,22 +79,16 @@ namespace Survivors.Managers
 
             }
         }
-        
-        //============================================================================================================//
 
-        public static void AddTrackedHealth(in IHealth health)
+        private void OnDisable()
         {
-            _instance.TryAddTrackedHealth(health);
+            HealthBase.OnNewHealth -= TryAddTrackedHealth;
+            HealthBase.OnHealthRemoved -= TryRemoveTrackedHealth; 
         }
-        
-        public static void RemoveTrackedHealth(in IHealth health)
-        {
-            _instance.TryRemoveTrackedHealth(health);
-        }
-        
+
         //============================================================================================================//
         
-        private void TryAddTrackedHealth(in IHealth health)
+        private void TryAddTrackedHealth(IHealth health)
         {
             if (_healthObjectsWithDisplay == null)
                 _healthObjectsWithDisplay = new List<IHealth>();

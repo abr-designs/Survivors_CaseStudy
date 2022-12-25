@@ -1,4 +1,5 @@
 ﻿using Survivors.Base;
+using UnityEngine;
 
 namespace Survivors.Player
 {
@@ -13,6 +14,11 @@ namespace Survivors.Player
             base.ChangeHealth(in healthDelta);
             
             //TODO Add health change VFX
+        }
+
+        public override void Kill()
+        {
+            Debug.LogError("PLAYER DIED");
         }
     }
 }

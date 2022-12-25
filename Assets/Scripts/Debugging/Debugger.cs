@@ -1,3 +1,4 @@
+using Survivors.Factories;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,7 +7,7 @@ namespace Survivors.Debugging
     public class Debugger : MonoBehaviour
     {
         [Header("Spawn Debug")] [SerializeField]
-        private GameObject[] spawnPrefabs;
+        private string[] enemies;
 
         [SerializeField] private float spawnRadius;
         [SerializeField, Min(1)] private int spawnAmount = 1;
@@ -28,8 +29,11 @@ namespace Survivors.Debugging
             for (var i = 0; i < spawnAmount; i++)
             {
                 var position = Random.insideUnitCircle * spawnRadius;
-                var prefab = spawnPrefabs[Random.Range(0, spawnPrefabs.Length)];
-                Instantiate(prefab, position, Quaternion.identity);
+                var enemyName = enemies[Random.Range(0, enemies.Length)];
+                
+                FactoryManager
+                    .GetFactory<EnemyFactory>()
+                    .CreateEnemy(enemyName, position);
             }
 
             spawnedCount += spawnAmount;

@@ -7,6 +7,7 @@ namespace Survivors.Base
     {
         private Transform _transform;
 
+        public float Speed => speed;
         [SerializeField, Min(0f)]
         private float speed;
 
@@ -35,7 +36,12 @@ namespace Survivors.Base
 
             _transform.position = currentPos;
         }
-        
+
+        public void SetSpeed(in float speed)
+        {
+            this.speed = speed;
+        }
+
         public void SetActive(bool state)
         {
             enabled = state;

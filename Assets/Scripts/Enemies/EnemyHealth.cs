@@ -1,7 +1,7 @@
 ﻿using Survivors.Base;
 using UnityEngine;
 
-namespace Enemies
+namespace Survivors.Enemies
 {
     public class EnemyHealth : HealthBase
     {

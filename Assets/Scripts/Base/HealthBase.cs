@@ -9,6 +9,9 @@ namespace Survivors.Base
 {
     public abstract class HealthBase : MonoBehaviour, IHealth
     {
+        public static Action<IHealth> OnNewHealth;
+        public static Action<IHealth> OnHealthRemoved;
+
         public float StartingHealth => startingHealth;
         [SerializeField]
         private float startingHealth;
@@ -25,15 +28,23 @@ namespace Survivors.Base
         //FIXME This should be using the observer pattern.
         private void OnEnable()
         {
-            HealthManager.AddTrackedHealth(this);
+            OnNewHealth?.Invoke(this);
         }
 
         private void OnDisable()
         {
-            HealthManager.RemoveTrackedHealth(this);
+            OnHealthRemoved?.Invoke(this);
         }
 
         //============================================================================================================//
+
+        public void SetHealth(in float health, in bool setStarting = false)
+        {
+            if (setStarting)
+                startingHealth = health;
+            
+            currentHealth = health;
+        }
         
         public virtual void ChangeHealth(in float healthDelta)
         {

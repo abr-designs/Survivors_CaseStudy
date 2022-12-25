@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7090e73fc5940dcae4a8ae56c68b034, type: 3}
+  m_Name: Bat Enemy Profile
+  m_EditorClassIdentifier: 
+  name: Bat
+  defaultSprite: {fileID: -623043036, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  animationProfile: {fileID: 11400000, guid: 6e211623e05663442a708eb64caca1bf, type: 2}
+  defaultState: 2
+  shadowOffset: -0.125
+  baseSpeed: 0.2
+  baseHealth: 10
+  baseDamage: 1
+  colliderType: 2
+  colliderOffset: {x: 0, y: 0}
+  circleColliderRadius: 0.1
+  boxColliderSize: {x: 0, y: 0}
