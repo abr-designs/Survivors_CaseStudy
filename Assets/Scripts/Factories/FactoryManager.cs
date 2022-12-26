@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Survivors.Base;
 using UnityEngine;
 
 using Survivors.Enemies;
+using Survivors.ScriptableObjets;
 using Survivors.ScriptableObjets.Enemies;
 
 namespace Survivors.Factories
@@ -11,7 +12,11 @@ namespace Survivors.Factories
     public class FactoryManager : MonoBehaviour
     {
         //============================================================================================================//
-
+        [SerializeField, Header("Items")] 
+        private ItemBase itemPrefab;
+        [SerializeField]
+        private List<ItemProfileScriptableObject> itemProfiles;
+        
         [SerializeField, Header("Enemies")] 
         private EnemyStateController enemyStateControllerCirclePrefab;
         [SerializeField] 
@@ -54,6 +59,10 @@ namespace Survivors.Factories
             if (type == typeof(EnemyFactory))
             {
                 newFactory = new EnemyFactory(enemyStateControllerCirclePrefab, enemyStateControllerBoxPrefab, enemyProfiles);
+            }
+            else if (type == typeof(ItemFactory))
+            {
+                newFactory = new ItemFactory(itemPrefab, itemProfiles);
             }
             else
                 throw new NotImplementedException($"No Factory support for {type.Name}");

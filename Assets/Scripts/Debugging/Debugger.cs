@@ -6,25 +6,31 @@ namespace Survivors.Debugging
 {
     public class Debugger : MonoBehaviour
     {
-        [Header("Spawn Debug")] [SerializeField]
+        [Header("Spawn Debug")] 
+        [SerializeField]
         private string[] enemies;
+        [SerializeField]
+        private string[] items;
 
         [SerializeField] private float spawnRadius;
         [SerializeField, Min(1)] private int spawnAmount = 1;
         [SerializeField] private int spawnedCount;
 
-        [SerializeField] private KeyCode spawnKey = KeyCode.F1;
+        [SerializeField] private KeyCode spawnEnemyKey = KeyCode.F1;
+        [SerializeField] private KeyCode spawnItemKey = KeyCode.F2;
 
         //============================================================================================================//
         // Update is called once per frame
         private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(spawnKey))
-                SpawnPrefabs();
+            if (UnityEngine.Input.GetKeyDown(spawnEnemyKey))
+                SpawnEnemies();
+            if (UnityEngine.Input.GetKeyDown(spawnItemKey))
+                SpawnItems();
         }
         //============================================================================================================//
 
-        private void SpawnPrefabs()
+        private void SpawnEnemies()
         {
             for (var i = 0; i < spawnAmount; i++)
             {
@@ -38,5 +44,23 @@ namespace Survivors.Debugging
 
             spawnedCount += spawnAmount;
         }
+
+        //============================================================================================================//
+        private void SpawnItems()
+        {
+            for (var i = 0; i < spawnAmount; i++)
+            {
+                var position = Random.insideUnitCircle * spawnRadius;
+                var itemName = items[Random.Range(0, items.Length)];
+                
+                FactoryManager
+                    .GetFactory<ItemFactory>()
+                    .CreateItem(itemName, position);
+            }
+
+            spawnedCount += spawnAmount;
+        }
+        
+        //============================================================================================================//
     }
 }

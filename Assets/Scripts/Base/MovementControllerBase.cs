@@ -30,9 +30,9 @@ namespace Survivors.Base
             if (_isMoving == false)
                 return;
             
-            var currentPos = _transform.position;
-            currentPos.x += XDirection * speed * Time.deltaTime;
-            currentPos.y += YDirection * speed * Time.deltaTime;
+            var currentPos = (Vector2)_transform.position;
+            var dir = new Vector2(XDirection, YDirection).normalized;
+            currentPos += dir * (speed * Time.deltaTime);
 
             _transform.position = currentPos;
         }

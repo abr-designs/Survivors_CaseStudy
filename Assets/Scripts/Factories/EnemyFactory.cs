@@ -44,7 +44,8 @@ namespace Survivors.Factories
                 default:
                     throw new ArgumentOutOfRangeException(nameof(enemyProfile.colliderType), enemyProfile.colliderType, null);
             }
-            
+
+            newEnemyStateController.name = $"{name}_Instance";
             newEnemyStateController.SetupEnemy(enemyProfile, difficultyMultiplier);
         }
     }

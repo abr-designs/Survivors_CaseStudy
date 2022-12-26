@@ -9,16 +9,16 @@ namespace Survivors.Factories
     
     public abstract class FactoryBase<T> : IFactory where T: Component
     {
-        protected readonly T StateControllerPrefab;
+        protected readonly T Prefab;
         
-        public FactoryBase(T stateControllerPrefab)
+        public FactoryBase(T prefab)
         {
-            StateControllerPrefab = stateControllerPrefab;
+            Prefab = prefab;
         }
 
         protected T Create(Vector2 worldPosition, Transform parent)
         {
-            var newInstance = Object.Instantiate(StateControllerPrefab, parent, false);
+            var newInstance = Object.Instantiate(Prefab, parent, false);
             newInstance.transform.position = worldPosition;
 
             return newInstance;
