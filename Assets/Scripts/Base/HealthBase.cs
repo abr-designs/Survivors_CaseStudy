@@ -9,8 +9,8 @@ namespace Survivors.Base
 {
     public abstract class HealthBase : MonoBehaviour, IHealth
     {
-        public static Action<IHealth> OnNewHealth;
-        public static Action<IHealth> OnHealthRemoved;
+        public static event Action<IHealth> OnNewHealth;
+        public static event Action<IHealth> OnHealthRemoved;
 
         public float StartingHealth => startingHealth;
         [SerializeField]

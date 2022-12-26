@@ -1,6 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Survivors.Base;
+using Survivors.Base.Interfaces;
 using UnityEngine;
 
 namespace Survivors.Managers
@@ -12,15 +13,19 @@ namespace Survivors.Managers
         //============================================================================================================//
         private struct ShadowData
         {
-            public bool Tracking;
+            public readonly IShadow Shadow;
             public Transform ShadowTransform;
-            public Transform TargetTransform;
-            public float Offset;
+
+            public ShadowData(IShadow shadow)
+            {
+                Shadow = shadow;
+                ShadowTransform = null;
+            }
 
             public void UpdatePosition()
             {
-                var targetPosition = TargetTransform.position;
-                targetPosition.y += Offset;
+                var targetPosition = Shadow.transform.position;
+                targetPosition.y += Shadow.ShadowOffset;
                 ShadowTransform.position = targetPosition;
             }
             
@@ -31,17 +36,16 @@ namespace Survivors.Managers
         }
         //============================================================================================================//
 
-        private static ShadowCastManager _instance;
-
         [SerializeField] private SpriteRenderer shadowPrefab;
 
         private List<ShadowData> _shadows;
 
         //============================================================================================================//
 
-        private void Awake()
+        private void OnEnable()
         {
-            _instance = this;
+            IShadow.OnAddShadow += AddShadow;
+            IShadow.OnRemoveShadow += RemoveShadow;
         }
 
         // Update is called once per frame
@@ -50,31 +54,42 @@ namespace Survivors.Managers
             for (var i = 0; i < _shadows.Count; i++)
             {
                 var shadowData = _shadows[i];
-                if (shadowData.Tracking == false)
-                    continue;
 
                 shadowData.UpdatePosition();
             }
         }
+
+        private void OnDisable()
+        {
+            IShadow.OnAddShadow -= AddShadow;
+            IShadow.OnRemoveShadow -= RemoveShadow;
+        }
         //============================================================================================================//
 
-        public static void AddShadow(in Transform transform, in float offset)
+        private void AddShadow(IShadow shadow)
         {
-            if (_instance._shadows == null)
-                _instance._shadows = new List<ShadowData>();
+            if (_shadows == null)
+                _shadows = new List<ShadowData>();
             
-            _instance._shadows.Add(new ShadowData
+            _shadows.Add(new ShadowData(shadow)
             {
-                Tracking = true,
-                TargetTransform = transform,
-                ShadowTransform = Instantiate(_instance.shadowPrefab, _instance.transform).transform,
-                Offset = offset
+                ShadowTransform = Instantiate(shadowPrefab, transform).transform,
             });
         }
 
-        public static void RemoveShadow(in Transform transform)
+        private void RemoveShadow(IShadow shadow)
         {
-            throw new NotImplementedException();
+            if (_shadows == null)
+                return;
+
+            var index = _shadows.FindIndex(x => x.Shadow == shadow);
+
+            if (index < 0)
+                throw new Exception();
+            
+            //FIXME Add recycling
+            Destroy(_shadows[index].ShadowTransform.gameObject);
+            _shadows.RemoveAt(index);
         }
 
         //============================================================================================================//

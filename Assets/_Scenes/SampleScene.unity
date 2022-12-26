@@ -625,7 +625,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183660688
 GameObject:
@@ -637,7 +637,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1183660690}
   - component: {fileID: 1183660689}
-  - component: {fileID: 1183660691}
   m_Layer: 0
   m_Name: === DEBUGGER ===
   m_TagString: Untagged
@@ -659,8 +658,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - Bat
+  - Skeleton
   spawnRadius: 3
-  spawnAmount: 1
+  spawnAmount: 10
   spawnedCount: 0
   spawnKey: 282
 --- !u!4 &1183660690
@@ -676,24 +676,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1183660691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183660688}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81ee14b421832c248a0ef202d7a5a6e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startHealth: 25
-  currentHealth: 25
-  backgroundRenderer: {fileID: 0}
-  healthRenderer: {fileID: 0}
 --- !u!1 &1229288658
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,7 +722,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1557720685
 GameObject:
@@ -866,7 +850,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1795948263
 GameObject:
@@ -911,7 +895,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6861079317608948671
 PrefabInstance:
@@ -922,7 +906,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6861079318410336877, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6861079318410336877, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -991,7 +975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8260094094567917908, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8260094094567917908, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
       propertyPath: m_LocalPosition.x

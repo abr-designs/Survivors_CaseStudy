@@ -48,3 +48,4 @@ MonoBehaviour:
   enemyStateControllerBoxPrefab: {fileID: 8293968221079877031, guid: 4d3f05ed26b910f428cf217e3e4043e5, type: 3}
   enemyProfiles:
   - {fileID: 11400000, guid: 65219de3df33e4f48b9b74a2759e6551, type: 2}
+  - {fileID: 11400000, guid: 05cbd23d8923dcc4eb7043c8034ee4f8, type: 2}

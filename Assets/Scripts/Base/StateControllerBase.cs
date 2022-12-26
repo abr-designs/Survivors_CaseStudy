@@ -1,6 +1,5 @@
 using System;
 using Survivors.Base.Interfaces;
-using Survivors.Managers;
 using UnityEngine;
 
 namespace Survivors.Base
@@ -8,7 +7,7 @@ namespace Survivors.Base
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(IAnimationController))]
     [RequireComponent(typeof(IMovementController))]
-    public abstract class StateControllerBase : MonoBehaviour
+    public abstract class StateControllerBase : MonoBehaviour, IShadow
     {
         //Properties
         //============================================================================================================//
@@ -22,6 +21,7 @@ namespace Survivors.Base
         protected STATE defaultAnimationState;
         private STATE _currentAnimationState;
 
+        public float ShadowOffset => shadowOffset;
         [SerializeField] protected float shadowOffset;
 
         //Unity Functions
@@ -29,7 +29,7 @@ namespace Survivors.Base
 
         protected virtual void OnEnable()
         {
-            ShadowCastManager.AddShadow(transform, shadowOffset);
+            IShadow.OnAddShadow?.Invoke(this);
         }
 
         // Start is called before the first frame update
@@ -49,6 +49,11 @@ namespace Survivors.Base
                 return;
 
             UpdateState();
+        }
+
+        protected void OnDisable()
+        {
+            IShadow.OnRemoveShadow?.Invoke(this);
         }
 
         //State Functions
@@ -125,5 +130,6 @@ namespace Survivors.Base
             }
         }
         //============================================================================================================//
+        
     }
 }

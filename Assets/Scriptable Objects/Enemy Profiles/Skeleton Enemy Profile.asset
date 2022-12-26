@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7090e73fc5940dcae4a8ae56c68b034, type: 3}
+  m_Name: Skeleton Enemy Profile
+  m_EditorClassIdentifier: 
+  name: Skeleton
+  defaultSprite: {fileID: 1741112759, guid: b8c419628a300e843948ba43e97859b8, type: 3}
+  animationProfile: {fileID: 11400000, guid: c991897e9206ee54fb82791156c7cbdb, type: 2}
+  defaultState: 2
+  shadowOffset: -0.125
+  baseSpeed: 0.225
+  baseHealth: 20
+  baseDamage: 1
+  colliderType: 1
+  colliderOffset: {x: 0, y: 0}
+  circleColliderRadius: 0
+  boxColliderSize: {x: 0.1, y: 0.2}
