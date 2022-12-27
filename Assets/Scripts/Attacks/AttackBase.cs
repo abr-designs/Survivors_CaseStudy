@@ -10,7 +10,7 @@ namespace Survivors.Attacks
         [SerializeField, Header("Attack Base")]
         public bool isActive;
         [SerializeField, Min(1)]
-        protected int level;
+        protected int level = 1;
         
         [SerializeField, Min(0)]
         protected float range;
@@ -23,7 +23,9 @@ namespace Survivors.Attacks
         private float _cooldownTimer;
 
         //============================================================================================================//
-        
+        public abstract void Setup();
+        protected abstract void LevelUp();
+
         public void ManualUpdate(in Vector2 playerPosition, in float deltaTime)
         {
             PlayerPosition = playerPosition;
@@ -40,9 +42,7 @@ namespace Survivors.Attacks
 
         public abstract void PostUpdate();
 
-        public abstract void Setup();
         protected abstract void TriggerAttack();
-        protected abstract void LevelUp();
 
         public virtual void SetActive(in bool state)
         {

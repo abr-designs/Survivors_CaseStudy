@@ -55,6 +55,9 @@ namespace Survivors.Utilities
                 spriteRenderer.color = color;
 
                 yield return waitForSeconds;
+                
+                if(spriteRenderer == null)
+                    yield break;
 
                 spriteRenderer.color = startColor;
                 _animatingRenderers.Remove(spriteRenderer);

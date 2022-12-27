@@ -67,6 +67,7 @@ SpriteAtlas:
   - {fileID: 606471873, guid: b8c419628a300e843948ba43e97859b8, type: 3}
   - {fileID: 1296954430, guid: b8c419628a300e843948ba43e97859b8, type: 3}
   - {fileID: 21300000, guid: 392d1cf28e02f5d439b6a89e607a3b54, type: 3}
+  - {fileID: 1743105978, guid: 6661a394e74cfd64a80c5d5c82d66e50, type: 3}
   - {fileID: 7482667652216324306, guid: b634c66504b420e4bad521ee4ff4fbdb, type: 3}
   - {fileID: 21300000, guid: c3ccc6c8196444e4ab28e0a9a945f460, type: 3}
   - {fileID: 334454441, guid: dc3f6519ecd740e4a97fb1381088d2c3, type: 3}
@@ -111,6 +112,8 @@ SpriteAtlas:
   - {fileID: 97906742, guid: 858b98aab146a22408904b6091fb98cc, type: 3}
   - {fileID: 21300000, guid: e87aa1fb96d6e364c956db297b01c6fa, type: 3}
   - {fileID: 21300000, guid: 1bd1028ca14e84d47a3039975a5e1b13, type: 3}
+  - {fileID: 21300000, guid: bfc44a8c4e497744daa780321f82de1a, type: 3}
+  - {fileID: 21300000, guid: 10e2ac2e8330c8b49bfd2934ef845e7e, type: 3}
   m_PackedSpriteNamesToIndex:
   - noBKG_BatFlight_strip_2
   - noBKG_BatFlight_strip_3
@@ -129,6 +132,7 @@ SpriteAtlas:
   - noBKG_WitchWalk_strip_5
   - noBKG_WitchWalk_strip_4
   - Item3_203
+  - SFX304_03_0
   - Square
   - Item3_201
   - noBKG_KnightIdle_strip_14
@@ -173,6 +177,8 @@ SpriteAtlas:
   - noBKG_KnightRun_strip_0
   - Item3_200
   - Item3_202
+  - Item2_256
+  - Item2_342
   m_RenderDataMap: {}
   m_Tag: SpriteAtlas
   m_IsVariant: 0
