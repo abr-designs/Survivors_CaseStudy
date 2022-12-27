@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Survivors.Base.Interfaces;
 using Survivors.Player;
+using Survivors.ScriptableObjets;
 using Survivors.Utilities;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace Survivors.Managers
         private float initialPickupPush;
         
         private List<ItemPickupData> _itemsToPickup;
+        private PlayerHealth _playerHealth;
         private Transform _playerTransform;
 
         //Unity Functions
@@ -43,7 +45,8 @@ namespace Survivors.Managers
         // Start is called before the first frame update
         private void Start()
         {
-            _playerTransform = FindObjectOfType<PlayerHealth>().transform;
+            _playerHealth = FindObjectOfType<PlayerHealth>();
+            _playerTransform = _playerHealth.transform;
         }
 
         // Update is called once per frame
@@ -101,6 +104,19 @@ namespace Survivors.Managers
         private void ClaimItem(IItem item)
         {
             //TODO Claim Item shit
+            switch (item.Profile.type)
+            {
+                case PICKUP.NONE:
+                    break;
+                case PICKUP.EXP:
+                    XpManager.AddXp(item.Profile.value);
+                    break;
+                case PICKUP.HEAL:
+                    _playerHealth.ChangeHealth(item.Profile.value);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             Destroy(item.transform.gameObject);
         }
 
