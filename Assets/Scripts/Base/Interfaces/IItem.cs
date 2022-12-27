@@ -6,10 +6,10 @@ namespace Survivors.Base.Interfaces
 {
     public interface IItem
     {
+        const float RADIUS = 0.1f;
+
         static Action<IItem> OnAddItem;
         static Action<IItem> OnRemoveItem;
-        
-        const float RADIUS = 0.1f;
         
         Transform transform { get; }
         ItemProfileScriptableObject Profile { get; }

@@ -51,7 +51,7 @@ namespace Survivors.Base
             UpdateState();
         }
 
-        protected void OnDisable()
+        protected virtual void OnDisable()
         {
             IShadow.OnRemoveShadow?.Invoke(this);
         }

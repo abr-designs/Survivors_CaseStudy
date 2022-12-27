@@ -8,7 +8,7 @@ namespace Survivors.Utilities
         {
             //(R0 - R1)^2 <= (x0 - x1)^2 + (y0 - y1)^2 <= (R0 + R1)^2
 
-            var rMinus = radius0 - radius1;
+            /*var rMinus = radius0 - radius1;
             var rPlus = radius0 + radius1;
 
             var xMinus = pos0.x - pos1.x;
@@ -18,7 +18,16 @@ namespace Survivors.Utilities
             var b = (xMinus * xMinus) + (yMinus * yMinus);
             var c = rPlus * rPlus;
 
-            return a <= b && b <= c;
+            return a <= b && b <= c;*/
+
+            var distance = Vector2.Distance(pos0, pos1);
+            var rPlus = radius0 + radius1;
+            
+            if (distance <= rPlus)
+                return true;
+            
+            var rMinus = radius0 - radius1;
+            return distance - rMinus <= 0;
         }
     }
 }

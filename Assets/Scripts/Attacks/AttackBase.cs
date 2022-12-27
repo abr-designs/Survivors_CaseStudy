@@ -1,51 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
-using Survivors.Player;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
+    //TODO Consider changing this to be a ScriptableObject
     public abstract class AttackBase : MonoBehaviour
     {
-        protected static Transform PlayerTransform
-        {
-            get
-            {
-                if (_foundPlayer)
-                    return _playerTransform;
+        protected Vector2 PlayerPosition;
 
-                _playerTransform = FindObjectOfType<PlayerHealth>().transform;
-                _foundPlayer = true;
-                return _playerTransform;
-            }
-        }
-        private static Transform _playerTransform;
-        private static bool _foundPlayer;
+        [SerializeField, Header("Attack Base")]
+        public bool isActive;
+        [SerializeField, Min(1)]
+        protected int level;
+        
+        [SerializeField, Min(0)]
+        protected float range;
 
-        [SerializeField]
-        protected bool IsActive;
-        [SerializeField]
-        protected int Level;
+        [SerializeField, Min(0)]
+        protected float damage;
 
-        [SerializeField]
-        protected float Damage;
-
-        [SerializeField]
-        protected float Cooldown;
+        [SerializeField, Min(0)]
+        protected float cooldown;
         private float _cooldownTimer;
 
-        public void ManualUpdate(in float deltaTime)
+        //============================================================================================================//
+        
+        public void ManualUpdate(in Vector2 playerPosition, in float deltaTime)
         {
-            if (IsActive == false)
-                return;
+            PlayerPosition = playerPosition;
 
             if (_cooldownTimer > 0f)
             {
                 _cooldownTimer -= deltaTime;
                 return;
             }
+
+            TriggerAttack();
+            _cooldownTimer = cooldown;
         }
 
+        public abstract void PostUpdate();
+
+        public abstract void Setup();
         protected abstract void TriggerAttack();
+        protected abstract void LevelUp();
+
+        public virtual void SetActive(in bool state)
+        {
+            isActive = state;
+        }
+        //Unity Editor Functions
+        //============================================================================================================//
+#if UNITY_EDITOR
+
+        [ContextMenu("Toggle Attack Active")]
+        private void Toggle()
+        {
+            SetActive(!isActive);
+        }
+
+#endif
     }
 }

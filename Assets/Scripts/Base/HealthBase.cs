@@ -61,16 +61,17 @@ namespace Survivors.Base
         {
             currentHealth += healthDelta;
 
+            if(ShowHealthDamage &&  healthDelta < 0f)
+                DamageTextManager.CreateText((int)healthDelta, transform.position);
+            
             if (currentHealth <= 0f)
             {
                 Kill();
                 return;
             }
             
-            if(ShowHealthDamage &&  healthDelta < 0f)
-                DamageTextManager.CreateText((int)healthDelta, transform.position);
-            
-            DamageAnimator.Play(_spriteRenderer, DamageFlashTime);
+            if(healthDelta < 0f)
+                DamageAnimator.Play(_spriteRenderer, DamageFlashTime);
         }
 
         public virtual void Kill()
