@@ -44,15 +44,6 @@ public partial class @SInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Kill"",
-                    ""type"": ""Button"",
-                    ""id"": ""cf19764e-4a3c-4faf-99fd-bbf8059dbefb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -121,17 +112,6 @@ public partial class @SInput : IInputActionCollection2, IDisposable
                     ""action"": ""HorizontalMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""942d9c1c-3b29-412e-a21d-a1277add2f75"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Kill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -142,7 +122,6 @@ public partial class @SInput : IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_VerticalMovement = m_Gameplay.FindAction("VerticalMovement", throwIfNotFound: true);
         m_Gameplay_HorizontalMovement = m_Gameplay.FindAction("HorizontalMovement", throwIfNotFound: true);
-        m_Gameplay_Kill = m_Gameplay.FindAction("Kill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,14 +183,12 @@ public partial class @SInput : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_VerticalMovement;
     private readonly InputAction m_Gameplay_HorizontalMovement;
-    private readonly InputAction m_Gameplay_Kill;
     public struct GameplayActions
     {
         private @SInput m_Wrapper;
         public GameplayActions(@SInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @VerticalMovement => m_Wrapper.m_Gameplay_VerticalMovement;
         public InputAction @HorizontalMovement => m_Wrapper.m_Gameplay_HorizontalMovement;
-        public InputAction @Kill => m_Wrapper.m_Gameplay_Kill;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,9 +204,6 @@ public partial class @SInput : IInputActionCollection2, IDisposable
                 @HorizontalMovement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontalMovement;
                 @HorizontalMovement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontalMovement;
                 @HorizontalMovement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHorizontalMovement;
-                @Kill.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnKill;
-                @Kill.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnKill;
-                @Kill.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnKill;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,9 +214,6 @@ public partial class @SInput : IInputActionCollection2, IDisposable
                 @HorizontalMovement.started += instance.OnHorizontalMovement;
                 @HorizontalMovement.performed += instance.OnHorizontalMovement;
                 @HorizontalMovement.canceled += instance.OnHorizontalMovement;
-                @Kill.started += instance.OnKill;
-                @Kill.performed += instance.OnKill;
-                @Kill.canceled += instance.OnKill;
             }
         }
     }
@@ -251,6 +222,5 @@ public partial class @SInput : IInputActionCollection2, IDisposable
     {
         void OnVerticalMovement(InputAction.CallbackContext context);
         void OnHorizontalMovement(InputAction.CallbackContext context);
-        void OnKill(InputAction.CallbackContext context);
     }
 }

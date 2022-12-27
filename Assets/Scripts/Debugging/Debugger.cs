@@ -1,4 +1,6 @@
 using Survivors.Factories;
+using Survivors.ScriptableObjets;
+using Survivors.ScriptableObjets.Enemies;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,9 +10,9 @@ namespace Survivors.Debugging
     {
         [Header("Spawn Debug")] 
         [SerializeField]
-        private string[] enemies;
+        private EnemyProfileScriptableObject[] enemies;
         [SerializeField]
-        private string[] items;
+        private ItemProfileScriptableObject[] items;
 
         [SerializeField] private float spawnRadius;
         [SerializeField, Min(1)] private int spawnAmount = 1;
@@ -35,11 +37,11 @@ namespace Survivors.Debugging
             for (var i = 0; i < spawnAmount; i++)
             {
                 var position = Random.insideUnitCircle * spawnRadius;
-                var enemyName = enemies[Random.Range(0, enemies.Length)];
+                var enemyProfile = enemies[Random.Range(0, enemies.Length)];
                 
                 FactoryManager
                     .GetFactory<EnemyFactory>()
-                    .CreateEnemy(enemyName, position);
+                    .CreateEnemy(enemyProfile.name, position);
             }
 
             spawnedCount += spawnAmount;
@@ -51,11 +53,11 @@ namespace Survivors.Debugging
             for (var i = 0; i < spawnAmount; i++)
             {
                 var position = Random.insideUnitCircle * spawnRadius;
-                var itemName = items[Random.Range(0, items.Length)];
+                var itemProfile = items[Random.Range(0, items.Length)];
                 
                 FactoryManager
                     .GetFactory<ItemFactory>()
-                    .CreateItem(itemName, position);
+                    .CreateItem(itemProfile.name, position);
             }
 
             spawnedCount += spawnAmount;

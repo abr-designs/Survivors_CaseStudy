@@ -5,9 +5,17 @@ namespace Survivors.Enemies
 {
     public class EnemyHealth : HealthBase
     {
+        protected override float DamageFlashTime => 0.1f;
+        
         public override bool ShowHealthDamage => true;
         public override bool ShowHealthBar => false;
         public override bool ShowDamageEffect => true;
+        
+        private void Update()
+        {
+            if(UnityEngine.Input.GetKeyDown(KeyCode.Space) && Random.value < 0.5f)
+                ChangeHealth(-Random.Range(0, 10f));
+        }
         
         public override void ChangeHealth(in float healthDelta)
         {

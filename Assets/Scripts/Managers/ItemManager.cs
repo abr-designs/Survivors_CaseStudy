@@ -25,6 +25,8 @@ namespace Survivors.Managers
         private float pickupRange;
         [SerializeField, Min(0f)]
         private float pickupSpeed;
+        [SerializeField, Min(0f)]
+        private float initialPickupPush;
         
         private List<ItemPickupData> _itemsToPickup;
         private Transform _playerTransform;
@@ -82,6 +84,7 @@ namespace Survivors.Managers
                     continue;
 
                 itemData.IsBeingPickedUp = true;
+                itemData.CurrentSpeed = -initialPickupPush;
                 _itemsToPickup[i] = itemData;
             }
         }

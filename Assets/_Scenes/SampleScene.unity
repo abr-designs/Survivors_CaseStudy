@@ -560,7 +560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textPrefab: {fileID: 7577872372010373112, guid: 3ed185bab814baf47a1217c506fedd03, type: 3}
   yOffset: 0.2
-  fadeTime: 1.5
+  fadeTime: 0.8
   scaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -610,8 +610,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startColor: {r: 0.9960785, g: 0.25490198, b: 0.25490198, a: 1}
-  endColor: {r: 0.9960785, g: 0.25490198, b: 0.25490198, a: 0}
+  startColor: {r: 1, g: 1, b: 1, a: 1}
+  endColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!4 &997898369
 Transform:
   m_ObjectHideFlags: 0
@@ -657,13 +657,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - Bat
-  - Skeleton
+  - {fileID: 11400000, guid: 65219de3df33e4f48b9b74a2759e6551, type: 2}
+  - {fileID: 11400000, guid: 05cbd23d8923dcc4eb7043c8034ee4f8, type: 2}
   items:
-  - SmXp
-  - LgXp
-  - MdXp
-  - Heal
+  - {fileID: 11400000, guid: 4ed44b5897a7ebd48b89db12dec9578e, type: 2}
+  - {fileID: 11400000, guid: 14dfc5b8aebcbab478b2f4bdf6012873, type: 2}
+  - {fileID: 11400000, guid: 5babd2d262eb04f468f9df00d922a322, type: 2}
+  - {fileID: 11400000, guid: 63a327fed1e6a204c8c36df9b7daf75f, type: 2}
   spawnRadius: 3
   spawnAmount: 10
   spawnedCount: 0
@@ -762,6 +762,7 @@ MonoBehaviour:
   pickupThreshold: 0.01
   pickupRange: 0.25
   pickupSpeed: 0.03
+  initialPickupPush: 2.75
 --- !u!4 &1253777426
 Transform:
   m_ObjectHideFlags: 0
@@ -1026,6 +1027,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b99a3c28c6816ad418202329d6f90383, type: 2}
     - target: {fileID: 8260094094567917908, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
       propertyPath: m_RootOrder
       value: 5

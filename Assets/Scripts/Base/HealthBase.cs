@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Survivors.Base.Interfaces;
 using Survivors.Managers;
+using Survivors.Utilities;
 using UnityEngine;
 
 namespace Survivors.Base
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public abstract class HealthBase : MonoBehaviour, IHealth
     {
         public static event Action<IHealth> OnNewHealth;
@@ -18,10 +20,14 @@ namespace Survivors.Base
         public float CurrentHealth => currentHealth;
         [SerializeField]
         private float currentHealth;
-        
+
+        protected abstract float DamageFlashTime { get; }
+
         public abstract bool ShowHealthDamage { get; }
         public abstract bool ShowHealthBar { get; }
         public abstract bool ShowDamageEffect { get; }
+
+        private SpriteRenderer _spriteRenderer;
 
         //============================================================================================================//
 
@@ -29,6 +35,11 @@ namespace Survivors.Base
         private void OnEnable()
         {
             OnNewHealth?.Invoke(this);
+        }
+
+        private void Start()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void OnDisable()
@@ -49,10 +60,17 @@ namespace Survivors.Base
         public virtual void ChangeHealth(in float healthDelta)
         {
             currentHealth += healthDelta;
+
+            if (currentHealth <= 0f)
+            {
+                Kill();
+                return;
+            }
             
             if(ShowHealthDamage &&  healthDelta < 0f)
                 DamageTextManager.CreateText((int)healthDelta, transform.position);
             
+            DamageAnimator.Play(_spriteRenderer, DamageFlashTime);
         }
 
         public virtual void Kill()

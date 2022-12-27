@@ -6,7 +6,6 @@ namespace Survivors
 {
     public class InputDelegator: MonoBehaviour, SInput.IGameplayActions
     {
-        public static Action OnKillPressed;
         public static Action<float, float> OnMovementChanged;
         
         
@@ -51,17 +50,6 @@ namespace Survivors
 
             inputX = value;
             OnMovementChanged?.Invoke(inputX, inputY);
-        }
-
-        public void OnKill(InputAction.CallbackContext context)
-        {
-            if (context.performed == false)
-                return;
-
-            if (context.ReadValueAsButton() == false)
-                return;
-            
-            OnKillPressed?.Invoke();
         }
     }
 }

@@ -14,10 +14,6 @@ namespace Survivors.Player
         {
             base.OnEnable();
             InputDelegator.OnMovementChanged += OnMovementChanged;
-            InputDelegator.OnKillPressed += () =>
-            {
-                SetState(STATE.DEATH);
-            };
         }
 
         protected override void Start()
