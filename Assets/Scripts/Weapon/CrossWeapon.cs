@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Survivors.Enemies;
 using Survivors.Factories;
 using Survivors.Managers;
-using Survivors.ScriptableObjets.Attacks;
+using Survivors.ScriptableObjets.Attacks.Items;
 using Survivors.Weapons.Interfaces;
 using UnityEngine;
 
@@ -41,7 +41,12 @@ namespace Survivors.Weapons
             projectileRadius = weaponProfile.projectileRadius;
         }
         
-        protected override void LevelUp()
+        public override void LevelUp()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnScaleChanged(float newScale)
         {
             throw new System.NotImplementedException();
         }

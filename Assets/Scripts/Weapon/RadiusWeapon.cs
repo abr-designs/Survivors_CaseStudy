@@ -1,6 +1,6 @@
 ﻿using Survivors.Factories;
 using Survivors.Managers;
-using Survivors.ScriptableObjets.Attacks;
+using Survivors.ScriptableObjets.Attacks.Items;
 using UnityEngine;
 
 namespace Survivors.Weapons
@@ -39,7 +39,12 @@ namespace Survivors.Weapons
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnScaleChanged(float newScale)
         {
             throw new System.NotImplementedException();
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scriptable_Objects
+namespace Survivors.ScriptableObjets.Items
 {
     public abstract class ItemBaseScriptableObject : ScriptableObject
     {

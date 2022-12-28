@@ -1,4 +1,4 @@
-﻿namespace Survivors.Debugging.Passives.Enums
+﻿namespace Survivors.Passives.Enums
 {
     public enum PASSIVE_TYPE
     {

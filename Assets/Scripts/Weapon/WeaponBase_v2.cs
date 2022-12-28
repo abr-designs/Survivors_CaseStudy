@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Survivors.Managers;
-using Survivors.ScriptableObjets.Attacks;
+using Survivors.ScriptableObjets.Attacks.Items;
 using UnityEngine;
 
 namespace Survivors.Weapons
@@ -28,7 +28,8 @@ namespace Survivors.Weapons
             cooldown = weaponProfile.cooldown;
         }
         
-        protected abstract void LevelUp();
+        public abstract void LevelUp();
+        public abstract void OnScaleChanged(float newScale);
 
         public void ManualUpdate(in float deltaTime)
         {
