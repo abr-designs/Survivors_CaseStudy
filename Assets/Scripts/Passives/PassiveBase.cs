@@ -5,15 +5,15 @@ namespace Survivors.Passives
 {
     public class PassiveBase
     {
-        public int count;
-        public PASSIVE_TYPE type;
-        public float value;
+        public int Level;
+        public PASSIVE_TYPE Type;
+        public float Value;
         
         public PassiveBase(in PassiveItemProfileScriptableObject passiveItemProfile)
         {
-            count = 1;
-            type = passiveItemProfile.type;
-            value = passiveItemProfile.value;
+            Level = 1;
+            Type = passiveItemProfile.type;
+            Value = passiveItemProfile.value;
         }
     }
 }

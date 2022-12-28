@@ -7,6 +7,7 @@ namespace Survivors.ScriptableObjets.Items
         public string name;
         public Sprite sprite;
 
+        [TextArea]
         public string description;
     }
 }

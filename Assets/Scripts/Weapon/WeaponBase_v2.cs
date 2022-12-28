@@ -11,9 +11,9 @@ namespace Survivors.Weapons
         internal static Vector2 PlayerPosition;
 
         protected float Damage => damage * PassiveManager.Damage;
-        
-        private int _level = 1;
-        
+
+        public int Level { get; private set; } = 1;
+
         protected float range;
         private float damage;
 

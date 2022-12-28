@@ -46,8 +46,14 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-
-        public void AddPassive(PASSIVE_TYPE passiveType)
+        public int GetPassiveLevel(in PASSIVE_TYPE passiveType)
+        {
+            var passive = FindPassive(passiveType);
+            
+            return passive == null ? 0 : passive.Level;
+        }
+        
+        public void AddNewPassive(PASSIVE_TYPE passiveType)
         {
             if (_activePassives == null)
             {
@@ -59,12 +65,9 @@ namespace Survivors.Managers
             
             if (_activePassiveTypes.Contains(passiveType))
             {
-                var index = _activePassives
-                    .FindIndex(x => x.type == passiveType);
-
-                _activePassives[index].count++;
+                var passive = FindPassive(passiveType);
                 
-                UpdateValue(_activePassives[index]);
+                UpdatePassiveMultipliers(passive);
                 return;
             }
             
@@ -74,46 +77,54 @@ namespace Survivors.Managers
             var passiveProfile = passiveProfiles[profileIndex];
 
             var newPassive = new PassiveBase(passiveProfile);
-            UpdateValue(newPassive);
+            UpdatePassiveMultipliers(newPassive);
 
             _activePassives.Add(newPassive);
             _activePassiveTypes.Add(passiveType);
         }
 
-        private static void UpdateValue(in PassiveBase passiveBase)
+        private static void UpdatePassiveMultipliers(in PassiveBase passiveBase)
         {
-            switch (passiveBase.type)
+            switch (passiveBase.Type)
             {
                 case PASSIVE_TYPE.DAMAGE:
-                    Damage = 1f + (passiveBase.count * passiveBase.value);
+                    Damage = 1f + (passiveBase.Level * passiveBase.Value);
                     break;
                 case PASSIVE_TYPE.DAMAGE_REDUCE:
                     break;
                 case PASSIVE_TYPE.MAX_HEALTH:
-                    MaxHealth = 1f + (passiveBase.count * passiveBase.value);
+                    MaxHealth = 1f + (passiveBase.Level * passiveBase.Value);
                     OnMaxHealthChanged?.Invoke(MaxHealth);
                     break;
                 case PASSIVE_TYPE.COOLDOWN:
-                    Cooldown = 1f - (passiveBase.count * passiveBase.value);
+                    Cooldown = 1f - (passiveBase.Level * passiveBase.Value);
                     break;
                 case PASSIVE_TYPE.ATTACK_AREA:
-                    AttackArea = 1f + (passiveBase.count * passiveBase.value);
+                    AttackArea = 1f + (passiveBase.Level * passiveBase.Value);
                     OnScaleChanged?.Invoke(AttackArea);
                     break;
                 case PASSIVE_TYPE.PROJECTILE_SPEED:
-                    ProjectileSpeed = 1f + (passiveBase.count * passiveBase.value);
+                    ProjectileSpeed = 1f + (passiveBase.Level * passiveBase.Value);
                     break;
                 case PASSIVE_TYPE.DURATION:
                     break;
                 case PASSIVE_TYPE.PROJECTILE_COUNT:
-                    ProjectileAdd = passiveBase.count;
+                    ProjectileAdd = passiveBase.Level;
                     break;
                 case PASSIVE_TYPE.MOVE_SPEED:
-                    MoveSpeed = 1f + (passiveBase.count * passiveBase.value);
+                    MoveSpeed = 1f + (passiveBase.Level * passiveBase.Value);
                     break;
                 case PASSIVE_TYPE.PICKUP_RANGE:
                     break;
             }
+        }
+
+        private PassiveBase FindPassive(PASSIVE_TYPE passiveType)
+        {
+            var index = _activePassives
+                .FindIndex(x => x.Type == passiveType);
+
+            return index < 0 ? default : _activePassives[index];
         }
         
         //============================================================================================================//
@@ -139,7 +150,7 @@ namespace Survivors.Managers
         [ContextMenu("Add Test Attack")]
         private void AddTestAttack()
         {
-            AddPassive(passiveToAdd);
+            AddNewPassive(passiveToAdd);
         }
         
 #endif

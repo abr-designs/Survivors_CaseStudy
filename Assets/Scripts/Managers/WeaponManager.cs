@@ -69,7 +69,14 @@ namespace Survivors.Managers
 
         //============================================================================================================//
 
-        private void AddNewAttack(in WEAPON_TYPE weaponType)
+        public int GetWeaponLevel(in WEAPON_TYPE weaponType)
+        {
+            var weapon = FindWeapon(weaponType);
+            
+            return weapon == null ? 0 : weapon.Level;
+        }
+
+        public void AddNewAttack(in WEAPON_TYPE weaponType)
         {
             if (_activeWeapons == null)
             {
