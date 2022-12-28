@@ -1,14 +1,14 @@
-﻿using Survivors.Attacks.Enums;
+﻿using Survivors.Weapons.Enums;
 using UnityEngine;
 
 namespace Survivors.ScriptableObjets.Attacks
 {
     [CreateAssetMenu(fileName = "Attack Profile", menuName = "ScriptableObjects/Attack Profile")]
-    public class AttackProfileScriptableObject : ScriptableObject
+    public class WeaponProfileScriptableObject : ScriptableObject
     {
         public Sprite sprite;
         public Color spriteColor = Color.white;
-        public ATTACK_TYPE type;
+        public WEAPON_TYPE type;
         
         [Min(0), Header("Basics")]
         public float range;

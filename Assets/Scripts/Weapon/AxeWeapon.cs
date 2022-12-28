@@ -4,39 +4,46 @@ using Survivors.Enemies;
 using Survivors.Factories;
 using Survivors.Managers;
 using Survivors.ScriptableObjets.Attacks;
+using Survivors.Weapons.Interfaces;
 using UnityEngine;
 
-namespace Survivors.Attacks
+namespace Survivors.Weapons
 {
-    public class AxeAttack : AttackBase_v2
+    public class AxeWeapon : WeaponBase_v2, IUseProjectiles, IUserProjectileSpeed, IUseProjectileRadius
     {
-        private int projectileCount = 1;
-
         private readonly Sprite _sprite;
         private readonly Color32 _spriteColor;
+        
+        public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
+        private int projectileCount = 1;
 
+        public float LaunchSpeed => launchSpeed * PassiveManager.ProjectileSpeed;
+        public float Acceleration => acceleration * PassiveManager.ProjectileSpeed;
+        
         private float launchSpeed;
         private float acceleration;
         private float spinSpeed;
 
         private int maxHitCount;
+
+        public float ProjectileRadius => projectileRadius * PassiveManager.AttackArea;
         
         private float projectileInterval;
         private float projectileRadius;
         
-        public AxeAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
+        public AxeWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            _sprite = attackProfile.sprite;
-            _spriteColor = attackProfile.spriteColor;
+            _sprite = weaponProfile.sprite;
+            _spriteColor = weaponProfile.spriteColor;
 
-            launchSpeed = attackProfile.launchSpeed;
-            acceleration = attackProfile.acceleration;
-            spinSpeed = attackProfile.spinSpeed;
+            launchSpeed = weaponProfile.launchSpeed;
+            acceleration = weaponProfile.acceleration;
+            spinSpeed = weaponProfile.spinSpeed;
             
-            maxHitCount = attackProfile.maxHitCount;
+            maxHitCount = weaponProfile.maxHitCount;
             
-            projectileInterval = attackProfile.projectileInterval;
-            projectileRadius = attackProfile.projectileRadius;
+            projectileInterval = weaponProfile.projectileInterval;
+            projectileRadius = weaponProfile.projectileRadius;
         }
 
         protected override void LevelUp()
@@ -58,7 +65,7 @@ namespace Survivors.Attacks
         {
             var waitForSeconds = new WaitForSeconds(projectileInterval);
             
-            for (var i = 0; i < projectileCount; i++)
+            for (var i = 0; i < ProjectileCount; i++)
             {
                 var direction = Vector2.up;
 
@@ -66,7 +73,7 @@ namespace Survivors.Attacks
 
                 var newProjectile = FactoryManager
                     .GetFactory<ProjectileFactory>()
-                    .CreateProjectile(PlayerPosition, _sprite, _spriteColor);
+                    .CreateProjectile(PlayerPosition, _sprite, _spriteColor, PassiveManager.AttackArea);
                 
                 StartCoroutine(AxeProjectileCoroutine(
                     newProjectile.transform, 
@@ -78,7 +85,9 @@ namespace Survivors.Attacks
 
         private IEnumerator AxeProjectileCoroutine(Transform projectileTransform, Vector2 direction)
         {
-            var currentSpeed = direction * launchSpeed;
+            var attackArea = ProjectileRadius;
+            var currentSpeed = direction * LaunchSpeed;
+            var accel = Acceleration;
             var currentPosition = PlayerPosition;
             var currentRotation = projectileTransform.localEulerAngles;
             var alreadyHit = new HashSet<EnemyHealth>();
@@ -87,19 +96,19 @@ namespace Survivors.Attacks
             for (var t = 0f; t < 5f || hitCount < maxHitCount; t+= Time.deltaTime)
             {
                 currentPosition += currentSpeed * Time.deltaTime;
-                currentSpeed += acceleration * Vector2.up;
+                currentSpeed += accel * Vector2.up;
 
                 currentRotation.z += spinSpeed * Time.deltaTime;
 
                 projectileTransform.localEulerAngles = currentRotation;
                 projectileTransform.position = currentPosition;
                 
-                var enemiesInRange = EnemyManager.GetEnemiesInRange(currentPosition, projectileRadius, alreadyHit);
+                var enemiesInRange = EnemyManager.GetEnemiesInRange(currentPosition, attackArea, alreadyHit);
                 if (enemiesInRange != null)
                 {
                     foreach (var enemyHealth in enemiesInRange)
                     {
-                        enemyHealth.ChangeHealth(-damage);
+                        enemyHealth.ChangeHealth(-Damage);
                         alreadyHit.Add(enemyHealth);
                         hitCount++;
                     }

@@ -2,24 +2,26 @@
 using Survivors.Factories;
 using Survivors.Managers;
 using Survivors.ScriptableObjets.Attacks;
+using Survivors.Weapons.Interfaces;
 using UnityEngine;
 
-namespace Survivors.Attacks
+namespace Survivors.Weapons
 {
-    public class WhipAttack : AttackBase_v2
+    public class WhipWeapon : WeaponBase_v2, IUseProjectiles
     {
         private readonly SpriteRenderer _effectInstance;
         private readonly Transform _effectInstanceTransform;
-        
+
+        public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
         private int projectileCount = 1;
         
         private float projectileInterval;
         private float projectileRadius;
         
-        public WhipAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
+        public WhipWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            var sprite = attackProfile.sprite;
-            Color32 spriteColor = attackProfile.spriteColor;
+            var sprite = weaponProfile.sprite;
+            Color32 spriteColor = weaponProfile.spriteColor;
             
             _effectInstance = FactoryManager
                 .GetFactory<ProjectileFactory>()
@@ -50,7 +52,7 @@ namespace Survivors.Attacks
             float height = 0f;
 
             _effectInstance.gameObject.SetActive(true);
-            for (int i = 0; i < projectileCount; i++)
+            for (int i = 0; i < ProjectileCount; i++)
             {
                 _effectInstance.flipX = swap;
                 _effectInstance.flipY = swap;
@@ -64,7 +66,7 @@ namespace Survivors.Attacks
                 {
                     foreach (var enemyHealth in enemies)
                     {
-                        enemyHealth.ChangeHealth(-damage);
+                        enemyHealth.ChangeHealth(-Damage);
                     }
                 }
 

@@ -7,11 +7,11 @@ namespace Survivors.Factories
 {
     public class ItemFactory : FactoryBase<ItemBase>
     {
-        private readonly Dictionary<string, ItemProfileScriptableObject> _itemProfiles;
+        private readonly Dictionary<string, CollectableProfileScriptableObject> _itemProfiles;
         
-        public ItemFactory(ItemBase prefab, IEnumerable<ItemProfileScriptableObject> itemProfiles) : base(prefab)
+        public ItemFactory(ItemBase prefab, IEnumerable<CollectableProfileScriptableObject> itemProfiles) : base(prefab)
         {
-            _itemProfiles = new Dictionary<string, ItemProfileScriptableObject>();
+            _itemProfiles = new Dictionary<string, CollectableProfileScriptableObject>();
             foreach (var itemProfile in itemProfiles)
             {
                 _itemProfiles.Add(itemProfile.name, itemProfile);

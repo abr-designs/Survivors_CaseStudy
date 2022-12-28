@@ -33,7 +33,7 @@ namespace Survivors.Managers
             // Update is called once per frame
             public void UpdateDisplay()
             {
-                var ratio = _iHealth.CurrentHealth / _iHealth.StartingHealth;
+                var ratio = _iHealth.CurrentHealth / _iHealth.MaxHealth;
                 SetSize(ratio * _startSize);
             }
 

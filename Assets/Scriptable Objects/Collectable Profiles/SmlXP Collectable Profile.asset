@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e71501dcd25421a97e47bbda7b2ecb0, type: 3}
-  m_Name: SmlXP Item Profile
+  m_Name: SmlXP Collectable Profile
   m_EditorClassIdentifier: 
   name: SmXp
   sprite: {fileID: 21300000, guid: c3ccc6c8196444e4ab28e0a9a945f460, type: 3}

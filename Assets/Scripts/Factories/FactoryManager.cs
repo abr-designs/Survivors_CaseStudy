@@ -22,7 +22,7 @@ namespace Survivors.Factories
         [SerializeField, Header("Items")] 
         private ItemBase itemPrefab;
         [SerializeField]
-        private List<ItemProfileScriptableObject> itemProfiles;
+        private List<CollectableProfileScriptableObject> itemProfiles;
         
         [SerializeField, Header("Projectiles")] 
         private SpriteRenderer projectilePrefab;

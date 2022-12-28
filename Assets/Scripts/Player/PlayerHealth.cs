@@ -1,4 +1,5 @@
 ﻿using Survivors.Base;
+using Survivors.Managers;
 using UnityEngine;
 
 namespace Survivors.Player
@@ -10,9 +11,30 @@ namespace Survivors.Player
         public override bool ShowHealthBar => true;
         public override bool ShowDamageEffect => true;
 
+        //Unity Functions
+        //============================================================================================================//
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+            PassiveManager.OnMaxHealthChanged += OnMaxHealthChanged;
+        }
+
+
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+        }
+
+        //Health Base Functions
+        //============================================================================================================//
+        
+
         public override void ChangeHealth(in float healthDelta)
         {
-            base.ChangeHealth(in healthDelta);
+            base.ChangeHealth(healthDelta - PassiveManager.DamageReduction);
             
             //TODO Add health change VFX
         }
@@ -20,6 +42,14 @@ namespace Survivors.Player
         public override void Kill()
         {
             Debug.LogError("PLAYER DIED");
+        }
+
+        //Callbacks
+        //============================================================================================================//
+        
+        private void OnMaxHealthChanged(float mult)
+        {
+            MaxHealth = StartingHealth * mult;
         }
     }
 }

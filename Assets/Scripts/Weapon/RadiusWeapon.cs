@@ -3,16 +3,16 @@ using Survivors.Managers;
 using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
-namespace Survivors.Attacks
+namespace Survivors.Weapons
 {
-    public class RadiusAttack : AttackBase_v2
+    public class RadiusWeapon : WeaponBase_v2
     {
         private readonly Transform _effectInstanceTransform;
         
-        public RadiusAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
+        public RadiusWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            var sprite = attackProfile.sprite;
-            Color32 spriteColor = attackProfile.spriteColor;
+            var sprite = weaponProfile.sprite;
+            Color32 spriteColor = weaponProfile.spriteColor;
             
             _effectInstanceTransform = FactoryManager
                 .GetFactory<ProjectileFactory>()
@@ -35,7 +35,7 @@ namespace Survivors.Attacks
 
             foreach (var enemyHealth in enemies)
             {
-                enemyHealth.ChangeHealth(-damage);
+                enemyHealth.ChangeHealth(-Damage);
             }
         }
 

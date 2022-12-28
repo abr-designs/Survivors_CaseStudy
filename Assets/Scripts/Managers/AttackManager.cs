@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Survivors.Attacks;
-using Survivors.Attacks.Enums;
+using Survivors.Weapons;
+using Survivors.Weapons.Enums;
 using Survivors.Player;
 using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
@@ -13,12 +13,12 @@ namespace Survivors.Managers
         private static Transform _playerTransform;
 
         [SerializeField]
-        private AttackProfileScriptableObject[] _attackProfiles;
-        private Dictionary<ATTACK_TYPE, int> _attackIndicies;
+        private WeaponProfileScriptableObject[] _attackProfiles;
+        private Dictionary<WEAPON_TYPE, int> _attackIndicies;
 
         private bool _ready;
-        private HashSet<ATTACK_TYPE> _activeAttackTypes;
-        private List<AttackBase_v2> _activeAttacks;
+        private HashSet<WEAPON_TYPE> _activeAttackTypes;
+        private List<WeaponBase_v2> _activeAttacks;
 
         //Unity Functions
         //============================================================================================================//
@@ -28,7 +28,7 @@ namespace Survivors.Managers
             
             //Setup Attack Profile Library
             //------------------------------------------------//
-            _attackIndicies = new Dictionary<ATTACK_TYPE, int>(_attackProfiles.Length);
+            _attackIndicies = new Dictionary<WEAPON_TYPE, int>(_attackProfiles.Length);
 
             for (var i = 0; i < _attackProfiles.Length; i++)
             {
@@ -38,7 +38,7 @@ namespace Survivors.Managers
 
             //Setup Attack Base
             //------------------------------------------------//
-            AttackBase_v2.CoroutineController = this;
+            WeaponBase_v2.CoroutineController = this;
         }
 
         private void Update()
@@ -46,7 +46,7 @@ namespace Survivors.Managers
             if (_ready == false)
                 return;
             
-            AttackBase_v2.PlayerPosition = _playerTransform.position;
+            WeaponBase_v2.PlayerPosition = _playerTransform.position;
             var deltaTime = Time.deltaTime;
             
             for (var i = 0; i < _activeAttacks.Count; i++)
@@ -59,42 +59,42 @@ namespace Survivors.Managers
         }
         //============================================================================================================//
 
-        private void AddNewAttack(in ATTACK_TYPE attackType)
+        private void AddNewAttack(in WEAPON_TYPE weaponType)
         {
             if (_activeAttacks == null)
             {
-                _activeAttacks = new List<AttackBase_v2>();
-                _activeAttackTypes = new HashSet<ATTACK_TYPE>();
+                _activeAttacks = new List<WeaponBase_v2>();
+                _activeAttackTypes = new HashSet<WEAPON_TYPE>();
                 _ready = true;
             }
 
-            if (_activeAttackTypes.Contains(attackType))
+            if (_activeAttackTypes.Contains(weaponType))
                 throw new Exception();
 
-            var profileIndex = _attackIndicies[attackType];
+            var profileIndex = _attackIndicies[weaponType];
             var attackProfile = _attackProfiles[profileIndex];
             
-            AttackBase_v2 newAttack;
-            switch (attackType)
+            WeaponBase_v2 newWeapon;
+            switch (weaponType)
             {
-                case ATTACK_TYPE.AXE:
-                    newAttack = new AxeAttack(attackProfile);
+                case WEAPON_TYPE.AXE:
+                    newWeapon = new AxeWeapon(attackProfile);
                     break;
-                case ATTACK_TYPE.CROSS:
-                    newAttack = new CrossAttack(attackProfile);
+                case WEAPON_TYPE.CROSS:
+                    newWeapon = new CrossWeapon(attackProfile);
                     break;
-                case ATTACK_TYPE.RADIUS:
-                    newAttack = new RadiusAttack(attackProfile);
+                case WEAPON_TYPE.RADIUS:
+                    newWeapon = new RadiusWeapon(attackProfile);
                     break;
-                case ATTACK_TYPE.WHIP:
-                    newAttack = new WhipAttack(attackProfile);
+                case WEAPON_TYPE.WHIP:
+                    newWeapon = new WhipWeapon(attackProfile);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(attackType), attackType, null);
+                    throw new ArgumentOutOfRangeException(nameof(weaponType), weaponType, null);
             }
             
-            _activeAttacks.Add(newAttack);
-            _activeAttackTypes.Add(attackType);
+            _activeAttacks.Add(newWeapon);
+            _activeAttackTypes.Add(weaponType);
         }
         
         //============================================================================================================//
@@ -102,12 +102,12 @@ namespace Survivors.Managers
 #if UNITY_EDITOR
 
         [SerializeField, Header("Debugging")]
-        private ATTACK_TYPE attackToAdd;
+        private WEAPON_TYPE weaponToAdd;
 
         [ContextMenu("Add Test Attack")]
         private void AddTestAttack()
         {
-            AddNewAttack(attackToAdd);
+            AddNewAttack(weaponToAdd);
         }
         
 #endif

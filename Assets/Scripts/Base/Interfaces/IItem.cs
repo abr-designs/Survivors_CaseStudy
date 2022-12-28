@@ -12,6 +12,6 @@ namespace Survivors.Base.Interfaces
         static Action<IItem> OnRemoveItem;
         
         Transform transform { get; }
-        ItemProfileScriptableObject Profile { get; }
+        CollectableProfileScriptableObject Profile { get; }
     }
 }

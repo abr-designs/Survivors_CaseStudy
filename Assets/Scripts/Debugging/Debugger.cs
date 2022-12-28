@@ -12,7 +12,7 @@ namespace Survivors.Debugging
         [SerializeField]
         private EnemyProfileScriptableObject[] enemies;
         [SerializeField]
-        private ItemProfileScriptableObject[] items;
+        private CollectableProfileScriptableObject[] items;
 
         [SerializeField] private float spawnRadius;
         [SerializeField, Min(1)] private int spawnAmount = 1;

@@ -17,6 +17,7 @@ namespace Survivors.Base
         public float StartingHealth => startingHealth;
         [SerializeField]
         private float startingHealth;
+        public float MaxHealth { get; protected set; }
         public float CurrentHealth => currentHealth;
         [SerializeField]
         private float currentHealth;
@@ -32,7 +33,7 @@ namespace Survivors.Base
         //============================================================================================================//
 
         //FIXME This should be using the observer pattern.
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             OnNewHealth?.Invoke(this);
         }
@@ -42,7 +43,7 @@ namespace Survivors.Base
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             OnHealthRemoved?.Invoke(this);
         }
@@ -52,7 +53,7 @@ namespace Survivors.Base
         public void SetHealth(in float health, in bool setStarting = false)
         {
             if (setStarting)
-                startingHealth = health;
+                MaxHealth = startingHealth = health;
             
             currentHealth = health;
         }

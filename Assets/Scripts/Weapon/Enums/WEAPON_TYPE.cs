@@ -1,6 +1,6 @@
-﻿namespace Survivors.Attacks.Enums
+﻿namespace Survivors.Weapons.Enums
 {
-    public enum ATTACK_TYPE
+    public enum WEAPON_TYPE
     {
         NONE,
         AXE,

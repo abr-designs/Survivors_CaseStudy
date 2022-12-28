@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e71501dcd25421a97e47bbda7b2ecb0, type: 3}
-  m_Name: MedXP Item Profile
+  m_Name: LrgXP Collectable Profile
   m_EditorClassIdentifier: 
-  name: MdXp
-  sprite: {fileID: 21300000, guid: e87aa1fb96d6e364c956db297b01c6fa, type: 3}
+  name: LgXp
+  sprite: {fileID: 21300000, guid: 392d1cf28e02f5d439b6a89e607a3b54, type: 3}
   type: 1
-  value: 4
+  value: 8

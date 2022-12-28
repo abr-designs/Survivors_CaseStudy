@@ -7,6 +7,7 @@ namespace Survivors.Base.Interfaces
         Transform transform { get; }
 
         float StartingHealth { get; }
+        float MaxHealth { get; }
         float CurrentHealth { get; }
         bool ShowHealthDamage { get; }
         bool ShowHealthBar { get; }

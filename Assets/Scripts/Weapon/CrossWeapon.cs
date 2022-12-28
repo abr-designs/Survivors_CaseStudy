@@ -4,16 +4,21 @@ using Survivors.Enemies;
 using Survivors.Factories;
 using Survivors.Managers;
 using Survivors.ScriptableObjets.Attacks;
+using Survivors.Weapons.Interfaces;
 using UnityEngine;
 
-namespace Survivors.Attacks
+namespace Survivors.Weapons
 {
-    public class CrossAttack : AttackBase_v2
+    public class CrossWeapon : WeaponBase_v2, IUseProjectiles, IUserProjectileSpeed
     {
-        private int projectileCount = 1;
-
         private readonly Sprite _sprite;
         private readonly Color32 _spriteColor;
+
+        public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
+        private int projectileCount = 1;
+
+        public float LaunchSpeed => launchSpeed * PassiveManager.ProjectileSpeed;
+        public float Acceleration => acceleration * PassiveManager.ProjectileSpeed;
 
         private float launchSpeed;
         private float acceleration;
@@ -23,17 +28,17 @@ namespace Survivors.Attacks
         private float projectileInterval;
         private float projectileRadius;
 
-        public CrossAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
+        public CrossWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            _sprite = attackProfile.sprite;
-            _spriteColor = attackProfile.spriteColor;
+            _sprite = weaponProfile.sprite;
+            _spriteColor = weaponProfile.spriteColor;
 
-            launchSpeed = attackProfile.launchSpeed;
-            acceleration = attackProfile.acceleration;
-            spinSpeed = attackProfile.spinSpeed;
+            launchSpeed = weaponProfile.launchSpeed;
+            acceleration = weaponProfile.acceleration;
+            spinSpeed = weaponProfile.spinSpeed;
             
-            projectileInterval = attackProfile.projectileInterval;
-            projectileRadius = attackProfile.projectileRadius;
+            projectileInterval = weaponProfile.projectileInterval;
+            projectileRadius = weaponProfile.projectileRadius;
         }
         
         protected override void LevelUp()
@@ -54,7 +59,7 @@ namespace Survivors.Attacks
         private IEnumerator AttackCoroutine()
         {
             var waitForSeconds = new WaitForSeconds(projectileInterval);
-            for (var i = 0; i < projectileCount; i++)
+            for (var i = 0; i < ProjectileCount; i++)
             {
                 var closestEnemy = EnemyManager.GetClosestEnemy(PlayerPosition);
                 if (closestEnemy == null)
@@ -76,7 +81,9 @@ namespace Survivors.Attacks
 
         private IEnumerator CrossProjectileCoroutine(Transform projectileTransform, Vector2 direction)
         {
-            var currentSpeed = launchSpeed;
+            var currentSpeed = LaunchSpeed;
+            var accel = Acceleration;
+            
             var currentPosition = (Vector2)projectileTransform.position;
             var currentRotation = projectileTransform.localEulerAngles;
             var alreadyHit = new HashSet<EnemyHealth>();
@@ -84,7 +91,7 @@ namespace Survivors.Attacks
             for (var t = 0f; t < 5f; t+= Time.deltaTime)
             {
                 currentPosition += direction * (currentSpeed * Time.deltaTime);
-                currentSpeed += acceleration;
+                currentSpeed += accel;
 
                 currentRotation.z += spinSpeed * Time.deltaTime;
 
@@ -96,7 +103,7 @@ namespace Survivors.Attacks
                 {
                     foreach (var enemyHealth in enemiesInRange)
                     {
-                        enemyHealth.ChangeHealth(-damage);
+                        enemyHealth.ChangeHealth(-Damage);
                         alreadyHit.Add(enemyHealth);
                     }
                 }
@@ -106,6 +113,7 @@ namespace Survivors.Attacks
             
             Object.Destroy(projectileTransform.gameObject);
         }
+
 
 
     }

@@ -8,9 +8,9 @@ namespace Survivors.Base
     [RequireComponent(typeof(SpriteRenderer))]
     public class ItemBase : MonoBehaviour, IItem
     {
-        public ItemProfileScriptableObject Profile => itemProfile;
+        public CollectableProfileScriptableObject Profile => collectableProfile;
         [SerializeField]
-        private ItemProfileScriptableObject itemProfile;
+        private CollectableProfileScriptableObject collectableProfile;
 
         private SpriteRenderer _spriteRenderer;
 
@@ -20,12 +20,12 @@ namespace Survivors.Base
         }
         //============================================================================================================//
 
-        public void Init(in ItemProfileScriptableObject itemProfile)
+        public void Init(in CollectableProfileScriptableObject collectableProfile)
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            this.itemProfile = itemProfile;
+            this.collectableProfile = collectableProfile;
 
-            _spriteRenderer.sprite = itemProfile.sprite;
+            _spriteRenderer.sprite = collectableProfile.sprite;
             IItem.OnAddItem?.Invoke(this);
         }
 

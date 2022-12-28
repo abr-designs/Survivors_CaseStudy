@@ -7,9 +7,9 @@ namespace Survivors.Base
     {
         private Transform _transform;
 
-        public float Speed => speed;
+        public virtual float Speed => speed;
         [SerializeField, Min(0f)]
-        private float speed;
+        protected float speed;
 
         public bool IsMoving => _isMoving;
         public int MoveDirection => (int)XDirection;
@@ -32,7 +32,7 @@ namespace Survivors.Base
             
             var currentPos = (Vector2)_transform.position;
             var dir = new Vector2(XDirection, YDirection).normalized;
-            currentPos += dir * (speed * Time.deltaTime);
+            currentPos += dir * (Speed * Time.deltaTime);
 
             _transform.position = currentPos;
         }

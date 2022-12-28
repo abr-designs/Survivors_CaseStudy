@@ -1,30 +1,31 @@
 ﻿using System.Collections;
+using Survivors.Managers;
 using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
-namespace Survivors.Attacks
+namespace Survivors.Weapons
 {
-    public abstract class AttackBase_v2
+    public abstract class WeaponBase_v2
     {
         internal static MonoBehaviour CoroutineController;
         internal static Vector2 PlayerPosition;
-        private int Level = 1;
 
+        protected float Damage => damage * PassiveManager.Damage;
+        
+        private int _level = 1;
         
         protected float range;
-        protected float damage;
+        private float damage;
 
         private float cooldown;
         private float _cooldownTimer;
 
-        
-
         //============================================================================================================//
-        internal AttackBase_v2(in AttackProfileScriptableObject attackProfile)
+        internal WeaponBase_v2(in WeaponProfileScriptableObject weaponProfile)
         {
-            range = attackProfile.range;
-            damage = attackProfile.damage;
-            cooldown = attackProfile.cooldown;
+            range = weaponProfile.range;
+            damage = weaponProfile.damage;
+            cooldown = weaponProfile.cooldown;
         }
         
         protected abstract void LevelUp();
@@ -38,7 +39,7 @@ namespace Survivors.Attacks
             }
 
             TriggerAttack();
-            _cooldownTimer = cooldown;
+            _cooldownTimer = cooldown * PassiveManager.Cooldown;
         }
 
         public abstract void PostUpdate();
