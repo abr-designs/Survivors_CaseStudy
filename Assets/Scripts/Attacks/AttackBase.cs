@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
     //TODO Consider changing this to be a ScriptableObject
+    [Obsolete]
     public abstract class AttackBase : MonoBehaviour
     {
         protected Vector2 PlayerPosition;

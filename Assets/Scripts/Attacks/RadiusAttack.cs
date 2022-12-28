@@ -1,23 +1,25 @@
-﻿using Survivors.Managers;
+﻿using Survivors.Factories;
+using Survivors.Managers;
+using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
-    public class RadiusAttack : AttackBase
+    public class RadiusAttack : AttackBase_v2
     {
-        //TODO Probably should move this to a Factory
-        [SerializeField, Header("Radius Attack")]
-        private GameObject effectPrefab;
-
-        private Transform _effectInstanceTransform;
-
-        public override void Setup()
+        private readonly Transform _effectInstanceTransform;
+        
+        public RadiusAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
         {
-            if (_effectInstanceTransform)
-                return;
+            var sprite = attackProfile.sprite;
+            Color32 spriteColor = attackProfile.spriteColor;
             
-            _effectInstanceTransform = Instantiate(effectPrefab, transform, false).transform;
+            _effectInstanceTransform = FactoryManager
+                .GetFactory<ProjectileFactory>()
+                .CreateProjectile(PlayerPosition, sprite, spriteColor)
+                .transform;
         }
+
         public override void PostUpdate()
         {
             _effectInstanceTransform.position = PlayerPosition;
@@ -40,12 +42,6 @@ namespace Survivors.Attacks
         protected override void LevelUp()
         {
             throw new System.NotImplementedException();
-        }
-
-        public override void SetActive(in bool state)
-        {
-            _effectInstanceTransform.gameObject.SetActive(state);
-            base.SetActive(in state);
         }
     }
 }

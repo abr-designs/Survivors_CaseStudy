@@ -1,35 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Survivors.Enemies;
+using Survivors.Factories;
 using Survivors.Managers;
+using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
-    public class CrossAttack : AttackBase
+    public class CrossAttack : AttackBase_v2
     {
-        [SerializeField, Header("Cross Attack")]
-        private GameObject crossPrefab;
-
-        [SerializeField]
-        private float launchSpeed;
-        [SerializeField]
-        private float acceleration;
-        [SerializeField]
-        private float spinSpeed;
-        
-        [SerializeField, Min(1), Header("Projectiles")]
         private int projectileCount = 1;
-        [SerializeField, Min(0)]
-        private float projectileInterval;
-        [SerializeField, Min(0f)]
-        private float projectileRadius;
-        
-        public override void Setup()
-        {
-            
-        }
 
+        private readonly Sprite _sprite;
+        private readonly Color32 _spriteColor;
+
+        private float launchSpeed;
+        private float acceleration;
+        private float spinSpeed;
+
+        
+        private float projectileInterval;
+        private float projectileRadius;
+
+        public CrossAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
+        {
+            _sprite = attackProfile.sprite;
+            _spriteColor = attackProfile.spriteColor;
+
+            launchSpeed = attackProfile.launchSpeed;
+            acceleration = attackProfile.acceleration;
+            spinSpeed = attackProfile.spinSpeed;
+            
+            projectileInterval = attackProfile.projectileInterval;
+            projectileRadius = attackProfile.projectileRadius;
+        }
+        
         protected override void LevelUp()
         {
             throw new System.NotImplementedException();
@@ -56,7 +62,9 @@ namespace Survivors.Attacks
 
                 var closestPosition = (Vector2)closestEnemy.transform.position;
                 
-                var newProjectile = Instantiate(crossPrefab, PlayerPosition, Quaternion.identity, transform);
+                var newProjectile = FactoryManager
+                    .GetFactory<ProjectileFactory>()
+                    .CreateProjectile(PlayerPosition, _sprite, _spriteColor);
                 
                 StartCoroutine(CrossProjectileCoroutine(
                     newProjectile.transform, 
@@ -96,7 +104,9 @@ namespace Survivors.Attacks
                 yield return null;
             }
             
-            Destroy(projectileTransform.gameObject);
+            Object.Destroy(projectileTransform.gameObject);
         }
+
+
     }
 }

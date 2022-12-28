@@ -1,29 +1,33 @@
 ﻿using System.Collections;
+using Survivors.Factories;
 using Survivors.Managers;
+using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
-    public class WhipAttack : AttackBase
+    public class WhipAttack : AttackBase_v2
     {
-        [SerializeField, Header("Whip Effect")]
-        private SpriteRenderer effectPrefab;
-        private SpriteRenderer _effectInstance;
-        private Transform _effectInstanceTransform;
-
-        [SerializeField, Min(1), Header("Projectiles")]
+        private readonly SpriteRenderer _effectInstance;
+        private readonly Transform _effectInstanceTransform;
+        
         private int projectileCount = 1;
-        [SerializeField, Min(0)]
+        
         private float projectileInterval;
+        private float projectileRadius;
         
-        public override void Setup()
+        public WhipAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
         {
-            _effectInstance = Instantiate(effectPrefab, transform, false);
-            _effectInstanceTransform = _effectInstance.transform;
+            var sprite = attackProfile.sprite;
+            Color32 spriteColor = attackProfile.spriteColor;
             
-            projectileCount = 1;
+            _effectInstance = FactoryManager
+                .GetFactory<ProjectileFactory>()
+                .CreateProjectile(PlayerPosition, sprite, spriteColor);
+
+            _effectInstanceTransform = _effectInstance.transform;
         }
-        
+
         protected override void LevelUp()
         {
             throw new System.NotImplementedException();
@@ -73,12 +77,6 @@ namespace Survivors.Attacks
                 swap = !swap;
             }
             _effectInstance.gameObject.SetActive(false);
-        }
-
-        public override void SetActive(in bool state)
-        {
-            _effectInstance.gameObject.SetActive(state);
-            base.SetActive(in state);
         }
     }
 }

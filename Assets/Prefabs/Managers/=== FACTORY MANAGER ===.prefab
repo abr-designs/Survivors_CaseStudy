@@ -44,14 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b41ab6043b4204b0202c785dab82a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyStateControllerCirclePrefab: {fileID: 8293968221079877031, guid: f20b05d087aef334da711620e02d9fcd, type: 3}
+  enemyStateControllerBoxPrefab: {fileID: 8293968221079877031, guid: 4d3f05ed26b910f428cf217e3e4043e5, type: 3}
+  enemyProfiles:
+  - {fileID: 11400000, guid: 65219de3df33e4f48b9b74a2759e6551, type: 2}
+  - {fileID: 11400000, guid: 05cbd23d8923dcc4eb7043c8034ee4f8, type: 2}
   itemPrefab: {fileID: 5545376809582485742, guid: 91d993fa0c9556d4780aa76f5483789d, type: 3}
   itemProfiles:
   - {fileID: 11400000, guid: 63a327fed1e6a204c8c36df9b7daf75f, type: 2}
   - {fileID: 11400000, guid: 5babd2d262eb04f468f9df00d922a322, type: 2}
   - {fileID: 11400000, guid: 14dfc5b8aebcbab478b2f4bdf6012873, type: 2}
   - {fileID: 11400000, guid: 4ed44b5897a7ebd48b89db12dec9578e, type: 2}
-  enemyStateControllerCirclePrefab: {fileID: 8293968221079877031, guid: f20b05d087aef334da711620e02d9fcd, type: 3}
-  enemyStateControllerBoxPrefab: {fileID: 8293968221079877031, guid: 4d3f05ed26b910f428cf217e3e4043e5, type: 3}
-  enemyProfiles:
-  - {fileID: 11400000, guid: 65219de3df33e4f48b9b74a2759e6551, type: 2}
-  - {fileID: 11400000, guid: 05cbd23d8923dcc4eb7043c8034ee4f8, type: 2}
+  projectilePrefab: {fileID: 7215256052415580508, guid: 18898d4869250e04493b6ce0156f7e26, type: 3}

@@ -12,17 +12,20 @@ namespace Survivors.Factories
     public class FactoryManager : MonoBehaviour
     {
         //============================================================================================================//
-        [SerializeField, Header("Items")] 
-        private ItemBase itemPrefab;
-        [SerializeField]
-        private List<ItemProfileScriptableObject> itemProfiles;
-        
         [SerializeField, Header("Enemies")] 
         private EnemyStateController enemyStateControllerCirclePrefab;
         [SerializeField] 
         private EnemyStateController enemyStateControllerBoxPrefab;
         [SerializeField]
         private List<EnemyProfileScriptableObject> enemyProfiles;
+        
+        [SerializeField, Header("Items")] 
+        private ItemBase itemPrefab;
+        [SerializeField]
+        private List<ItemProfileScriptableObject> itemProfiles;
+        
+        [SerializeField, Header("Projectiles")] 
+        private SpriteRenderer projectilePrefab;
 
         //------------------------------------------------//
 
@@ -63,6 +66,10 @@ namespace Survivors.Factories
             else if (type == typeof(ItemFactory))
             {
                 newFactory = new ItemFactory(itemPrefab, itemProfiles);
+            }
+            else if (type == typeof(ProjectileFactory))
+            {
+                newFactory = new ProjectileFactory(projectilePrefab);
             }
             else
                 throw new NotImplementedException($"No Factory support for {type.Name}");

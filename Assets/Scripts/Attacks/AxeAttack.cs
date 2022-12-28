@@ -1,36 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Survivors.Enemies;
+using Survivors.Factories;
 using Survivors.Managers;
+using Survivors.ScriptableObjets.Attacks;
 using UnityEngine;
 
 namespace Survivors.Attacks
 {
-    public class AxeAttack : AttackBase
+    public class AxeAttack : AttackBase_v2
     {
-        [SerializeField, Header("Axe Attack")]
-        private GameObject crossPrefab;
+        private int projectileCount = 1;
 
-        [SerializeField]
+        private readonly Sprite _sprite;
+        private readonly Color32 _spriteColor;
+
         private float launchSpeed;
-        [SerializeField]
         private float acceleration;
-        [SerializeField]
         private float spinSpeed;
 
-        [SerializeField, Min(1)]
         private int maxHitCount;
         
-        [SerializeField, Min(1), Header("Projectiles")]
-        private int projectileCount = 1;
-        [SerializeField, Min(0)]
         private float projectileInterval;
-        [SerializeField, Min(0f)]
         private float projectileRadius;
         
-        public override void Setup()
+        public AxeAttack(in AttackProfileScriptableObject attackProfile) : base(in attackProfile)
         {
+            _sprite = attackProfile.sprite;
+            _spriteColor = attackProfile.spriteColor;
+
+            launchSpeed = attackProfile.launchSpeed;
+            acceleration = attackProfile.acceleration;
+            spinSpeed = attackProfile.spinSpeed;
             
+            maxHitCount = attackProfile.maxHitCount;
+            
+            projectileInterval = attackProfile.projectileInterval;
+            projectileRadius = attackProfile.projectileRadius;
         }
 
         protected override void LevelUp()
@@ -58,7 +64,9 @@ namespace Survivors.Attacks
 
                 direction.x = Random.Range(-0.5f, 0.5f);
 
-                var newProjectile = Instantiate(crossPrefab, PlayerPosition, Quaternion.identity, transform);
+                var newProjectile = FactoryManager
+                    .GetFactory<ProjectileFactory>()
+                    .CreateProjectile(PlayerPosition, _sprite, _spriteColor);
                 
                 StartCoroutine(AxeProjectileCoroutine(
                     newProjectile.transform, 
@@ -100,7 +108,9 @@ namespace Survivors.Attacks
                 yield return null;
             }
             
-            Destroy(projectileTransform.gameObject);
+            Object.Destroy(projectileTransform.gameObject);
         }
+
+
     }
 }
