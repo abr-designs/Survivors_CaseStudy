@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Survivors.Base.Interfaces
 {
-    public interface IItem
+    public interface ICollectable
     {
         const float RADIUS = 0.1f;
 
-        static Action<IItem> OnAddItem;
-        static Action<IItem> OnRemoveItem;
+        static Action<ICollectable> OnAddItem;
+        static Action<ICollectable> OnRemoveItem;
         
         Transform transform { get; }
         CollectableProfileScriptableObject Profile { get; }

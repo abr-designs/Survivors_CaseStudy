@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Survivors.Base
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ItemBase : MonoBehaviour, IItem
+    public class CollectableBase : MonoBehaviour, ICollectable
     {
         public CollectableProfileScriptableObject Profile => collectableProfile;
         [SerializeField]
@@ -16,7 +16,7 @@ namespace Survivors.Base
 
         private void OnDisable()
         {
-            IItem.OnRemoveItem?.Invoke(this);
+            ICollectable.OnRemoveItem?.Invoke(this);
         }
         //============================================================================================================//
 
@@ -26,7 +26,7 @@ namespace Survivors.Base
             this.collectableProfile = collectableProfile;
 
             _spriteRenderer.sprite = collectableProfile.sprite;
-            IItem.OnAddItem?.Invoke(this);
+            ICollectable.OnAddItem?.Invoke(this);
         }
 
         //============================================================================================================//
@@ -36,7 +36,7 @@ namespace Survivors.Base
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, IItem.RADIUS);
+            Gizmos.DrawWireSphere(transform.position, ICollectable.RADIUS);
         }
 
 #endif

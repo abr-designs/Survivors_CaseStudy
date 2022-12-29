@@ -58,6 +58,8 @@ namespace Survivors.UI
             XpManager.OnProgressToNextLevel -= OnProgressToNextLevel;
             XpManager.OnLevelUp -= OnLevelUp;
         }
+        
+        //============================================================================================================//
 
         private void SetTimeText(in int seconds)
         {
@@ -71,6 +73,11 @@ namespace Survivors.UI
 
             timeText.text = time.ToString(@"mm\:ss");
         }
+        
+
+        
+        //Callbacks
+        //============================================================================================================//
         
         private void OnLevelUp(int newLevel)
         {
@@ -89,7 +96,8 @@ namespace Survivors.UI
                 });
             }
         }
-
+        
+        //FIXME This should move to some sort of item manager
         private static WeaponManager _weaponManager;
         private static PassiveManager _passiveManager;
         private void OnItemSelected(ItemBaseScriptableObject item)
@@ -111,5 +119,7 @@ namespace Survivors.UI
         {
             xpSlider.value = value;
         }
+        
+        //============================================================================================================//
     }
 }

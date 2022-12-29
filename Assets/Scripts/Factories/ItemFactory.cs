@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Survivors.Factories
 {
-    public class ItemFactory : FactoryBase<ItemBase>
+    public class ItemFactory : FactoryBase<CollectableBase>
     {
         private readonly Dictionary<string, CollectableProfileScriptableObject> _itemProfiles;
         
-        public ItemFactory(ItemBase prefab, IEnumerable<CollectableProfileScriptableObject> itemProfiles) : base(prefab)
+        public ItemFactory(CollectableBase prefab, IEnumerable<CollectableProfileScriptableObject> itemProfiles) : base(prefab)
         {
             _itemProfiles = new Dictionary<string, CollectableProfileScriptableObject>();
             foreach (var itemProfile in itemProfiles)

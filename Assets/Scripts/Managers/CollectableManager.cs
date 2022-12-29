@@ -9,13 +9,13 @@ using UnityEngine;
 namespace Survivors.Managers
 {
     [DefaultExecutionOrder(-1000)]
-    public class ItemManager : MonoBehaviour
+    public class CollectableManager : MonoBehaviour
     {
-        private struct ItemPickupData
+        private struct CollectableData
         {
             public bool IsBeingPickedUp;
             public float CurrentSpeed;
-            public IItem Item;
+            public ICollectable Collectable;
         }
 
         //============================================================================================================//
@@ -29,7 +29,7 @@ namespace Survivors.Managers
         [SerializeField, Min(0f)]
         private float initialPickupPush;
         
-        private List<ItemPickupData> _itemsToPickup;
+        private List<CollectableData> _itemsToPickup;
         private PlayerHealth _playerHealth;
         private Transform _playerTransform;
 
@@ -38,8 +38,8 @@ namespace Survivors.Managers
         
         private void OnEnable()
         {
-            IItem.OnAddItem += OnAddItem;
-            IItem.OnRemoveItem += OnRemoveItem;
+            ICollectable.OnAddItem += OnAddItem;
+            ICollectable.OnRemoveItem += OnRemoveItem;
         }
 
         // Start is called before the first frame update
@@ -61,13 +61,13 @@ namespace Survivors.Managers
             for (var i = _itemsToPickup.Count - 1; i >= 0; i--)
             {
                 var itemData = _itemsToPickup[i];
-                var itemPosition = (Vector2)itemData.Item.transform.position;
+                var itemPosition = (Vector2)itemData.Collectable.transform.position;
                 
                 if (itemData.IsBeingPickedUp)
                 {
                     if (Vector2.Distance(itemPosition, playerPosition) <= pickupThreshold)
                     {
-                        ClaimItem(itemData.Item);
+                        ClaimCollectable(itemData.Collectable);
                         continue;
                     }
                     //Move Towards Player
@@ -75,7 +75,7 @@ namespace Survivors.Managers
                     itemPosition = Vector2.MoveTowards(itemPosition, playerPosition, itemData.CurrentSpeed * deltaTime);
 
                     itemData.CurrentSpeed += pickupSpeed;
-                    itemData.Item.transform.position = itemPosition;
+                    itemData.Collectable.transform.position = itemPosition;
 
                     _itemsToPickup[i] = itemData; 
                     continue;
@@ -83,7 +83,7 @@ namespace Survivors.Managers
                 
                 //Check should start pickup
                 //------------------------------------------------//
-                if (SMath.CirclesIntersect(IItem.RADIUS, pickupRange, playerPosition, itemPosition) == false)
+                if (SMath.CirclesIntersect(ICollectable.RADIUS, pickupRange, playerPosition, itemPosition) == false)
                     continue;
 
                 itemData.IsBeingPickedUp = true;
@@ -96,48 +96,48 @@ namespace Survivors.Managers
 
         private void OnDisable()
         {
-            IItem.OnAddItem -= OnAddItem;
-            IItem.OnRemoveItem -= OnRemoveItem;
+            ICollectable.OnAddItem -= OnAddItem;
+            ICollectable.OnRemoveItem -= OnRemoveItem;
         }
         //============================================================================================================//
 
-        private void ClaimItem(IItem item)
+        private void ClaimCollectable(ICollectable collectable)
         {
             //TODO Claim Item shit
-            switch (item.Profile.type)
+            switch (collectable.Profile.type)
             {
                 case PICKUP.NONE:
                     break;
                 case PICKUP.EXP:
-                    XpManager.AddXp(item.Profile.value);
+                    XpManager.AddXp(collectable.Profile.value);
                     break;
                 case PICKUP.HEAL:
-                    _playerHealth.ChangeHealth(item.Profile.value);
+                    _playerHealth.ChangeHealth(collectable.Profile.value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Destroy(item.transform.gameObject);
+            Destroy(collectable.transform.gameObject);
         }
 
         //IItem Callbacks
         //============================================================================================================//
-        private void OnAddItem(IItem item)
+        private void OnAddItem(ICollectable collectable)
         {
             if (_itemsToPickup == null)
-                _itemsToPickup = new List<ItemPickupData>();
+                _itemsToPickup = new List<CollectableData>();
             
-            _itemsToPickup.Add(new ItemPickupData
+            _itemsToPickup.Add(new CollectableData
             {
-                Item = item
+                Collectable = collectable
             });
         }
-        private void OnRemoveItem(IItem item)
+        private void OnRemoveItem(ICollectable collectable)
         {
             if (_itemsToPickup == null)
                 return;
 
-            var index = _itemsToPickup.FindIndex(x => x.Item == item);
+            var index = _itemsToPickup.FindIndex(x => x.Collectable == collectable);
 
             if (index < 0)
                 throw new Exception();

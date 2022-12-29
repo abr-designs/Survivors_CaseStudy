@@ -6,6 +6,7 @@ using UnityEngine;
 using Survivors.Enemies;
 using Survivors.ScriptableObjets;
 using Survivors.ScriptableObjets.Enemies;
+using UnityEngine.Serialization;
 
 namespace Survivors.Factories
 {
@@ -19,8 +20,8 @@ namespace Survivors.Factories
         [SerializeField]
         private List<EnemyProfileScriptableObject> enemyProfiles;
         
-        [SerializeField, Header("Items")] 
-        private ItemBase itemPrefab;
+        [FormerlySerializedAs("itemPrefab")] [SerializeField, Header("Items")] 
+        private CollectableBase collectablePrefab;
         [SerializeField]
         private List<CollectableProfileScriptableObject> itemProfiles;
         
@@ -65,7 +66,7 @@ namespace Survivors.Factories
             }
             else if (type == typeof(ItemFactory))
             {
-                newFactory = new ItemFactory(itemPrefab, itemProfiles);
+                newFactory = new ItemFactory(collectablePrefab, itemProfiles);
             }
             else if (type == typeof(ProjectileFactory))
             {
