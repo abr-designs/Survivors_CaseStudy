@@ -11,12 +11,12 @@ namespace Survivors.Weapons
         
         public RadiusWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            var sprite = weaponProfile.sprite;
-            Color32 spriteColor = weaponProfile.spriteColor;
+            var projectileSprite = weaponProfile.projectileSprite;
+            Color32 spriteColor = weaponProfile.projectileSpriteColor;
             
             _effectInstanceTransform = FactoryManager
                 .GetFactory<ProjectileFactory>()
-                .CreateProjectile(PlayerPosition, sprite, spriteColor)
+                .CreateProjectile(PlayerPosition, projectileSprite, spriteColor)
                 .transform;
         }
 

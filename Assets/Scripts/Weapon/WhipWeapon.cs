@@ -9,9 +9,9 @@ namespace Survivors.Weapons
 {
     public class WhipWeapon : WeaponBase_v2, IUseProjectiles
     {
-        private readonly SpriteRenderer _effectInstance;
-        private readonly Transform _effectInstanceTransform;
-
+        private readonly Sprite projectileSprite;
+        private readonly Color32 spriteColor ;
+        
         public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
         private int projectileCount = 1;
         
@@ -20,14 +20,8 @@ namespace Survivors.Weapons
         
         public WhipWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            var sprite = weaponProfile.sprite;
-            Color32 spriteColor = weaponProfile.spriteColor;
-            
-            _effectInstance = FactoryManager
-                .GetFactory<ProjectileFactory>()
-                .CreateProjectile(PlayerPosition, sprite, spriteColor);
-
-            _effectInstanceTransform = _effectInstance.transform;
+            projectileSprite = weaponProfile.projectileSprite;
+            spriteColor = weaponProfile.projectileSpriteColor;
         }
 
         public override void LevelUp()
@@ -52,30 +46,28 @@ namespace Survivors.Weapons
         //TODO Might want to use a stored bounds value instead of Sprite Bounds so I can scale it for animations
         private IEnumerator AttackCoroutine()
         {
-            var scaleOffset = _effectInstanceTransform.localScale.x / 2f;
             var waitForSeconds = new WaitForSeconds(projectileInterval);
             bool swap = true;
             float height = 0f;
 
-            _effectInstance.gameObject.SetActive(true);
             for (int i = 0; i < ProjectileCount; i++)
             {
-                _effectInstance.flipX = swap;
-                _effectInstance.flipY = swap;
-                _effectInstanceTransform.position = PlayerPosition + 
-                                                    Vector2.right * (scaleOffset * (swap ? -1 : 1))+
-                                                    Vector2.up * height;
+                var newProjectile = FactoryManager
+                    .GetFactory<ProjectileFactory>()
+                    .CreateProjectile(PlayerPosition, projectileSprite, spriteColor);
 
-                var enemies = EnemyManager.GetEnemiesInBounds(_effectInstance.bounds);
+                var projectileTransform = newProjectile.transform;
+                projectileTransform.localScale = Vector3.one * PassiveManager.AttackArea;
+                
+                var scaleOffset = projectileTransform.localScale.x / 2f;
+                
+                newProjectile.flipX = swap;
+                newProjectile.flipY = swap;
+                projectileTransform.position = PlayerPosition + 
+                                               Vector2.right * (scaleOffset * (swap ? -1 : 1))+
+                                               Vector2.up * height;
 
-                if (enemies != null)
-                {
-                    foreach (var enemyHealth in enemies)
-                    {
-                        enemyHealth.ChangeHealth(-Damage);
-                    }
-                }
-
+                yield return StartCoroutine(ProjectileCoroutine(newProjectile, 0.3f));
 
                 yield return waitForSeconds;
 
@@ -84,7 +76,23 @@ namespace Survivors.Weapons
                 
                 swap = !swap;
             }
-            _effectInstance.gameObject.SetActive(false);
+        }
+
+        private IEnumerator ProjectileCoroutine(SpriteRenderer spriteRenderer, float lifetime)
+        {
+            var enemies = EnemyManager.GetEnemiesInBounds(spriteRenderer.bounds);
+
+            if (enemies != null)
+            {
+                foreach (var enemyHealth in enemies)
+                {
+                    enemyHealth.ChangeHealth(-Damage);
+                }
+            }
+
+            yield return new WaitForSeconds(lifetime);
+            
+            Object.Destroy(spriteRenderer.gameObject);
         }
     }
 }

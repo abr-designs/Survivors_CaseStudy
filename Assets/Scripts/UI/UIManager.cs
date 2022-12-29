@@ -12,6 +12,8 @@ namespace Survivors.UI
 {
     public class UIManager : MonoBehaviour
     {
+        public static event Action<ItemBaseScriptableObject> OnItemSelected;
+        
         [SerializeField, Header("Gameplay UI")]
         private Slider xpSlider;
         [SerializeField]
@@ -37,7 +39,7 @@ namespace Survivors.UI
 
         private void Start()
         {
-            OnLevelUp(0);
+            //OnLevelUp(0);
             SetTimeText(0);
             levelUpWindow.SetActive(false);
         }
@@ -69,8 +71,7 @@ namespace Survivors.UI
                 return;
             }
             
-            TimeSpan time = TimeSpan.FromSeconds(seconds);
-
+            var time = TimeSpan.FromSeconds(seconds);
             timeText.text = time.ToString(@"mm\:ss");
         }
         
@@ -81,37 +82,21 @@ namespace Survivors.UI
         
         private void OnLevelUp(int newLevel)
         {
+            levelUpWindow.SetActive(true);
+
             levelText.text = $"level {newLevel.ToString()}";
             OnProgressToNextLevel(0);
             
             //TODO Pause the game
-            levelUpWindow.SetActive(true);
             var toDisplay = itemOptions.GetRandomElements(3);
             for (var i = 0; i < toDisplay.Length; i++)
             {
                 var item = toDisplay[i];
                 itemButtonElements[i].Init(item, () =>
                 {
-                    OnItemSelected(item);
+                    OnItemSelected?.Invoke(item);
+                    levelUpWindow.SetActive(false);
                 });
-            }
-        }
-        
-        //FIXME This should move to some sort of item manager
-        private static WeaponManager _weaponManager;
-        private static PassiveManager _passiveManager;
-        private void OnItemSelected(ItemBaseScriptableObject item)
-        {
-            switch (item)
-            {
-                case WeaponProfileScriptableObject weapon:
-                    if (_weaponManager == null) _weaponManager = FindObjectOfType<WeaponManager>();
-                    _weaponManager.AddNewAttack(weapon.type);
-                    break;
-                case PassiveItemProfileScriptableObject passive:
-                    if (_passiveManager == null) _passiveManager = FindObjectOfType<PassiveManager>();
-                    _passiveManager.AddNewPassive(passive.type);
-                    break;
             }
         }
 

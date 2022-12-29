@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attack Area Passive Profile
   m_EditorClassIdentifier: 
   name: Attack Area
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 47af3c2df2b338949af847addf5fd769, type: 3}
   description: 
   type: 6
   value: 0.1

@@ -1469,8 +1469,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &262398720118808831
 CanvasRenderer:
@@ -1757,8 +1757,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7307666742508224433
 CanvasRenderer:
@@ -1968,8 +1968,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6726971508167596043
 CanvasRenderer:
@@ -2488,6 +2488,24 @@ MonoBehaviour:
   xpSlider: {fileID: 8860911367006434971}
   levelText: {fileID: 8860911366294374881}
   timeText: {fileID: 8860911366138887929}
+  levelUpWindow: {fileID: 9150517819147022875}
+  itemOptions:
+  - {fileID: 11400000, guid: be3d5cffcb425b74cbfdb471b327f871, type: 2}
+  - {fileID: 11400000, guid: b76728854802b6f4b8d848b991e4aa1e, type: 2}
+  - {fileID: 11400000, guid: d0cc53caf29dad440839cac6bb485007, type: 2}
+  - {fileID: 11400000, guid: db2a7db7a3fa7634d97b6a960cbae43b, type: 2}
+  - {fileID: 11400000, guid: d32da6380af805e4a90cfbee099db6cc, type: 2}
+  - {fileID: 11400000, guid: 6e2db46080ff09047baf110fdb37974e, type: 2}
+  - {fileID: 11400000, guid: 982a5e9c2543a6a478dd8fed8f669046, type: 2}
+  - {fileID: 11400000, guid: 23016982a47215b4a8d1e248c2e248c2, type: 2}
+  - {fileID: 11400000, guid: e623dfbf6a32df740b3413934ae8fc0c, type: 2}
+  - {fileID: 11400000, guid: 00690b57db60e9b4aa947c61ddb0dd20, type: 2}
+  - {fileID: 11400000, guid: 8260556d74f5e0e45a4fb75f88cd8b4f, type: 2}
+  - {fileID: 11400000, guid: c78c04334a7ae754284391e71c7e7d29, type: 2}
+  itemButtonElements:
+  - {fileID: 8562387202452948931}
+  - {fileID: 625418537629242422}
+  - {fileID: 5087977909412875613}
 --- !u!223 &8860911366962921089
 Canvas:
   m_ObjectHideFlags: 0

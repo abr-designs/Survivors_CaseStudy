@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Survivors.Base.Interfaces;
 using Survivors.Managers;
 using Survivors.Utilities;
@@ -17,7 +15,10 @@ namespace Survivors.Base
         public float StartingHealth => startingHealth;
         [SerializeField]
         private float startingHealth;
-        public float MaxHealth { get; protected set; }
+
+        public float MaxHealth => maxHealth;
+        [SerializeField]
+        protected float maxHealth;
         public float CurrentHealth => currentHealth;
         [SerializeField]
         private float currentHealth;
@@ -53,7 +54,7 @@ namespace Survivors.Base
         public void SetHealth(in float health, in bool setStarting = false)
         {
             if (setStarting)
-                MaxHealth = startingHealth = health;
+                maxHealth = startingHealth = health;
             
             currentHealth = health;
         }

@@ -34,7 +34,7 @@ namespace Survivors.Weapons
         public AxeWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
             _sprite = weaponProfile.sprite;
-            _spriteColor = weaponProfile.spriteColor;
+            _spriteColor = weaponProfile.projectileSpriteColor;
 
             launchSpeed = weaponProfile.launchSpeed;
             acceleration = weaponProfile.acceleration;

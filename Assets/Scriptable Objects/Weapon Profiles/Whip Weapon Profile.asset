@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a00e9706d0c40d184b4fc6928253d92, type: 3}
   m_Name: Whip Weapon Profile
   m_EditorClassIdentifier: 
-  sprite: {fileID: 1743105978, guid: 6661a394e74cfd64a80c5d5c82d66e50, type: 3}
-  spriteColor: {r: 1, g: 1, b: 1, a: 1}
+  name: Scythe
+  sprite: {fileID: 21300000, guid: 1153e745a11f9a44dabc67296c868d13, type: 3}
+  description: 
+  projectileSprite: {fileID: 1743105978, guid: 6661a394e74cfd64a80c5d5c82d66e50, type: 3}
+  projectileSpriteColor: {r: 1, g: 1, b: 1, a: 1}
   type: 4
   range: 0
   damage: 10

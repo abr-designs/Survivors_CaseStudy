@@ -1,13 +1,17 @@
 ﻿using Survivors.ScriptableObjets.Items;
 using Survivors.Weapons.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Survivors.ScriptableObjets.Attacks.Items
 {
     [CreateAssetMenu(fileName = "Weapon Profile", menuName = "ScriptableObjects/Weapon Profile")]
     public class WeaponProfileScriptableObject : ItemBaseScriptableObject
     {
-        public Color spriteColor = Color.white;
+        [Space(10f)]
+        public Sprite projectileSprite;
+        [FormerlySerializedAs("spriteColor")] 
+        public Color projectileSpriteColor = Color.white;
         public WEAPON_TYPE type;
         
         [Min(0), Header("Basics")]

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Projectiles Passive Profile
   m_EditorClassIdentifier: 
   name: Projectiles
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 14989be2254afdb4bb3a8c33d0c08a18, type: 3}
   description: 
   type: 9
   value: 1

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Survivors.Managers
 {
-    public class PassiveManager : MonoBehaviour
+    public class PassiveManager
     {
         public static event Action<float> OnScaleChanged;
         public static event Action<float> OnMaxHealthChanged; 
@@ -23,16 +23,20 @@ namespace Survivors.Managers
         
         //============================================================================================================//
         
-        [SerializeField]
-        private PassiveItemProfileScriptableObject[] passiveProfiles;
+        private readonly PassiveItemProfileScriptableObject[] passiveProfiles;
         private Dictionary<PASSIVE_TYPE, int> _passiveItemIndicies;
 
         private HashSet<PASSIVE_TYPE> _activePassiveTypes;
         private List<PassiveBase> _activePassives;
+
+        public PassiveManager(in PassiveItemProfileScriptableObject[] passiveProfiles)
+        {
+            this.passiveProfiles = passiveProfiles;
+        }
         
         //============================================================================================================//
 
-        private void OnEnable()
+        public void OnEnable()
         {
             //Setup Attack Profile Library
             //------------------------------------------------//
@@ -121,6 +125,9 @@ namespace Survivors.Managers
 
         private PassiveBase FindPassive(PASSIVE_TYPE passiveType)
         {
+            if (_activePassives == null)
+                return default;
+            
             var index = _activePassives
                 .FindIndex(x => x.Type == passiveType);
 
@@ -128,7 +135,7 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-        private void Reset()
+        public static void Reset()
         {
             Damage = 1f;
             DamageReduction = 0;
@@ -139,20 +146,7 @@ namespace Survivors.Managers
             ProjectileAdd = 0;
             MoveSpeed = 1f;
         }
-        
+
         //============================================================================================================//
-
-#if UNITY_EDITOR
-
-        [SerializeField, Header("Debugging")]
-        private PASSIVE_TYPE passiveToAdd;
-
-        [ContextMenu("Add Test Attack")]
-        private void AddTestAttack()
-        {
-            AddNewPassive(passiveToAdd);
-        }
-        
-#endif
     }
 }

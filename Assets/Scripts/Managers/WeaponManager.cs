@@ -9,24 +9,28 @@ using UnityEngine;
 
 namespace Survivors.Managers
 {
-    public class WeaponManager : MonoBehaviour
+    public class WeaponManager
     {
         private static Transform _playerTransform;
 
-        [SerializeField]
-        private WeaponProfileScriptableObject[] weaponProfiles;
+        private readonly WeaponProfileScriptableObject[] weaponProfiles;
         private Dictionary<WEAPON_TYPE, int> _weaponIndicies;
 
         private bool _ready;
         private HashSet<WEAPON_TYPE> _activeWeaponTypes;
         private List<WeaponBase_v2> _activeWeapons;
 
+        public WeaponManager(in Transform playerTransform, in WeaponProfileScriptableObject[] weaponProfiles)
+        {
+            _playerTransform = playerTransform;
+            this.weaponProfiles = weaponProfiles;
+        }
+
         //Unity Functions
         //============================================================================================================//
-        private void OnEnable()
+        public void OnEnable()
         {
             PassiveManager.OnScaleChanged += OnScaleChanged;
-            _playerTransform = FindObjectOfType<PlayerHealth>().transform;
             
             //Setup Attack Profile Library
             //------------------------------------------------//
@@ -38,14 +42,10 @@ namespace Survivors.Managers
                 _weaponIndicies.Add(attackProfile.type, i);
             }
 
-            //Setup Attack Base
-            //------------------------------------------------//
-            WeaponBase_v2.CoroutineController = this;
+
         }
 
-
-
-        private void Update()
+        public void Update()
         {
             if (_ready == false)
                 return;
@@ -62,7 +62,7 @@ namespace Survivors.Managers
             }
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             PassiveManager.OnScaleChanged -= OnScaleChanged;
         }
@@ -131,6 +131,9 @@ namespace Survivors.Managers
 
         private WeaponBase_v2 FindWeapon(in WEAPON_TYPE weaponType)
         {
+            if (_activeWeapons == null)
+                return default;
+            
             switch (weaponType)
             {
                 case WEAPON_TYPE.AXE:
@@ -151,6 +154,9 @@ namespace Survivors.Managers
         
         private void OnScaleChanged(float newScale)
         {
+            if(_activeWeapons == null)
+                return;
+            
             for (int i = 0; i < _activeWeapons.Count; i++)
             {
                 _activeWeapons[i].OnScaleChanged(newScale);
@@ -158,18 +164,5 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-
-#if UNITY_EDITOR
-
-        [SerializeField, Header("Debugging")]
-        private WEAPON_TYPE weaponToAdd;
-
-        [ContextMenu("Add Test Attack")]
-        private void AddTestAttack()
-        {
-            AddNewAttack(weaponToAdd);
-        }
-        
-#endif
     }
 }

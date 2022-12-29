@@ -11,7 +11,7 @@ namespace Survivors.Weapons
 {
     public class CrossWeapon : WeaponBase_v2, IUseProjectiles, IUserProjectileSpeed
     {
-        private readonly Sprite _sprite;
+        private readonly Sprite _projectileSprite;
         private readonly Color32 _spriteColor;
 
         public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
@@ -30,8 +30,8 @@ namespace Survivors.Weapons
 
         public CrossWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            _sprite = weaponProfile.sprite;
-            _spriteColor = weaponProfile.spriteColor;
+            _projectileSprite = weaponProfile.projectileSprite;
+            _spriteColor = weaponProfile.projectileSpriteColor;
 
             launchSpeed = weaponProfile.launchSpeed;
             acceleration = weaponProfile.acceleration;
@@ -74,7 +74,7 @@ namespace Survivors.Weapons
                 
                 var newProjectile = FactoryManager
                     .GetFactory<ProjectileFactory>()
-                    .CreateProjectile(PlayerPosition, _sprite, _spriteColor);
+                    .CreateProjectile(PlayerPosition, _projectileSprite, _spriteColor);
                 
                 StartCoroutine(CrossProjectileCoroutine(
                     newProjectile.transform, 

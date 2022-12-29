@@ -49,7 +49,7 @@ namespace Survivors.Player
         
         private void OnMaxHealthChanged(float mult)
         {
-            MaxHealth = StartingHealth * mult;
+            maxHealth = StartingHealth * mult;
         }
     }
 }
