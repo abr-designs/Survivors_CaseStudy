@@ -21,6 +21,12 @@ namespace Survivors.Player
             PassiveManager.OnMaxHealthChanged += OnMaxHealthChanged;
         }
 
+        protected override void Start()
+        {
+            base.Start();
+
+            SetStartingHealth(StartingHealth);
+        }
 
 
         protected override void OnDisable()

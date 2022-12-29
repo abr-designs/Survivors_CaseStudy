@@ -37,8 +37,8 @@ namespace Survivors.UI.Elements
         {
             itemImage.sprite = item.sprite;
             //FIXME Need to include Item level/new
-            itemNameText.text = $"{item.name}\t\t{ItemManager.GetItemAltText(item)}";
-            itemDescriptionText.text = item.description;
+            itemNameText.text = $"{item.name}\t\t{ItemManager.GetItemAltTitleText(item)}";
+            itemDescriptionText.text = ItemManager.GetItemAltDescriptionText(item);
 
             _onButtonPressed = onSelectedCallback;
             itemButton.onClick.AddListener(() =>

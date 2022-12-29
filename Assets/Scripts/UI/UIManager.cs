@@ -94,10 +94,13 @@ namespace Survivors.UI
                 var item = toDisplay[i];
                 itemButtonElements[i].Init(item, () =>
                 {
+                    Time.timeScale = 1f;
                     OnItemSelected?.Invoke(item);
                     levelUpWindow.SetActive(false);
                 });
             }
+
+            Time.timeScale = 0f;
         }
 
         private void OnProgressToNextLevel(float value)

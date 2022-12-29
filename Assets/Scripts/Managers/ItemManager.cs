@@ -56,11 +56,14 @@ namespace Survivors.Managers
 
         //============================================================================================================//
         
-        public static string GetItemAltText(in ItemBaseScriptableObject item)
+        public static string GetItemAltTitleText(in ItemBaseScriptableObject item)
         {
             var level = 0;
             switch (item)
             {
+                case WeaponProfileScriptableObject weapon when level > 1:
+                    level = _weaponManager.GetWeaponLevel(weapon.type);
+                    break;
                 case WeaponProfileScriptableObject weapon:
                     level = _weaponManager.GetWeaponLevel(weapon.type);
                     break;
@@ -70,6 +73,18 @@ namespace Survivors.Managers
             }
 
             return level == 0 ? "<color=yellow>new!</color>" : $"level: {level + 1}";
+        }
+        
+        public static string GetItemAltDescriptionText(in ItemBaseScriptableObject item)
+        {
+            switch (item)
+            {
+                case WeaponProfileScriptableObject weapon:
+                    var level = _weaponManager.GetWeaponLevel(weapon.type);
+                    return level >= 1 ? _weaponManager.GetLevelUpText(weapon.type, level) : item.description;
+                default:
+                    return item.description;
+            }
         }
         
         //Callbacks

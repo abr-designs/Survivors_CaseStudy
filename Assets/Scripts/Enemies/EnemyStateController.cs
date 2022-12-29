@@ -35,7 +35,7 @@ namespace Survivors.Enemies
             _playerTransform = FindObjectOfType<PlayerMovementController>().transform;
             
             SpriteRenderer.sprite = enemyProfile.defaultSprite;
-            enemyHealth.SetHealth(enemyProfile.baseHealth * difficultyMultiplier);
+            enemyHealth.SetStartingHealth(enemyProfile.baseHealth * difficultyMultiplier);
             enemyMovementController.SetSpeed(enemyProfile.baseSpeed * difficultyMultiplier);
             shadowOffset = enemyProfile.shadowOffset;
 

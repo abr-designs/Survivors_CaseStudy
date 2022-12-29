@@ -48,12 +48,27 @@ namespace Survivors.Weapons
 
         public override void LevelUp()
         {
-            throw new System.NotImplementedException();
+            switch (Level)
+            {
+                case 2:
+                case 5:
+                    projectileCount++;
+                    break;
+                case 3:
+                case 6:
+                case 8:
+                    damage += 20;
+                    break;
+                case 4:
+                case 7:
+                    maxHitCount += 2;
+                    break;
+            }
         }
 
         public override void OnScaleChanged(float newScale)
         {
-            throw new System.NotImplementedException();
+            scale = newScale;
         }
 
         public override void PostUpdate()
@@ -64,6 +79,27 @@ namespace Survivors.Weapons
         protected override void TriggerAttack()
         {
             StartCoroutine(AttackCoroutine());
+        }
+
+        public override string GetLevelUpText(in int nextLevel)
+        {
+            //Based on: https://vampire-survivors.fandom.com/wiki/Axe
+            switch (nextLevel)
+            {
+                case 2:
+                case 5:
+                    return "Fires 1 more projectile.";
+                case 3:
+                case 6:
+                case 8:
+                    return "Base damage up by 20.";
+                case 4:
+                case 7:
+                    return "Passes through 2 more enemies.";
+
+            }
+
+            return "";
         }
 
         private IEnumerator AttackCoroutine()
@@ -90,12 +126,13 @@ namespace Survivors.Weapons
 
         private IEnumerator AxeProjectileCoroutine(Transform projectileTransform, Vector2 direction)
         {
-            var attackArea = ProjectileRadius;
+            var alreadyHit = new HashSet<EnemyHealth>();
+
+            var attackArea = ProjectileRadius * scale;
             var currentSpeed = direction * LaunchSpeed;
             var accel = Acceleration;
             var currentPosition = PlayerPosition;
             var currentRotation = projectileTransform.localEulerAngles;
-            var alreadyHit = new HashSet<EnemyHealth>();
             var hitCount = 0;
 
             for (var t = 0f; t < 5f || hitCount < maxHitCount; t+= Time.deltaTime)
@@ -116,6 +153,8 @@ namespace Survivors.Weapons
                         enemyHealth.ChangeHealth(-Damage);
                         alreadyHit.Add(enemyHealth);
                         hitCount++;
+                        
+                        StartCoroutine(EnemyHitCooldownCoroutine(enemyHealth, 0.5f, alreadyHit));
                     }
                 }
 
@@ -124,7 +163,8 @@ namespace Survivors.Weapons
             
             Object.Destroy(projectileTransform.gameObject);
         }
-
+        
+        
 
     }
 }

@@ -17,21 +17,56 @@ namespace Survivors.Weapons
         
         private float projectileInterval;
         private float projectileRadius;
+
+        private float localScale;
         
         public WhipWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
             projectileSprite = weaponProfile.projectileSprite;
             spriteColor = weaponProfile.projectileSpriteColor;
+
+            localScale = 1f;
         }
 
         public override void LevelUp()
         {
-            throw new System.NotImplementedException();
+            //Based on: https://vampire-survivors.fandom.com/wiki/Whip
+            /*
+                Level 2	Fires 1 more projectile.
+                Level 3	Base damage up by 5.
+                Level 4	Base damage up by 5. Base area up by 10%.
+                Level 5	Base damage up by 5.
+                Level 6	Base damage up by 5. Base area up by 10%.
+                Level 7	Base damage up by 5.
+                Level 8	Base damage up by 5.
+             */
+            switch (Level)
+            {
+                case 2:
+                    projectileCount++;
+                    break;
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                    damage += 5;
+                    break;
+                case 4:
+                    damage += 5;
+                    localScale = 1.1f;
+                    OnScaleChanged(PassiveManager.AttackArea);
+                    break;
+                case 6:
+                    damage += 5;
+                    localScale = 1.2f;
+                    OnScaleChanged(PassiveManager.AttackArea);
+                    break;
+            }
         }
 
         public override void OnScaleChanged(float newScale)
         {
-            throw new System.NotImplementedException();
+            scale = newScale * localScale;
         }
 
         public override void PostUpdate()
@@ -41,6 +76,39 @@ namespace Survivors.Weapons
         protected override void TriggerAttack()
         {
             StartCoroutine(AttackCoroutine());
+        }
+
+        public override string GetLevelUpText(in int nextLevel)
+        {
+            //Based on: https://vampire-survivors.fandom.com/wiki/Whip
+            /*
+                Level 2	Fires 1 more projectile.
+                Level 3	Base damage up by 5.
+                Level 4	Base damage up by 5. Base area up by 10%.
+                Level 5	Base damage up by 5.
+                Level 6	Base damage up by 5. Base area up by 10%.
+                Level 7	Base damage up by 5.
+                Level 8	Base damage up by 5.
+             */
+            switch (nextLevel)
+            {
+                case 2:
+                    return "Fires 1 more projectile.";
+                case 3:
+                    return "Base damage up by 5.";
+                case 4:
+                    return "Base damage up by 5. Base area up by 10%.";
+                case 5:
+                    return "Base damage up by 5.";
+                case 6:
+                    return "Base damage up by 5. Base area up by 10%.";
+                case 7:
+                    return "Base damage up by 5.";
+                case 8:
+                    return "Base damage up by 5.";
+            }
+
+            return "";
         }
 
         //TODO Might want to use a stored bounds value instead of Sprite Bounds so I can scale it for animations
@@ -54,7 +122,7 @@ namespace Survivors.Weapons
             {
                 var newProjectile = FactoryManager
                     .GetFactory<ProjectileFactory>()
-                    .CreateProjectile(PlayerPosition, projectileSprite, spriteColor);
+                    .CreateProjectile(PlayerPosition, projectileSprite, spriteColor, scale);
 
                 var projectileTransform = newProjectile.transform;
                 projectileTransform.localScale = Vector3.one * PassiveManager.AttackArea;

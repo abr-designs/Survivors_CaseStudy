@@ -17,10 +17,8 @@ namespace Survivors.Base
         private float startingHealth;
 
         public float MaxHealth => maxHealth;
-        [SerializeField]
         protected float maxHealth;
         public float CurrentHealth => currentHealth;
-        [SerializeField]
         private float currentHealth;
 
         protected abstract float DamageFlashTime { get; }
@@ -39,7 +37,7 @@ namespace Survivors.Base
             OnNewHealth?.Invoke(this);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -51,17 +49,14 @@ namespace Survivors.Base
 
         //============================================================================================================//
 
-        public void SetHealth(in float health, in bool setStarting = false)
+        public void SetStartingHealth(in float startingHealth)
         {
-            if (setStarting)
-                maxHealth = startingHealth = health;
-            
-            currentHealth = health;
+            this.startingHealth = maxHealth = currentHealth = startingHealth;
         }
         
         public virtual void ChangeHealth(in float healthDelta)
         {
-            currentHealth += healthDelta;
+            currentHealth = Mathf.Clamp(currentHealth + healthDelta, 0, maxHealth);
 
             if(ShowHealthDamage &&  healthDelta < 0f)
                 DamageTextManager.CreateText((int)healthDelta, transform.position);

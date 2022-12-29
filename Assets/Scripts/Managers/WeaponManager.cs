@@ -76,6 +76,16 @@ namespace Survivors.Managers
             return weapon == null ? 0 : weapon.Level;
         }
 
+        public string GetLevelUpText(in WEAPON_TYPE weaponType, in int nextLevel)
+        {
+            var weapon = FindWeapon(weaponType);
+
+            if (weapon == null)
+                throw new Exception();
+
+            return weapon.GetLevelUpText(nextLevel);
+        }
+
         public void AddNewAttack(in WEAPON_TYPE weaponType)
         {
             if (_activeWeapons == null)
@@ -89,7 +99,8 @@ namespace Survivors.Managers
             
             if (_activeWeaponTypes.Contains(weaponType))
             {
-                LevelUpWeapon(weaponType);
+                var weapon = FindWeapon(weaponType);
+                weapon?.LevelUp();
                 return;
             }
             
@@ -122,12 +133,6 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-
-        private void LevelUpWeapon(in WEAPON_TYPE weaponType)
-        {
-            var weapon = FindWeapon(weaponType);
-            weapon?.LevelUp();
-        }
 
         private WeaponBase_v2 FindWeapon(in WEAPON_TYPE weaponType)
         {

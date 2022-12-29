@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Armor
   sprite: {fileID: 21300000, guid: b6660c8a345f2024eaef8919a2446233, type: 3}
-  description: 
+  description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
   type: 2
   value: 1
