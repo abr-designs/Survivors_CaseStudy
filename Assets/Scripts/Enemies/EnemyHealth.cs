@@ -19,18 +19,12 @@ namespace Survivors.Enemies
         //Unity Functions
         //============================================================================================================//
         
-        protected void OnEnable()
+        protected override void OnEnable()
         {
             OnNewEnemy?.Invoke(this);
         }
-        
-        private void Update()
-        {
-            if(UnityEngine.Input.GetKeyDown(KeyCode.Space) && Random.value < 0.5f)
-                ChangeHealth(-Random.Range(0, 10f));
-        }
-        
-        protected void OnDisable()
+
+        protected override void OnDisable()
         {
             OnEnemyRemoved?.Invoke(this);
         }

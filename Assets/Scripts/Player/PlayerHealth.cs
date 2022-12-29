@@ -24,7 +24,7 @@ namespace Survivors.Player
         protected override void Start()
         {
             base.Start();
-
+            
             SetStartingHealth(StartingHealth);
         }
 

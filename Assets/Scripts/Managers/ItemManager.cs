@@ -95,7 +95,7 @@ namespace Survivors.Managers
             switch (item)
             {
                 case WeaponProfileScriptableObject weapon:
-                    _weaponManager.AddNewAttack(weapon.type);
+                    _weaponManager.AddNewWeapon(weapon.type);
                     break;
                 case PassiveItemProfileScriptableObject passive:
                     _passiveManager.AddNewPassive(passive.type);

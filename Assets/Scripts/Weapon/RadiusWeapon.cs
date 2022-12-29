@@ -12,6 +12,9 @@ namespace Survivors.Weapons
     {
         private readonly Transform _effectInstanceTransform;
         private float range;
+        
+        private HashSet<EnemyHealth> _hitEnemies;
+
 
         public RadiusWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
@@ -24,9 +27,10 @@ namespace Survivors.Weapons
                 .GetFactory<ProjectileFactory>()
                 .CreateProjectile(PlayerPosition, projectileSprite, spriteColor)
                 .transform;
+
+            _hitEnemies = new HashSet<EnemyHealth>();
         }
 
-        private HashSet<EnemyHealth> _hitEnemies;
         public override void PostUpdate()
         {
             _effectInstanceTransform.position = PlayerPosition;

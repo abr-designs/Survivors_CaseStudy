@@ -14,7 +14,7 @@ namespace Survivors.Weapons
 
         protected float Damage => damage * PassiveManager.Damage;
 
-        public int Level { get; private set; } = 1;
+        public int Level { get; set; } = 1;
 
         protected float scale;
         protected float damage;
@@ -27,6 +27,7 @@ namespace Survivors.Weapons
         //============================================================================================================//
         internal WeaponBase_v2(in WeaponProfileScriptableObject weaponProfile)
         {
+            Level = 1;
             WeaponProfile = weaponProfile;
             
             scale = 1f;
@@ -60,6 +61,8 @@ namespace Survivors.Weapons
         
         protected static IEnumerator EnemyHitCooldownCoroutine(EnemyHealth enemy, float hitCooldown, HashSet<EnemyHealth> hitEnemies)
         {
+            hitEnemies.Add(enemy);
+            
             yield return new WaitForSeconds(hitCooldown);
 
             if(enemy == null)

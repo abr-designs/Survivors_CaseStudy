@@ -70,7 +70,7 @@ namespace Survivors.Managers
             if (_activePassiveTypes.Contains(passiveType))
             {
                 var passive = FindPassive(passiveType);
-                
+                passive.Level++;
                 UpdatePassiveMultipliers(passive);
                 return;
             }

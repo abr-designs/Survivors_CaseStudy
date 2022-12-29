@@ -86,7 +86,7 @@ namespace Survivors.Managers
             return weapon.GetLevelUpText(nextLevel);
         }
 
-        public void AddNewAttack(in WEAPON_TYPE weaponType)
+        public void AddNewWeapon(in WEAPON_TYPE weaponType)
         {
             if (_activeWeapons == null)
             {
@@ -100,7 +100,8 @@ namespace Survivors.Managers
             if (_activeWeaponTypes.Contains(weaponType))
             {
                 var weapon = FindWeapon(weaponType);
-                weapon?.LevelUp();
+                weapon.Level++;
+                weapon.LevelUp();
                 return;
             }
             
