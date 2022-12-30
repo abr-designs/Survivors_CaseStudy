@@ -24,15 +24,20 @@ namespace Survivors.Enemies
         private Transform _playerTransform;
         
         //============================================================================================================//
-        
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            enemyHealth.OnKilled += OnKilled;
+        }
+
         protected override void Start()
         { }
 
-        private void OnDestroy()
+        protected override void OnDisable()
         {
-            FactoryManager
-                .GetFactory<CollectableFactory>()
-                .CreateXpCollectable(_xpDrop, transform.position);
+            base.OnDisable();
+            enemyHealth.OnKilled -= OnKilled;
         }
 
         //============================================================================================================//
@@ -49,6 +54,7 @@ namespace Survivors.Enemies
             enemyMovementController.SetSpeed(enemyProfile.baseSpeed * difficultyMultiplier);
             shadowOffset = enemyProfile.shadowOffset;
 
+            enemyHealth.Damage = enemyProfile.baseDamage;
             _xpDrop = enemyProfile.xpDrop;
 
             collider2D.offset = enemyProfile.colliderOffset;
@@ -84,6 +90,13 @@ namespace Survivors.Enemies
         protected override void DeathState()
         {
             
+        }
+        
+        private void OnKilled()
+        {
+            FactoryManager
+                .GetFactory<CollectableFactory>()
+                .CreateXpCollectable(_xpDrop, transform.position);
         }
         
     }

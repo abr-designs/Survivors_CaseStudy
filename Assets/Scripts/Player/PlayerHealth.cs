@@ -1,4 +1,8 @@
-﻿using Survivors.Base;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Survivors.Base;
+using Survivors.Enemies;
 using Survivors.Managers;
 using UnityEngine;
 
@@ -26,8 +30,37 @@ namespace Survivors.Player
             base.Start();
             
             SetStartingHealth(StartingHealth);
+            _hitEnemies = new HashSet<EnemyHealth>();
         }
 
+        private HashSet<EnemyHealth> _hitEnemies;
+        private void Update()
+        {
+            var hitEnemies = EnemyManager.GetEnemiesInRange(transform.position, 0.125f, _hitEnemies);
+            
+            if (hitEnemies.Count == 0)
+                return;
+
+            float healthChangeSum = 0;
+            foreach (var enemyHealth in hitEnemies)
+            {
+                healthChangeSum -= enemyHealth.Damage;
+                StartCoroutine(EnemyHitCooldownCoroutine(enemyHealth, 0.5f, _hitEnemies));
+            }
+
+            ChangeHealth(healthChangeSum);
+        }
+        protected static IEnumerator EnemyHitCooldownCoroutine(EnemyHealth enemy, float hitCooldown, HashSet<EnemyHealth> hitEnemies)
+        {
+            hitEnemies.Add(enemy);
+            
+            yield return new WaitForSeconds(hitCooldown);
+
+            if(enemy == null)
+                yield break;
+            
+            hitEnemies.Remove(enemy);
+        }
 
         protected override void OnDisable()
         {

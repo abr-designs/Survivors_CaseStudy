@@ -29,7 +29,7 @@ namespace Survivors.Managers
         {
             _currentXp += xp;
             
-            var currentXpReq = GetXpRequired(currentLevel);
+            //var currentXpReq = GetXpRequired(currentLevel);
             var nextXpReq = GetXpRequired(currentLevel + 1);
 
             if (_currentXp >= nextXpReq)
@@ -37,15 +37,16 @@ namespace Survivors.Managers
                 currentLevel++;
 
                 OnLevelUp?.Invoke(currentLevel);
-                
-                currentXpReq = GetXpRequired(currentLevel);
+
+                _currentXp = 0;
+                //currentXpReq = GetXpRequired(currentLevel);
                 nextXpReq = GetXpRequired(currentLevel + 1);
             }
 
-            var currentOffset = _currentXp - currentXpReq;
-            var nextOffset = nextXpReq - currentXpReq;
+            //var currentOffset = _currentXp - currentXpReq;
+            //var nextOffset = nextXpReq - currentXpReq;
 
-            OnProgressToNextLevel?.Invoke(currentOffset / (float)nextOffset);
+            OnProgressToNextLevel?.Invoke(_currentXp / (float)nextXpReq);
         }
         
         

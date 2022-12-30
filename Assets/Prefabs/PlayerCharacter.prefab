@@ -50,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultAnimationState: 1
   shadowOffset: -0.125
-  animationProfile: {fileID: 0}
 --- !u!114 &8260094094567917909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +88,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 25
+  layermask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!212 &8260094094567917899
 SpriteRenderer:
   m_ObjectHideFlags: 0

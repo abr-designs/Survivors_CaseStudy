@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Survivors.Factories;
 using Survivors.ScriptableObjets.Enemies;
 using Survivors.Utilities;
@@ -9,6 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace Survivors.Managers
 {
+    //FIXME Make this no longer a Monobehaviour
     public class WaveSpawnManager : MonoBehaviour
     {
         [Serializable]
@@ -29,6 +29,7 @@ namespace Survivors.Managers
         
         [SerializeField]
         [NonReorderable]
+        //FIXME Move this into a Stage Profile Scriptable Object
         private SpawnData[] spawnDatas;
 
         private Rect _cameraRect;
@@ -80,6 +81,9 @@ namespace Survivors.Managers
 
         private IEnumerator SpawnEnemiesCoroutine(SpawnData spawnData)
         {
+            const float MIN_DIST = 0.2f;
+            const float MAX_DIST = 1f;
+            
             var delay = spawnData.spawnInterval;
             var waitForSeconds = new WaitForSeconds(delay);
             
@@ -107,8 +111,8 @@ namespace Survivors.Managers
                 var vertical = Random.value >= 0.5f;
 
                 var position = new Vector2(
-                    horizontal ? _cameraRect.xMin - Random.Range(1, 3f) : _cameraRect.xMax + Random.Range(1, 3f),
-                    vertical ? _cameraRect.yMin - Random.Range(1, 3f) : _cameraRect.yMax + Random.Range(1, 3f));
+                    horizontal ? _cameraRect.xMin - Random.Range(MIN_DIST, MAX_DIST) : _cameraRect.xMax + Random.Range(MIN_DIST, MAX_DIST),
+                    vertical ? _cameraRect.yMin - Random.Range(  MIN_DIST, MAX_DIST) : _cameraRect.yMax + Random.Range(MIN_DIST, MAX_DIST));
 
                 var enemy = spawnData.enemyProfiles.GetRandomElement();
 
