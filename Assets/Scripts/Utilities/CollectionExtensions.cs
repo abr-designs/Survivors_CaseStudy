@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Survivors.Utilities
@@ -20,6 +21,13 @@ namespace Survivors.Utilities
             }
 
             return outList;
+        }
+        
+        public static T GetRandomElement<T>(this IEnumerable<T> collection)
+        {
+            var array = collection.ToArray();
+            var randomIndex = Random.Range(0, array.Length);
+            return array[randomIndex];
         }
     }
 }

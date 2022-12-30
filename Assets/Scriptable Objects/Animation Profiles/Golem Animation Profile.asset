@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b7845674a666f469b6607e8e05b309, type: 3}
+  m_Name: Golem Animation Profile
+  m_EditorClassIdentifier: 
+  framesPerSecond: 4
+  animationStateDatas:
+  - name: Run
+    looping: 1
+    state: 2
+    sprites:
+    - {fileID: -1980974713, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 1361586711, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 1514306001, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 1857576902, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 272486857, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 1868445609, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+    - {fileID: 1651205050, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}

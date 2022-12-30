@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b7845674a666f469b6607e8e05b309, type: 3}
+  m_Name: Wolf Animation Profile
+  m_EditorClassIdentifier: 
+  framesPerSecond: 14
+  animationStateDatas:
+  - name: Run
+    looping: 1
+    state: 2
+    sprites:
+    - {fileID: 1780856606, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: 1394144947, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: 2001497847, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: 513203001, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: 1308567061, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: -1801745884, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: 307092264, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+    - {fileID: -727204210, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}

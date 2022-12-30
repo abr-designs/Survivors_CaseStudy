@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7090e73fc5940dcae4a8ae56c68b034, type: 3}
-  m_Name: Bat Enemy Profile
+  m_Name: Golem Enemy Profile
   m_EditorClassIdentifier: 
-  name: Bat
-  defaultSprite: {fileID: -623043036, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
-  animationProfile: {fileID: 11400000, guid: 6e211623e05663442a708eb64caca1bf, type: 2}
+  name: Golem
+  defaultSprite: {fileID: 1741112759, guid: b8c419628a300e843948ba43e97859b8, type: 3}
+  animationProfile: {fileID: 11400000, guid: 53014ca8fde2230419cd86664b6c7980, type: 2}
   defaultState: 2
   shadowOffset: -0.125
-  xpDrop: 1
-  baseSpeed: 0.45
-  baseHealth: 10
-  baseDamage: 1
-  colliderType: 2
+  xpDrop: 5
+  baseSpeed: 0.225
+  baseHealth: 30
+  baseDamage: 5
+  colliderType: 1
   colliderOffset: {x: 0, y: 0}
-  circleColliderRadius: 0.1
-  boxColliderSize: {x: 0, y: 0}
+  circleColliderRadius: 0
+  boxColliderSize: {x: 0.1, y: 0.2}

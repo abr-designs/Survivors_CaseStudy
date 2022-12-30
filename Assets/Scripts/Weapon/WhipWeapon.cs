@@ -19,9 +19,11 @@ namespace Survivors.Weapons
         private float projectileRadius;
 
         private float localScale;
-        
+        private readonly SpriteRenderer _playerSpriteRenderer;
+
         public WhipWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
+            _playerSpriteRenderer = ItemManager.PlayerTransform.GetComponent<SpriteRenderer>();
             projectileSprite = weaponProfile.projectileSprite;
             spriteColor = weaponProfile.projectileSpriteColor;
 
@@ -130,11 +132,15 @@ namespace Survivors.Weapons
                 projectileTransform.localScale = Vector3.one * PassiveManager.AttackArea;
                 
                 var scaleOffset = projectileTransform.localScale.x / 2f;
-                
-                newProjectile.flipX = swap;
-                newProjectile.flipY = swap;
+
+                var playerFaceRight = !_playerSpriteRenderer.flipX;
+                var dir = playerFaceRight ? Vector2.right : Vector2.left;
+
+                newProjectile.flipX = swap && !playerFaceRight;
+                newProjectile.flipY = swap && playerFaceRight;
+
                 projectileTransform.position = PlayerPosition + 
-                                               Vector2.right * (scaleOffset * (swap ? -1 : 1))+
+                                               dir * (scaleOffset * (swap ? 1 : -1))+
                                                Vector2.up * height;
 
                 yield return StartCoroutine(ProjectileCoroutine(newProjectile, 0.3f));

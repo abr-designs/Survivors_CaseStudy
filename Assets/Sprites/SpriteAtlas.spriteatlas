@@ -59,6 +59,13 @@ SpriteAtlas:
   - {fileID: -516329302, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
   - {fileID: -1869005004, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
   - {fileID: -373581235, guid: 4be9a0d072b9cb54fb41449d18d5b5c7, type: 3}
+  - {fileID: 1514306001, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: 1857576902, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: -1980974713, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: 1361586711, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: 1651205050, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: 272486857, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
+  - {fileID: 1868445609, guid: 6b5435e02ed14db4992113ce2acd943a, type: 3}
   - {fileID: 21300000, guid: 49fab671a03019d4a966d03184793230, type: 3}
   - {fileID: 1657184764, guid: b8c419628a300e843948ba43e97859b8, type: 3}
   - {fileID: 1069287797, guid: b8c419628a300e843948ba43e97859b8, type: 3}
@@ -132,6 +139,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 10e2ac2e8330c8b49bfd2934ef845e7e, type: 3}
   - {fileID: 21300000, guid: f29e57befb802ea428c3a33ced740a6b, type: 3}
   - {fileID: 21300000, guid: b6b05def17de0d2479f0fa65db075808, type: 3}
+  - {fileID: 2001497847, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: 513203001, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: 1780856606, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: 1394144947, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: 307092264, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: -727204210, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: 1308567061, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
+  - {fileID: -1801745884, guid: 29cefeff96eead04596c6dfd7c62f19f, type: 3}
   m_PackedSpriteNamesToIndex:
   - Item_0284
   - noBKG_BatFlight_strip_2
@@ -142,6 +157,13 @@ SpriteAtlas:
   - noBKG_BatFlight_strip_7
   - noBKG_BatFlight_strip_4
   - noBKG_BatFlight_strip_5
+  - noBKG_GolemWalk_strip_2
+  - noBKG_GolemWalk_strip_3
+  - noBKG_GolemWalk_strip_0
+  - noBKG_GolemWalk_strip_1
+  - noBKG_GolemWalk_strip_6
+  - noBKG_GolemWalk_strip_4
+  - noBKG_GolemWalk_strip_5
   - Item_0283
   - noBKG_WitchWalk_strip_3
   - noBKG_WitchWalk_strip_2
@@ -215,6 +237,14 @@ SpriteAtlas:
   - Item2_342
   - Item_0274
   - Item_0285
+  - noBKG_WolfRun_strip_2
+  - noBKG_WolfRun_strip_3
+  - noBKG_WolfRun_strip_0
+  - noBKG_WolfRun_strip_1
+  - noBKG_WolfRun_strip_6
+  - noBKG_WolfRun_strip_7
+  - noBKG_WolfRun_strip_4
+  - noBKG_WolfRun_strip_5
   m_RenderDataMap: {}
   m_Tag: SpriteAtlas
   m_IsVariant: 0

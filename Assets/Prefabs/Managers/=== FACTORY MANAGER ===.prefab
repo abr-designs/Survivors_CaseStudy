@@ -52,6 +52,8 @@ MonoBehaviour:
   enemyProfiles:
   - {fileID: 11400000, guid: 65219de3df33e4f48b9b74a2759e6551, type: 2}
   - {fileID: 11400000, guid: 05cbd23d8923dcc4eb7043c8034ee4f8, type: 2}
+  - {fileID: 11400000, guid: e9a54ea6cec38af468e6f98a5e503db3, type: 2}
+  - {fileID: 11400000, guid: f9ae4d50b5a5ebf40a6e9ffaf44da744, type: 2}
   collectablePrefab: {fileID: 5545376809582485742, guid: 91d993fa0c9556d4780aa76f5483789d, type: 3}
   itemProfiles:
   - {fileID: 11400000, guid: 63a327fed1e6a204c8c36df9b7daf75f, type: 2}
