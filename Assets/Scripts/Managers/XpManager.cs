@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Survivors.Base.Managers;
 using UnityEngine;
 
 namespace Survivors.Managers

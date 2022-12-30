@@ -1,4 +1,6 @@
-﻿using Survivors.Player;
+﻿using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
+using Survivors.Player;
 using Survivors.ScriptableObjets.Attacks.Items;
 using Survivors.ScriptableObjets.Items;
 using Survivors.UI;

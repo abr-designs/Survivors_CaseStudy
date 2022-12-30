@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;

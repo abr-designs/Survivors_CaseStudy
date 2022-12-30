@@ -1,4 +1,6 @@
 ﻿using System;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.Managers;
 using UnityEngine.InputSystem;
 

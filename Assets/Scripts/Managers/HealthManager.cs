@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Survivors.Base;
 using Survivors.Base.Interfaces;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

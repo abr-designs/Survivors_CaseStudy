@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.Enemies;
 using Survivors.Utilities;
 using UnityEngine;

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Survivors.Base.Interfaces;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.Player;
 using Survivors.ScriptableObjets;
 using Survivors.Utilities;

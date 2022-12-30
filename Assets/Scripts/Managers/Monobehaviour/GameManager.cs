@@ -1,10 +1,12 @@
 using System.Linq;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.ScriptableObjets.Attacks.Items;
 using Survivors.ScriptableObjets.Items;
 using TMPro;
 using UnityEngine;
 
-namespace Survivors.Managers.Mono
+namespace Survivors.Managers.MonoBehaviours
 {
     [DefaultExecutionOrder(-1000)]
     public class GameManager : MonoBehaviour
