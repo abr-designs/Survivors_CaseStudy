@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Survivors.Managers.Mono
 {
+    [DefaultExecutionOrder(-1000)]
     public class GameManager : MonoBehaviour
     {
         [SerializeField, Header("Item Manager")]
@@ -72,6 +73,7 @@ namespace Survivors.Managers.Mono
             _managers = new ManagerBase[]
             {
                 new InputDelegator(),
+                new EnemyManager(),
                 new ItemManager(this, weaponProfiles, passiveProfiles),
                 new CollectableManager(pickupThreshold, pickupRange, pickupSpeed, initialPickupPush),
                 new DamageTextManager(textPrefab, yOffset, fadeTime, scaleCurve, scaleMultiplier, colorCurve, startColor, endColor),
@@ -127,10 +129,6 @@ namespace Survivors.Managers.Mono
             }
             
         }
-
-        //============================================================================================================//
-
-        
 
         //============================================================================================================//
     }

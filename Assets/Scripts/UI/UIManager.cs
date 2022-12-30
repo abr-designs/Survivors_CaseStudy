@@ -40,6 +40,7 @@ namespace Survivors.UI
         private void Start()
         {
             //OnLevelUp(0);
+            xpSlider.value = 0f;
             SetTimeText(0);
             levelUpWindow.SetActive(false);
         }
