@@ -7,46 +7,42 @@ using UnityEngine;
 
 namespace Survivors.Managers
 {
-    [DefaultExecutionOrder(-1000)]
-    public class ItemManager : MonoBehaviour
+    public class ItemManager : ManagerBase, IEnable, IUpdate
     {
         private static WeaponManager _weaponManager;
         private static PassiveManager _passiveManager;
         
-        [SerializeField, Header("Weapons")]
-        private WeaponProfileScriptableObject[] weaponProfiles;
-        
-        [SerializeField, Header("Passives")]
-        private PassiveItemProfileScriptableObject[] passiveProfiles;
+        private readonly WeaponProfileScriptableObject[] weaponProfiles;
+        private readonly PassiveItemProfileScriptableObject[] passiveProfiles;
         
         //Unity Functions
         //============================================================================================================//
 
-        private void Awake()
+        public ItemManager(in MonoBehaviour coroutineController, WeaponProfileScriptableObject[] weaponProfiles, PassiveItemProfileScriptableObject[] passiveProfiles)
         {
-            var playerTransform = FindObjectOfType<PlayerHealth>().transform;
+            var playerTransform = Object.FindObjectOfType<PlayerHealth>().transform;
+
             _weaponManager = new WeaponManager(playerTransform, weaponProfiles);
-            
             _passiveManager = new PassiveManager(passiveProfiles);
             
             //Setup Attack Base
             //------------------------------------------------//
-            WeaponBase_v2.CoroutineController = this;
+            WeaponBase_v2.CoroutineController = coroutineController;
         }
 
-        private void OnEnable()
+        public void OnEnable()
         {
             UIManager.OnItemSelected += OnItemSelected;
             _weaponManager.OnEnable();
             _passiveManager.OnEnable();
         }
 
-        private void Update()
+        public void Update()
         {
             _weaponManager.Update();
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             UIManager.OnItemSelected -= OnItemSelected;
             

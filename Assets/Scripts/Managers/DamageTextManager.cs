@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Survivors.Managers
 {
-    public class DamageTextManager : MonoBehaviour
+    public class DamageTextManager : ManagerBase, ILateUpdate
     {
         //============================================================================================================//
         
@@ -50,37 +51,34 @@ namespace Survivors.Managers
         //Properties
         //============================================================================================================//
         private static DamageTextManager _instance;
-        
-        [SerializeField]
-        private TMP_Text textPrefab;
 
-        [SerializeField] private float yOffset;
-        [SerializeField, Min(0f)]
-        private float fadeTime;
-        [SerializeField, Header("Scale")]
-        private AnimationCurve scaleCurve;
-        [SerializeField, Min(0f)]
-        private float scaleMultiplier;
-        [SerializeField, Header("Color")]
-        private AnimationCurve colorCurve;
-        [SerializeField]
-        private Color startColor = Color.white;
-        [SerializeField]
-        private Color endColor = Color.white;
+        private Transform _parentTransform;
+        
+        private readonly TMP_Text textPrefab;
+        private readonly float yOffset;
+        private readonly float fadeTime;
+        private readonly float scaleMultiplier;
 
         private List<TextAnimationData> _textAnimationDatas;
 
-        //Unity Functions
-        //============================================================================================================//
-        private void Awake()
+        public DamageTextManager(TMP_Text textPrefab,
+            float yOffset,
+            float fadeTime,
+            AnimationCurve scaleCurve,
+            float scaleMultiplier,
+            AnimationCurve colorCurve,
+            Color startColor,
+            Color endColor)
         {
             _instance = this;
-        }
 
-        // Start is called before the first frame update
-        private void Start()
-        {
             _textAnimationDatas = new List<TextAnimationData>();
+            //------------------------------------------------//
+
+            this.textPrefab = textPrefab;
+            this.yOffset = yOffset;
+            this.fadeTime = fadeTime;
+            this.scaleMultiplier = scaleMultiplier;
 
             //Setup Static Values for TextAnimationData
             //------------------------------------------------//
@@ -90,8 +88,10 @@ namespace Survivors.Managers
             TextAnimationData.EndColor = endColor;
         }
 
+        //Unity Functions
+        //============================================================================================================//
         // Update is called once per frame
-        private void LateUpdate()
+        public void LateUpdate()
         {
             var deltaTime = Time.deltaTime;
             for (int i = _textAnimationDatas.Count - 1; i >= 0 ; i--)
@@ -100,7 +100,7 @@ namespace Survivors.Managers
                     continue;
                 
                 //TODO Setup recycling for this
-                Destroy(_textAnimationDatas[i].Transform.gameObject);
+                Object.Destroy(_textAnimationDatas[i].Transform.gameObject);
                 _textAnimationDatas.RemoveAt(i);
             }
         }
@@ -115,7 +115,7 @@ namespace Survivors.Managers
 
         private void TryCreateText(in int value, in Vector2 worldPosition)
         {
-            var temp = Instantiate(textPrefab, transform, false);
+            var temp = Object.Instantiate(textPrefab, _parentTransform, false);
             var tempTransform = temp.transform;
             //------------------------------------------------//
             
@@ -135,16 +135,9 @@ namespace Survivors.Managers
             //------------------------------------------------//
             
             temp.text = value.ToString();
-            temp.color = startColor;
+            temp.color = TextAnimationData.StartColor;
         }
         //============================================================================================================//
 
-#if UNITY_EDITOR
-        [ContextMenu("Test")]
-        private void Test()
-        {
-            CreateText(Random.Range(1,999), Vector2.zero);
-        }
-#endif
     }
 }

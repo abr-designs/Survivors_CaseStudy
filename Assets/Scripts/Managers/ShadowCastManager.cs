@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Survivors.Base;
 using Survivors.Base.Interfaces;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Survivors.Managers
 {
-    //TODO Make this a non-monobehaviour
-    [DefaultExecutionOrder(-1000)]
-    public class ShadowCastManager : MonoBehaviour
+
+    public class ShadowCastManager : ManagerBase, IEnable, ILateUpdate
     {
         //============================================================================================================//
         private struct ShadowData
@@ -36,20 +36,29 @@ namespace Survivors.Managers
         }
         //============================================================================================================//
 
-        [SerializeField] private SpriteRenderer shadowPrefab;
+        private readonly SpriteRenderer _shadowPrefab;
+        private readonly Transform _parentTransform;
 
         private List<ShadowData> _shadows;
 
         //============================================================================================================//
 
-        private void OnEnable()
+        public ShadowCastManager(Transform parentTransform, SpriteRenderer shadowPrefab)
+        {
+            _parentTransform = parentTransform;
+            _shadowPrefab = shadowPrefab;
+        }
+        
+        //============================================================================================================//
+
+        public void OnEnable()
         {
             IShadow.OnAddShadow += AddShadow;
             IShadow.OnRemoveShadow += RemoveShadow;
         }
 
         // Update is called once per frame
-        private void LateUpdate()
+        public void LateUpdate()
         {
             for (var i = 0; i < _shadows.Count; i++)
             {
@@ -59,7 +68,7 @@ namespace Survivors.Managers
             }
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             IShadow.OnAddShadow -= AddShadow;
             IShadow.OnRemoveShadow -= RemoveShadow;
@@ -73,7 +82,7 @@ namespace Survivors.Managers
             
             _shadows.Add(new ShadowData(shadow)
             {
-                ShadowTransform = Instantiate(shadowPrefab, transform).transform,
+                ShadowTransform = Object.Instantiate(_shadowPrefab, _parentTransform).transform,
             });
         }
 
@@ -88,7 +97,7 @@ namespace Survivors.Managers
                 throw new Exception();
             
             //FIXME Add recycling
-            Destroy(_shadows[index].ShadowTransform.gameObject);
+            Object.Destroy(_shadows[index].ShadowTransform.gameObject);
             _shadows.RemoveAt(index);
         }
 

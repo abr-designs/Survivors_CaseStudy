@@ -6,10 +6,11 @@ using Survivors.ScriptableObjets;
 using Survivors.Utilities;
 using UnityEngine;
 
+using Object = UnityEngine.Object;
+
 namespace Survivors.Managers
 {
-    [DefaultExecutionOrder(-1000)]
-    public class CollectableManager : MonoBehaviour
+    public class CollectableManager : ManagerBase, IEnable, IUpdate
     {
         private struct CollectableData
         {
@@ -20,37 +21,45 @@ namespace Survivors.Managers
 
         //============================================================================================================//
         
-        [SerializeField, Min(0f), Header("Pickup Info")]
-        private float pickupThreshold;
-        [SerializeField, Min(0f)]
-        private float pickupRange;
-        [SerializeField, Min(0f)]
-        private float pickupSpeed;
-        [SerializeField, Min(0f)]
-        private float initialPickupPush;
+        private readonly float pickupThreshold;
+        private readonly float pickupRange;
+        private readonly float pickupSpeed;
+        private readonly float initialPickupPush;
+        
+        private readonly PlayerHealth _playerHealth;
+        private readonly Transform _playerTransform;
         
         private List<CollectableData> _itemsToPickup;
-        private PlayerHealth _playerHealth;
-        private Transform _playerTransform;
+
+        //============================================================================================================//
+        
+        public CollectableManager(float pickupThreshold,
+            float pickupRange,
+            float pickupSpeed,
+            float initialPickupPush)
+        {
+            _playerHealth = Object.FindObjectOfType<PlayerHealth>();
+            _playerTransform = _playerHealth.transform;
+            
+            //------------------------------------------------//
+            
+            this.pickupThreshold = pickupThreshold;
+            this.pickupRange = pickupRange;
+            this.pickupSpeed = pickupSpeed;
+            this.initialPickupPush = initialPickupPush;
+        }
 
         //Unity Functions
         //============================================================================================================//
         
-        private void OnEnable()
+        public void OnEnable()
         {
             ICollectable.OnAddItem += OnAddItem;
             ICollectable.OnRemoveItem += OnRemoveItem;
         }
 
-        // Start is called before the first frame update
-        private void Start()
-        {
-            _playerHealth = FindObjectOfType<PlayerHealth>();
-            _playerTransform = _playerHealth.transform;
-        }
-
         // Update is called once per frame
-        private void Update()
+        public void Update()
         {
             if (_itemsToPickup == null)
                 return;
@@ -94,7 +103,7 @@ namespace Survivors.Managers
 
         
 
-        private void OnDisable()
+        public void OnDisable()
         {
             ICollectable.OnAddItem -= OnAddItem;
             ICollectable.OnRemoveItem -= OnRemoveItem;
@@ -117,7 +126,7 @@ namespace Survivors.Managers
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Destroy(collectable.transform.gameObject);
+            Object.Destroy(collectable.transform.gameObject);
         }
 
         //IItem Callbacks
@@ -146,25 +155,6 @@ namespace Survivors.Managers
             //Destroy(_itemsToPickup[index].Item.transform.gameObject);
             _itemsToPickup.RemoveAt(index);
         }
-        
-        //Unity Editor Functions
-        //============================================================================================================//
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            if (Application.isPlaying == false)
-                return;
-
-            var playerPosition = _playerTransform.position;
-            
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(playerPosition, pickupThreshold);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(playerPosition, pickupRange);
-        }
-#endif
         //============================================================================================================//
     }
 }

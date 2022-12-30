@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &575470054173448110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5725338547044870648}
+  - component: {fileID: 8050749087276344477}
+  m_Layer: 0
+  m_Name: === GAME MANAGER ===
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5725338547044870648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575470054173448110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8050749087276344477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575470054173448110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fccfb7e62724fa04ea30f41b111954d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponProfiles:
+  - {fileID: 11400000, guid: e623dfbf6a32df740b3413934ae8fc0c, type: 2}
+  - {fileID: 11400000, guid: 00690b57db60e9b4aa947c61ddb0dd20, type: 2}
+  - {fileID: 11400000, guid: 8260556d74f5e0e45a4fb75f88cd8b4f, type: 2}
+  - {fileID: 11400000, guid: c78c04334a7ae754284391e71c7e7d29, type: 2}
+  passiveProfiles:
+  - {fileID: 11400000, guid: be3d5cffcb425b74cbfdb471b327f871, type: 2}
+  - {fileID: 11400000, guid: b76728854802b6f4b8d848b991e4aa1e, type: 2}
+  - {fileID: 11400000, guid: d0cc53caf29dad440839cac6bb485007, type: 2}
+  - {fileID: 11400000, guid: db2a7db7a3fa7634d97b6a960cbae43b, type: 2}
+  - {fileID: 11400000, guid: d32da6380af805e4a90cfbee099db6cc, type: 2}
+  - {fileID: 11400000, guid: 6e2db46080ff09047baf110fdb37974e, type: 2}
+  - {fileID: 11400000, guid: 982a5e9c2543a6a478dd8fed8f669046, type: 2}
+  - {fileID: 11400000, guid: 23016982a47215b4a8d1e248c2e248c2, type: 2}
+  pickupThreshold: 0.01
+  pickupRange: 0.25
+  pickupSpeed: 0.03
+  initialPickupPush: 2.75
+  textPrefab: {fileID: 7577872372010373112, guid: 3ed185bab814baf47a1217c506fedd03, type: 3}
+  yOffset: 0.2
+  fadeTime: 0.8
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.001335144
+      value: 0.5017008
+      inSlope: 3.393233
+      outSlope: 3.393233
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.032014817
+    - serializedVersion: 3
+      time: 1
+      value: 0.40329742
+      inSlope: -0.940551
+      outSlope: -0.940551
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07965789
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleMultiplier: 0.1
+  colorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startColor: {r: 1, g: 1, b: 1, a: 1}
+  endColor: {r: 1, g: 1, b: 1, a: 0}
+  healthBarPrefab: {fileID: 419900746974413771, guid: 536b3d1caacfb2541a94243ff8eae953, type: 3}
+  healthBarYOffset: -0.17
+  shadowPrefab: {fileID: 386751877996955051, guid: 036dfbf18e6382d488bb65618e3cef02, type: 3}

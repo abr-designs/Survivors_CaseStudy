@@ -5,28 +5,20 @@ using UnityEngine;
 
 namespace Survivors.Managers
 {
-    public class XpManager : MonoBehaviour
+    public class XpManager : ManagerBase
     {
         public static event Action<float> OnProgressToNextLevel;
         public static event Action<int> OnLevelUp;
 
         private static XpManager _instance;
-        public static int CurrentLevel => _instance.currentLevel;
         
-        [SerializeField]
         private int currentLevel;
         private int _currentXp;
 
-        private void Awake()
+        public XpManager()
         {
             _instance = this;
         }
-
-        private void Start()
-        {
-            OnProgressToNextLevel?.Invoke(0f);
-        }
-
 
         public static void AddXp(in int xp)
         {
