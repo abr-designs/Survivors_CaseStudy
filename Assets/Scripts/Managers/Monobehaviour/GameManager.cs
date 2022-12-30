@@ -1,6 +1,10 @@
+using System;
 using System.Linq;
+using Cinemachine;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
+using Survivors.Factories;
+using Survivors.ScriptableObjets;
 using Survivors.ScriptableObjets.Attacks.Items;
 using Survivors.ScriptableObjets.Items;
 using TMPro;
@@ -11,6 +15,9 @@ namespace Survivors.Managers.MonoBehaviours
     [DefaultExecutionOrder(-1000)]
     public class GameManager : MonoBehaviour
     {
+        [SerializeField, Header("Player")]
+        private PlayerProfileScriptableObject selectedPlayer;
+        
         [SerializeField, Header("Item Manager")]
         private WeaponProfileScriptableObject[] weaponProfiles;
         
@@ -67,6 +74,7 @@ namespace Survivors.Managers.MonoBehaviours
         // Start is called before the first frame update
         private void Awake()
         {
+
             CreateManagers();
         }
 
@@ -105,6 +113,16 @@ namespace Survivors.Managers.MonoBehaviours
             {
                 _enables[i].OnEnable();
             }
+        }
+
+        private void Start()
+        {
+            var playerStateControllerBase = FactoryManager
+                .GetFactory<PlayerFactory>()
+                .CreatePlayer(selectedPlayer.name, Vector2.zero);
+
+            var virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            virtualCamera.Follow = playerStateControllerBase.transform;
         }
 
         private void Update()

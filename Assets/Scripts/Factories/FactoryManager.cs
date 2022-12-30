@@ -4,15 +4,22 @@ using Survivors.Base;
 using UnityEngine;
 
 using Survivors.Enemies;
+using Survivors.Player;
 using Survivors.ScriptableObjets;
 using Survivors.ScriptableObjets.Enemies;
 using UnityEngine.Serialization;
 
 namespace Survivors.Factories
 {
+    [DefaultExecutionOrder(-10000)]
     public class FactoryManager : MonoBehaviour
     {
         //============================================================================================================//
+        [SerializeField, Header("Players")]
+        private PlayerStateControllerBase playerStateControllerPrefab;
+        [SerializeField]
+        private List<PlayerProfileScriptableObject> playerProfiles;
+        
         [SerializeField, Header("Enemies")] 
         private EnemyStateController enemyStateControllerCirclePrefab;
         [SerializeField] 
@@ -60,13 +67,17 @@ namespace Survivors.Factories
             //------------------------------------------------//
             
             IFactory newFactory;
-            if (type == typeof(EnemyFactory))
+            if (type == typeof(PlayerFactory))
+            {
+                newFactory = new PlayerFactory(playerStateControllerPrefab, playerProfiles);
+            }
+            else if (type == typeof(EnemyFactory))
             {
                 newFactory = new EnemyFactory(enemyStateControllerCirclePrefab, enemyStateControllerBoxPrefab, enemyProfiles);
             }
-            else if (type == typeof(ItemFactory))
+            else if (type == typeof(CollectableFactory))
             {
-                newFactory = new ItemFactory(collectablePrefab, itemProfiles);
+                newFactory = new CollectableFactory(collectablePrefab, itemProfiles);
             }
             else if (type == typeof(ProjectileFactory))
             {

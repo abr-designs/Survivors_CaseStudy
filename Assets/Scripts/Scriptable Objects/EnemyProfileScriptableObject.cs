@@ -20,6 +20,9 @@ namespace Survivors.ScriptableObjets.Enemies
         public STATE defaultState;
         public float shadowOffset;
 
+        [Header("Drops")]
+        public int xpDrop;
+
         [Header("Stats")]
         public float baseSpeed;
         public float baseHealth;

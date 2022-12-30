@@ -44,6 +44,8 @@ namespace Survivors.Weapons
             
             projectileInterval = weaponProfile.projectileInterval;
             projectileRadius = weaponProfile.projectileRadius;
+            
+            OnScaleChanged(PassiveManager.AttackArea);
         }
 
         public override void LevelUp()

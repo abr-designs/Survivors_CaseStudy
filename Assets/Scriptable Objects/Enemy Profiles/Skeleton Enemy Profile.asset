@@ -17,8 +17,9 @@ MonoBehaviour:
   animationProfile: {fileID: 11400000, guid: c991897e9206ee54fb82791156c7cbdb, type: 2}
   defaultState: 2
   shadowOffset: -0.125
+  xpDrop: 2
   baseSpeed: 0.225
-  baseHealth: 20
+  baseHealth: 15
   baseDamage: 1
   colliderType: 1
   colliderOffset: {x: 0, y: 0}

@@ -28,8 +28,7 @@ namespace Survivors.Managers
         private readonly float pickupSpeed;
         private readonly float initialPickupPush;
         
-        private readonly PlayerHealth _playerHealth;
-        private readonly Transform _playerTransform;
+        private PlayerHealth _playerHealth;
         
         private List<CollectableData> _itemsToPickup;
 
@@ -40,11 +39,6 @@ namespace Survivors.Managers
             float pickupSpeed,
             float initialPickupPush)
         {
-            _playerHealth = Object.FindObjectOfType<PlayerHealth>();
-            _playerTransform = _playerHealth.transform;
-            
-            //------------------------------------------------//
-            
             this.pickupThreshold = pickupThreshold;
             this.pickupRange = pickupRange;
             this.pickupSpeed = pickupSpeed;
@@ -65,8 +59,11 @@ namespace Survivors.Managers
         {
             if (_itemsToPickup == null)
                 return;
+
+            if (ItemManager.PlayerTransform == null)
+                return;
             
-            var playerPosition = (Vector2)_playerTransform.position;
+            var playerPosition = (Vector2)ItemManager.PlayerTransform.position;
             var deltaTime = Time.deltaTime;
             
             for (var i = _itemsToPickup.Count - 1; i >= 0; i--)
@@ -120,10 +117,12 @@ namespace Survivors.Managers
                 case PICKUP.NONE:
                     break;
                 case PICKUP.EXP:
-                    XpManager.AddXp(collectable.Profile.value);
+                    XpManager.AddXp(collectable.Value);
                     break;
                 case PICKUP.HEAL:
-                    _playerHealth.ChangeHealth(collectable.Profile.value);
+                    if (_playerHealth == null)
+                        _playerHealth = Object.FindObjectOfType<PlayerHealth>();
+                    _playerHealth.ChangeHealth(collectable.Value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

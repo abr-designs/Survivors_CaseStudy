@@ -56,8 +56,8 @@ namespace Survivors.Debugging
                 var itemProfile = items[Random.Range(0, items.Length)];
                 
                 FactoryManager
-                    .GetFactory<ItemFactory>()
-                    .CreateItem(itemProfile.name, position);
+                    .GetFactory<CollectableFactory>()
+                    .CreateCollectable(itemProfile.name, position);
             }
 
             spawnedCount += spawnAmount;

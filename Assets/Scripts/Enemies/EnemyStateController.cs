@@ -1,5 +1,6 @@
 ﻿using System;
 using Survivors.Base;
+using Survivors.Factories;
 using Survivors.Player;
 using Survivors.ScriptableObjets.Enemies;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace Survivors.Enemies
 
         [SerializeField] 
         private new Collider2D collider2D;
+
+        private int _xpDrop;
         
         private Transform _playerTransform;
         
@@ -24,20 +27,29 @@ namespace Survivors.Enemies
         
         protected override void Start()
         { }
-        
+
+        private void OnDestroy()
+        {
+            FactoryManager
+                .GetFactory<CollectableFactory>()
+                .CreateXpCollectable(_xpDrop, transform.position);
+        }
+
         //============================================================================================================//
 
-        public void SetupEnemy(in EnemyProfileScriptableObject enemyProfile, in float difficultyMultiplier = 1f)
+        public void SetupEnemy(in Transform playerTransform, in EnemyProfileScriptableObject enemyProfile, in float difficultyMultiplier = 1f)
         {
             MovementController = enemyMovementController;
             AnimationController = animationControllerBase;
             SpriteRenderer = GetComponent<SpriteRenderer>();
-            _playerTransform = FindObjectOfType<PlayerMovementController>().transform;
+            _playerTransform = playerTransform;
             
             SpriteRenderer.sprite = enemyProfile.defaultSprite;
             enemyHealth.SetStartingHealth(enemyProfile.baseHealth * difficultyMultiplier);
             enemyMovementController.SetSpeed(enemyProfile.baseSpeed * difficultyMultiplier);
             shadowOffset = enemyProfile.shadowOffset;
+
+            _xpDrop = enemyProfile.xpDrop;
 
             collider2D.offset = enemyProfile.colliderOffset;
 
@@ -73,5 +85,6 @@ namespace Survivors.Enemies
         {
             
         }
+        
     }
 }

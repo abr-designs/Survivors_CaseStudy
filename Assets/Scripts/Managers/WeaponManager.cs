@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Survivors.Weapons;
 using Survivors.Weapons.Enums;
-using Survivors.Player;
 using Survivors.ScriptableObjets.Attacks.Items;
 using UnityEngine;
 
@@ -11,8 +10,6 @@ namespace Survivors.Managers
 {
     public class WeaponManager
     {
-        private static Transform _playerTransform;
-
         private readonly WeaponProfileScriptableObject[] weaponProfiles;
         private Dictionary<WEAPON_TYPE, int> _weaponIndicies;
 
@@ -20,9 +17,8 @@ namespace Survivors.Managers
         private HashSet<WEAPON_TYPE> _activeWeaponTypes;
         private List<WeaponBase_v2> _activeWeapons;
 
-        public WeaponManager(in Transform playerTransform, in WeaponProfileScriptableObject[] weaponProfiles)
+        public WeaponManager(in WeaponProfileScriptableObject[] weaponProfiles)
         {
-            _playerTransform = playerTransform;
             this.weaponProfiles = weaponProfiles;
         }
 
@@ -50,7 +46,10 @@ namespace Survivors.Managers
             if (_ready == false)
                 return;
             
-            WeaponBase_v2.PlayerPosition = _playerTransform.position;
+            if (ItemManager.PlayerTransform == null)
+                return;
+            
+            WeaponBase_v2.PlayerPosition = ItemManager.PlayerTransform.position;
             var deltaTime = Time.deltaTime;
             
             for (var i = 0; i < _activeWeapons.Count; i++)

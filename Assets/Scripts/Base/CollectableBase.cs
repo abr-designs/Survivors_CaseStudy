@@ -1,4 +1,3 @@
-using System;
 using Survivors.Base.Interfaces;
 using Survivors.ScriptableObjets;
 using UnityEngine;
@@ -12,6 +11,9 @@ namespace Survivors.Base
         [SerializeField]
         private CollectableProfileScriptableObject collectableProfile;
 
+        public int Value => value;
+        private int value;
+
         private SpriteRenderer _spriteRenderer;
 
         private void OnDisable()
@@ -20,10 +22,12 @@ namespace Survivors.Base
         }
         //============================================================================================================//
 
-        public void Init(in CollectableProfileScriptableObject collectableProfile)
+        public void Init(in CollectableProfileScriptableObject collectableProfile, int value)
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             this.collectableProfile = collectableProfile;
+
+            this.value = value == 0 ? collectableProfile.value : value;
 
             _spriteRenderer.sprite = collectableProfile.sprite;
             ICollectable.OnAddItem?.Invoke(this);

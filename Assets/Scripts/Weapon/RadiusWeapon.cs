@@ -15,11 +15,13 @@ namespace Survivors.Weapons
         
         private HashSet<EnemyHealth> _hitEnemies;
 
+        private float localScale;
+
 
         public RadiusWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            range = weaponProfile.range;
-            
+            localScale = 1f;
+
             var projectileSprite = weaponProfile.projectileSprite;
             Color32 spriteColor = weaponProfile.projectileSpriteColor;
             
@@ -29,6 +31,8 @@ namespace Survivors.Weapons
                 .transform;
 
             _hitEnemies = new HashSet<EnemyHealth>();
+
+            OnScaleChanged(PassiveManager.AttackArea);
         }
 
         public override void PostUpdate()
@@ -100,40 +104,45 @@ namespace Survivors.Weapons
             switch (Level)
             {
                 case 2:
-                    range = WeaponProfile.range * 1.4f;
+                    localScale =  1.4f;
                     damage += 2;
+                    OnScaleChanged(PassiveManager.AttackArea);
                     break;
                 case 3:
                     cooldown -= 0.1f;
                     damage++;
                     break;
                 case 4:
-                    range = WeaponProfile.range * 1.6f;
+                    localScale =  1.6f;
                     damage++;
+                    OnScaleChanged(PassiveManager.AttackArea);
                     break;
                 case 5:
                     cooldown -= 0.1f;
                     damage+=2;
                     break;
                 case 6:
-                    range = WeaponProfile.range * 1.8f;
+                    localScale =  1.8f;
                     damage++;
+                    OnScaleChanged(PassiveManager.AttackArea);
                     break;
                 case 7:
                     cooldown -= 0.1f;
                     damage++;
                     break;
                 case 8:
-                    range = WeaponProfile.range * 2f;
+                    localScale = 2f;
                     damage++;
+                    OnScaleChanged(PassiveManager.AttackArea);
                     break;
             }
         }
 
         public override void OnScaleChanged(float newScale)
         {
-            scale = newScale;
+            scale = localScale * newScale;
             _effectInstanceTransform.localScale = Vector3.one * scale;
+            range = WeaponProfile.range * scale;
         }
     }
 }

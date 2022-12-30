@@ -1,14 +1,31 @@
 ﻿using Survivors.Base;
-using Survivors.ScriptableObjets.Animation;
-using UnityEngine;
-using UnityEngine.Serialization;
+using Survivors.Managers;
+using Survivors.ScriptableObjets;
 
 namespace Survivors.Player
 {
     public class PlayerStateControllerBase : StateControllerBase
     {
-        [SerializeField]
-        private AnimationProfileScriptableObject animationProfile;
+        //============================================================================================================//
+        
+        public void SetupPlayer(in PlayerProfileScriptableObject playerProfile)
+        {
+            base.Start();
+
+            var playerHealth = GetComponent<PlayerHealth>();
+            
+            playerHealth.SetStartingHealth(playerProfile.startingHealth);
+            MovementController.SetSpeed(playerProfile.moveSpeed);
+            shadowOffset = playerProfile.shadowOffset;
+
+            ItemManager.AddStarters(playerProfile.startingWeapons, playerProfile.startingPassives);
+
+            AnimationController.SetAnimationProfile(playerProfile.animationProfile);
+            SetState(STATE.IDLE);
+        }
+        
+        //Unity Functions
+        //============================================================================================================//
         
         protected override void OnEnable()
         {
@@ -17,16 +34,17 @@ namespace Survivors.Player
         }
 
         protected override void Start()
-        {
-            base.Start();
+        { }
 
-            AnimationController.SetAnimationProfile(animationProfile);
-        }
-        
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             InputDelegator.OnMovementChanged -= OnMovementChanged;
         }
+
+        //Override State Functions
+        //============================================================================================================//
+        
         
         protected override void IdleState()
         {

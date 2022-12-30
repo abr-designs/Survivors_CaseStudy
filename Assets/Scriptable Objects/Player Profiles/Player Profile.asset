@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf3906f0bae45b4091bdf39dd27c779, type: 3}
+  m_Name: Player Profile
+  m_EditorClassIdentifier: 
+  name: 
+  startingWeapons: 04000000
+  startingPassives: 
+  animationProfile: {fileID: 11400000, guid: 67cf189441f44d544be50bea1ab475c4, type: 2}
+  startingHealth: 130
+  moveSpeed: 0.75
+  pickupRadius: 0.25
+  shadowOffset: -0.125

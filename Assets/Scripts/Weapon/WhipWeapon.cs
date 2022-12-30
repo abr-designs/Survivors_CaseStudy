@@ -26,6 +26,8 @@ namespace Survivors.Weapons
             spriteColor = weaponProfile.projectileSpriteColor;
 
             localScale = 1f;
+            
+            OnScaleChanged(PassiveManager.AttackArea);
         }
 
         public override void LevelUp()
