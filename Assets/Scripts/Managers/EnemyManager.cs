@@ -1,32 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.Enemies;
 using Survivors.Utilities;
 using UnityEngine;
 
 namespace Survivors.Managers
 {
-    [DefaultExecutionOrder(-1000)]
-    public class EnemyManager : MonoBehaviour
+    public class EnemyManager : ManagerBase, IEnable
     {
+        private const float ENEMY_RADIUS = 0.1f;
+
         private static EnemyManager _instance;
         
         private List<(EnemyHealth health, Transform transform)> _enemies;
-        //TODO Store active enemies
-        //TODO Find all enemies in a radius
 
-        private void Awake()
+        //============================================================================================================//
+        
+        public EnemyManager()
         {
-            _instance = this;
+            
         }
 
-        private void OnEnable()
+        //IEnable Implementation
+        //============================================================================================================//
+        
+        public void OnEnable()
         {
+            _instance = this;
+            
             EnemyHealth.OnNewEnemy += OnNewEnemy;
             EnemyHealth.OnEnemyRemoved += OnEnemyRemoved;
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             EnemyHealth.OnNewEnemy -= OnNewEnemy;
             EnemyHealth.OnEnemyRemoved -= OnEnemyRemoved;
@@ -54,7 +62,6 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-        private const float ENEMY_RADIUS = 0.1f;
         private List<EnemyHealth> _outList;
 
         #region Enemies In Range

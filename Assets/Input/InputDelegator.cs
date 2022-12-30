@@ -1,30 +1,32 @@
 ﻿using System;
-using UnityEngine;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
+using Survivors.Managers;
 using UnityEngine.InputSystem;
 
 namespace Survivors
 {
-    public class InputDelegator: MonoBehaviour, SInput.IGameplayActions
+    public class InputDelegator: ManagerBase, IEnable, SInput.IGameplayActions
     {
         public static Action<float, float> OnMovementChanged;
         
         
         private float inputX, inputY;
 
-        //Unity Functions
-        //============================================================================================================//
-        
-        private void OnEnable()
-        {
-            Input.SInput.Gameplay.Enable();
-        }
-
-        private void Start()
+        public InputDelegator()
         {
             Input.SInput.Gameplay.SetCallbacks(this);
         }
 
-        private void OnDisable()
+        //Unity Functions
+        //============================================================================================================//
+        
+        public void OnEnable()
+        {
+            Input.SInput.Gameplay.Enable();
+        }
+
+        public void OnDisable()
         {
             Input.SInput.Gameplay.Disable();
         }

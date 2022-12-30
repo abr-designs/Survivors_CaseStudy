@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Survivors.Base;
 using Survivors.Base.Interfaces;
+using Survivors.Base.Managers;
+using Survivors.Base.Managers.Interfaces;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Survivors.Managers
 {
-    [DefaultExecutionOrder(-1000)]
-    public class HealthManager : MonoBehaviour
+    public class HealthManager : ManagerBase, IEnable, ILateUpdate
     {
         private class HealthBar
         {
@@ -51,28 +53,31 @@ namespace Survivors.Managers
         }
         
         //============================================================================================================//
-        [SerializeField]
-        private SpriteRenderer healthBarPrefab;
-
-        [SerializeField]
-        private float healthBarYOffset;
+        private readonly SpriteRenderer _healthBarPrefab;
+        private readonly float _healthBarYOffset;
         
         private List<IHealth> _healthObjectsWithDisplay;
         private List<HealthBar> _trackedHealthBars;
 
+        public HealthManager(in SpriteRenderer healthBarPrefab, in float healthBarYOffset)
+        {
+            _healthBarPrefab = healthBarPrefab;
+            _healthBarYOffset = healthBarYOffset;
+        }
+
         //============================================================================================================//
-        private void OnEnable()
+        public void OnEnable()
         {
             HealthBase.OnNewHealth += TryAddTrackedHealth;
             HealthBase.OnHealthRemoved += TryRemoveTrackedHealth;
         }
 
-        private void LateUpdate()
+        public void LateUpdate()
         {
             for (var i = 0; i < _trackedHealthBars.Count; i++)
             {
                 var currentPos = _trackedHealthBars[i]._iHealth.transform.position;
-                currentPos.y += healthBarYOffset;
+                currentPos.y += _healthBarYOffset;
                 _trackedHealthBars[i].Transform.position = currentPos;
                 
                 _trackedHealthBars[i].UpdateDisplay();
@@ -80,7 +85,7 @@ namespace Survivors.Managers
             }
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             HealthBase.OnNewHealth -= TryAddTrackedHealth;
             HealthBase.OnHealthRemoved -= TryRemoveTrackedHealth; 
@@ -101,7 +106,7 @@ namespace Survivors.Managers
             if (_trackedHealthBars == null)
                 _trackedHealthBars = new List<HealthBar>();
 
-            var temp = Instantiate(healthBarPrefab);
+            var temp = Object.Instantiate(_healthBarPrefab);
             _trackedHealthBars.Add(new HealthBar(health, temp));
         }
         
