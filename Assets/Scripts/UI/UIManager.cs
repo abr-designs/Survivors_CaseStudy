@@ -1,6 +1,6 @@
 ﻿using System;
 using Survivors.Managers;
-using Survivors.ScriptableObjets.Attacks.Items;
+using Survivors.ScriptableObjets.Weapons.Items;
 using Survivors.ScriptableObjets.Items;
 using Survivors.UI.Elements;
 using Survivors.Utilities;

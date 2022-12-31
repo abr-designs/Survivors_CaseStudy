@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Survivors.Enemies;
 using Survivors.Factories;
 using Survivors.Managers;
-using Survivors.ScriptableObjets.Attacks.Items;
+using Survivors.ScriptableObjets.Weapons.Items;
 using Survivors.Weapons.Interfaces;
 using UnityEngine;
 
@@ -15,19 +15,12 @@ namespace Survivors.Weapons
         private readonly Color32 _spriteColor;
 
         public int ProjectileCount => projectileCount + PassiveManager.ProjectileAdd;
-        private int projectileCount = 1;
 
         public float LaunchSpeed => launchSpeed * PassiveManager.ProjectileSpeed;
         public float Acceleration => acceleration * PassiveManager.ProjectileSpeed;
 
-        private float launchSpeed;
-        private float acceleration;
-        private float spinSpeed;
-        
         private float projectileInterval;
         private float projectileRadius;
-
-        private float localScale;
 
         public CrossWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
@@ -45,47 +38,6 @@ namespace Survivors.Weapons
             
             OnScaleChanged(PassiveManager.AttackArea);
         }
-        
-        public override void LevelUp()
-        {
-            //Based on: https://vampire-survivors.fandom.com/wiki/Cross
-            /*  Level 2	Base damage up by 10.
-                Level 3	Base speed up by 25%. Base area up by 10%.
-                Level 4	Fires 1 more projectile.
-                Level 5	Base damage up by 10.
-                Level 6	Base speed up by 25%. Base area up by 10%.
-                Level 7	Fires 1 more projectile.
-                Level 8	Base damage up by 10.
-            */
-            switch (Level)
-            {
-                case 2:
-                case 5:
-                case 8:
-                    damage += 10;
-                    break;
-                case 3:
-                    localScale = 1.1f;
-                    launchSpeed = WeaponProfile.launchSpeed * 1.25f;
-                    acceleration = WeaponProfile.acceleration * 1.25f;
-                    spinSpeed = WeaponProfile.spinSpeed * 1.25f;
-
-                    OnScaleChanged(PassiveManager.AttackArea);
-                    break;
-                case 4:
-                case 7:
-                    projectileCount++;
-                    break;
-                case 6:
-                    localScale = 1.2f;
-                    launchSpeed = WeaponProfile.launchSpeed * 1.5f;
-                    acceleration = WeaponProfile.acceleration * 1.5f;
-                    spinSpeed = WeaponProfile.spinSpeed * 1.5f;
-
-                    OnScaleChanged(PassiveManager.AttackArea);
-                    break;
-            }
-        }
 
         public override void OnScaleChanged(float newScale)
         {
@@ -100,34 +52,6 @@ namespace Survivors.Weapons
         protected override void TriggerAttack()
         {
             StartCoroutine(AttackCoroutine());
-        }
-
-        public override string GetLevelUpText(in int nextLevel)
-        {
-            //Based on: https://vampire-survivors.fandom.com/wiki/Cross
-            /*  Level 2	Base damage up by 10.
-                Level 3	Base speed up by 25%. Base area up by 10%.
-                Level 4	Fires 1 more projectile.
-                Level 5	Base damage up by 10.
-                Level 6	Base speed up by 25%. Base area up by 10%.
-                Level 7	Fires 1 more projectile.
-                Level 8	Base damage up by 10.
-            */
-            switch (nextLevel)
-            {
-                case 2:
-                case 5:
-                case 8:
-                    return "Base damage up by 10.";
-                case 3:
-                case 6:
-                    return "Base speed up by 25%. Base area up by 10%.";
-                case 4:
-                case 7:
-                    return "Fires 1 more projectile.";
-            }
-
-            return "";
         }
 
         private IEnumerator AttackCoroutine()

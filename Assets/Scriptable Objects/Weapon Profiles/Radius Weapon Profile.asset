@@ -28,3 +28,60 @@ MonoBehaviour:
   launchSpeed: 0
   acceleration: 0
   spinSpeed: 0
+  levelUpStats:
+  - name: Level 2 Base area up by 40 %. Base damage up by 2.
+    levelUpStats:
+    - name: Base area up by 40 %.
+      type: 3
+      change: 0.4
+    - name: Base damage up by 2.
+      type: 1
+      change: 2
+  - name: Level 3 Cooldown reduced by 0.1 seconds. Base damage up by 1.
+    levelUpStats:
+    - name: Cooldown reduced by 0.1 seconds.
+      type: 4
+      change: 0.1
+    - name: Base damage up by 1.
+      type: 1
+      change: 1
+  - name: Level 4 Base area up by 20 %. Base damage up by 1.
+    levelUpStats:
+    - name: Base area up by 20 %.
+      type: 3
+      change: 0.2
+    - name: Base damage up by 1.
+      type: 1
+      change: 1
+  - name: Level 5 Cooldown reduced by 0.1 seconds. Base damage up by 2.
+    levelUpStats:
+    - name: Cooldown reduced by 0.1 seconds.
+      type: 4
+      change: 0.1
+    - name: Base damage up by 2.
+      type: 1
+      change: 2
+  - name: Level 6 Base area up by 20 %. Base damage up by 1.
+    levelUpStats:
+    - name: Base area up by 20 %.
+      type: 3
+      change: 0.2
+    - name: Base damage up by 1.
+      type: 1
+      change: 1
+  - name: Level 7 Cooldown reduced by 0.1 seconds. Base damage up by 1.
+    levelUpStats:
+    - name: Cooldown reduced by 0.1 seconds.
+      type: 4
+      change: 0.1
+    - name: Base damage up by 1.
+      type: 1
+      change: 1
+  - name: Level 8 Base area up by 20 %. Base damage up by 1.
+    levelUpStats:
+    - name: Base area up by 20 %.
+      type: 3
+      change: 0.2
+    - name: Base damage up by 1.
+      type: 1
+      change: 1

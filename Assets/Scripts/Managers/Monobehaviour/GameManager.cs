@@ -5,7 +5,7 @@ using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
 using Survivors.Factories;
 using Survivors.ScriptableObjets;
-using Survivors.ScriptableObjets.Attacks.Items;
+using Survivors.ScriptableObjets.Weapons.Items;
 using Survivors.ScriptableObjets.Items;
 using TMPro;
 using UnityEngine;

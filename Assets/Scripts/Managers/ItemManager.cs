@@ -3,7 +3,7 @@ using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
 using Survivors.Passives.Enums;
 using Survivors.Player;
-using Survivors.ScriptableObjets.Attacks.Items;
+using Survivors.ScriptableObjets.Weapons.Items;
 using Survivors.ScriptableObjets.Items;
 using Survivors.UI;
 using Survivors.Weapons;
@@ -96,7 +96,7 @@ namespace Survivors.Managers
             {
                 case WeaponProfileScriptableObject weapon:
                     var level = _weaponManager.GetWeaponLevel(weapon.type);
-                    return level >= 1 ? _weaponManager.GetLevelUpText(weapon.type, level) : item.description;
+                    return level >= 1 ? _weaponManager.GetLevelUpText(weapon.type, level + 1) : item.description;
                 default:
                     return item.description;
             }

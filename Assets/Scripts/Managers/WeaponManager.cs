@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Survivors.Weapons;
 using Survivors.Weapons.Enums;
-using Survivors.ScriptableObjets.Attacks.Items;
+using Survivors.ScriptableObjets.Weapons.Items;
 using UnityEngine;
 
 namespace Survivors.Managers
@@ -34,8 +34,8 @@ namespace Survivors.Managers
 
             for (var i = 0; i < weaponProfiles.Length; i++)
             {
-                var attackProfile = weaponProfiles[i];
-                _weaponIndicies.Add(attackProfile.type, i);
+                var weaponProfile = weaponProfiles[i];
+                _weaponIndicies.Add(weaponProfile.type, i);
             }
 
 
@@ -82,7 +82,9 @@ namespace Survivors.Managers
             if (weapon == null)
                 throw new Exception();
 
-            return weapon.GetLevelUpText(nextLevel);
+            var index = _weaponIndicies[weaponType];
+
+            return weaponProfiles[index].GetLevelUpText(nextLevel);
         }
 
         public void AddNewWeapon(in WEAPON_TYPE weaponType)

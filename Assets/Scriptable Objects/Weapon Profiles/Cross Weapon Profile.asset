@@ -28,3 +28,45 @@ MonoBehaviour:
   launchSpeed: 4
   acceleration: -0.025
   spinSpeed: 500
+  levelUpStats:
+  - name: Level 2 Base damage up by 10.
+    levelUpStats:
+    - name: Base damage up by 10.
+      type: 1
+      change: 10
+  - name: Level 3 Base speed up by 25 %. Base area up by 10 %.
+    levelUpStats:
+    - name: Base speed up by 25 %.
+      type: 6
+      change: 0.25
+    - name: Base area up by 10 %.
+      type: 3
+      change: 0.1
+  - name: Level 4 Fires 1 more projectile.
+    levelUpStats:
+    - name: Fires 1 more projectile.
+      type: 2
+      change: 1
+  - name: Level 5 Base damage up by 10.
+    levelUpStats:
+    - name: Base damage up by 10.
+      type: 1
+      change: 10
+  - name: Level 6 Base speed up by 25 %. Base area up by 10 %.
+    levelUpStats:
+    - name: Base speed up by 25 %.
+      type: 6
+      change: 0.25
+    - name: Base area up by 10 %.
+      type: 3
+      change: 0.1
+  - name: Level 7 Fires 1 more projectile.
+    levelUpStats:
+    - name: Fires 1 more projectile.
+      type: 2
+      change: 1
+  - name: Level 8 Base damage up by 10.
+    levelUpStats:
+    - name: Base damage up by 10.
+      type: 1
+      change: 10
