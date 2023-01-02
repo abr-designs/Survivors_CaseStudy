@@ -28,6 +28,16 @@ namespace Survivors.UI
         [SerializeField]
         private ItemSelectUIElement[] itemButtonElements;
 
+        [SerializeField, Header("Pause Menu")] 
+        private GameObject pauseWindowObject;
+        [SerializeField]
+        private PassiveUIElement passiveUIElementPrefab;
+        [SerializeField]
+        private RectTransform passiveUIElementParentRect;
+        [SerializeField]
+        private Button resumeButton;
+        private PassiveUIElement[] passiveUIElements;
+
 
         private float _updateDelayTimer;
 
@@ -43,10 +53,18 @@ namespace Survivors.UI
             xpSlider.value = 0f;
             SetTimeText(0);
             levelUpWindow.SetActive(false);
+            SetupPauseMenu();
+            OpenPauseMenu(false);
         }
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+            {
+                OpenPauseMenu(true);
+                return;
+            }
+            
             if (_updateDelayTimer < 1f)
             {
                 _updateDelayTimer += Time.deltaTime;
@@ -74,6 +92,52 @@ namespace Survivors.UI
             
             var time = TimeSpan.FromSeconds(seconds);
             timeText.text = time.ToString(@"mm\:ss");
+        }
+
+        //Pause Menu Functions
+        //============================================================================================================//
+
+        private void SetupPauseMenu()
+        {
+            void SetupPassiveUI()
+            {
+                var profiles = ItemManager.PassiveProfiles;
+                passiveUIElements = new PassiveUIElement[profiles.Length];
+
+                for (var i = 0; i < profiles.Length; i++)
+                {
+                    var temp = Instantiate(passiveUIElementPrefab, passiveUIElementParentRect, false);
+                    temp.Init(profiles[i]);
+
+                    passiveUIElements[i] = temp;
+                }
+            }
+            //------------------------------------------------//
+            
+            SetupPassiveUI();
+            
+            resumeButton.onClick.AddListener(() =>
+            {
+                OpenPauseMenu(false);
+            });
+        }
+
+        private void OpenPauseMenu(in bool open)
+        {
+            if (open == false)
+            {
+                pauseWindowObject.SetActive(false);
+                Time.timeScale = 1f;
+                return;
+            }
+            
+            foreach (var passiveUIElement in passiveUIElements)
+            {
+                passiveUIElement.UpdateDisplayedChange();
+            }
+            
+            pauseWindowObject.SetActive(true);
+            Time.timeScale = 0f;
         }
         
 
@@ -108,7 +172,7 @@ namespace Survivors.UI
         {
             xpSlider.value = value;
         }
-        
+
         //============================================================================================================//
     }
 }

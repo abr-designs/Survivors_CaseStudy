@@ -32,15 +32,18 @@ namespace Survivors.Managers
         
         private static WeaponManager _weaponManager;
         private static PassiveManager _passiveManager;
-        
-        private readonly WeaponProfileScriptableObject[] weaponProfiles;
-        private readonly PassiveItemProfileScriptableObject[] passiveProfiles;
+
+        private static WeaponProfileScriptableObject[] WeaponProfiles{get; set;}
+        public static PassiveItemProfileScriptableObject[] PassiveProfiles{get; private set;}
         
         //Unity Functions
         //============================================================================================================//
 
         public ItemManager(in MonoBehaviour coroutineController, WeaponProfileScriptableObject[] weaponProfiles, PassiveItemProfileScriptableObject[] passiveProfiles)
         {
+            WeaponProfiles = weaponProfiles;
+            PassiveProfiles = passiveProfiles;
+            
             _weaponManager = new WeaponManager(weaponProfiles);
             _passiveManager = new PassiveManager(passiveProfiles);
             
