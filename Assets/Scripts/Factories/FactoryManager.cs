@@ -21,9 +21,7 @@ namespace Survivors.Factories
         private List<PlayerProfileScriptableObject> playerProfiles;
         
         [SerializeField, Header("Enemies")] 
-        private EnemyStateController enemyStateControllerCirclePrefab;
-        [SerializeField] 
-        private EnemyStateController enemyStateControllerBoxPrefab;
+        private EnemyStateController enemyStateControllerPrefab;
         [SerializeField]
         private List<EnemyProfileScriptableObject> enemyProfiles;
         
@@ -73,7 +71,7 @@ namespace Survivors.Factories
             }
             else if (type == typeof(EnemyFactory))
             {
-                newFactory = new EnemyFactory(enemyStateControllerCirclePrefab, enemyStateControllerBoxPrefab, enemyProfiles);
+                newFactory = new EnemyFactory(enemyStateControllerPrefab, enemyProfiles);
             }
             else if (type == typeof(CollectableFactory))
             {

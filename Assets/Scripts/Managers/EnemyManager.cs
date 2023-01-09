@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
 using Survivors.Enemies;
@@ -8,13 +9,14 @@ using UnityEngine;
 
 namespace Survivors.Managers
 {
-    public class EnemyManager : ManagerBase, IEnable
+    public class EnemyManager : ManagerBase, IEnable, IUpdate
     {
         private const float ENEMY_RADIUS = 0.1f;
 
         private static EnemyManager _instance;
         
-        private List<(EnemyHealth health, Transform transform)> _enemies;
+        private List<EnemyHealth> _enemyHealths;
+        private List<Transform> _enemyTransforms;
 
         //============================================================================================================//
         
@@ -40,25 +42,41 @@ namespace Survivors.Managers
             EnemyHealth.OnEnemyRemoved -= OnEnemyRemoved;
         }
 
+        //IUpdate Implementation
+        //============================================================================================================//
+
+        public void Update()
+        {
+            if (_enemyTransforms == null || _enemyTransforms.Count == 0)
+                return;
+            
+            CollisionSolver.SolveCollisions(ENEMY_RADIUS, _enemyTransforms);
+        }
+
         //============================================================================================================//
         private void OnNewEnemy(EnemyHealth enemyHealth)
         {
-            if (_enemies == null)
-                _enemies = new List<(EnemyHealth, Transform)>();
+            if (_enemyHealths == null)
+            {
+                _enemyHealths = new List<EnemyHealth>();
+                _enemyTransforms = new List<Transform>();
+            }
             
-            _enemies.Add((enemyHealth, enemyHealth.transform));
+            _enemyHealths.Add(enemyHealth);
+            _enemyTransforms.Add(enemyHealth.transform);
         }
         private void OnEnemyRemoved(EnemyHealth enemyHealth)
         {
-            if (_enemies == null)
+            if (_enemyHealths == null)
                 return;
 
-            var index = _enemies.FindIndex(x => x.Item1 == enemyHealth);
+            var index = _enemyHealths.FindIndex(x => x == enemyHealth);
 
             if (index < 0)
                 throw new Exception();
             
-            _enemies.RemoveAt(index);
+            _enemyHealths.RemoveAt(index);
+            _enemyTransforms.RemoveAt(index);
         }
         
         //============================================================================================================//
@@ -73,20 +91,21 @@ namespace Survivors.Managers
         
         private IReadOnlyList<EnemyHealth> TryGetEnemiesInRange(in Vector2 position, in float radius, in HashSet<EnemyHealth> toIgnore)
         {
-            if (_enemies == null || _enemies.Count == 0)
+            if (_enemyTransforms == null || _enemyTransforms.Count == 0)
                 return default;
             
             if (_outList == null)
                 _outList = new List<EnemyHealth>();
             else _outList.Clear();
 
-            foreach (var (enemyHealth, enemyTransform) in _enemies)
+            for (var i = 0; i < _enemyHealths.Count; i++)
             {
-                if(toIgnore != null && toIgnore.Contains(enemyHealth))
+                var enemyHealth = _enemyHealths[i];
+                if (toIgnore != null && toIgnore.Contains(enemyHealth))
                     continue;
-                if(SMath.CirclesIntersect(radius, ENEMY_RADIUS, position, enemyTransform.position) == false)
+                if (SMath.CirclesIntersect(radius, ENEMY_RADIUS, position, _enemyTransforms[i].position) == false)
                     continue;
-                
+
                 _outList.Add(enemyHealth);
             }
 
@@ -106,18 +125,19 @@ namespace Survivors.Managers
         
         private IReadOnlyList<EnemyHealth> TryGetEnemiesInBounds(in Bounds bounds)
         {
-            if (_enemies == null || _enemies.Count == 0)
+            if (_enemyHealths == null || _enemyHealths.Count == 0)
                 return default;
             
             if (_outList == null)
                 _outList = new List<EnemyHealth>();
             else _outList.Clear();
 
-            foreach (var (enemyHealth, enemyTransform) in _enemies)
+            for (var i = 0; i < _enemyHealths.Count; i++)
             {
-                if(SMath.CircleOverlapsRect(enemyTransform.position, ENEMY_RADIUS, bounds) == false)
+                var enemyHealth = _enemyHealths[i];
+                if (SMath.CircleOverlapsRect(_enemyTransforms[i].position, ENEMY_RADIUS, bounds) == false)
                     continue;
-                
+
                 _outList.Add(enemyHealth);
             }
 
@@ -136,14 +156,14 @@ namespace Survivors.Managers
         }
         private EnemyHealth TryGetClosestEnemy(in Vector2 worldPosition)
         {
-            if (_enemies == null || _enemies.Count < 0)
+            if (_enemyTransforms == null || _enemyTransforms.Count < 0)
                 return default;
             
             var closestIndex = -1;
             var shortestDistance = 9999f;
-            for (int i = 0; i < _enemies.Count; i++)
+            for (int i = 0; i < _enemyTransforms.Count; i++)
             {
-                var position = (Vector2)_enemies[i].transform.position;
+                var position = (Vector2)_enemyTransforms[i].position;
 
                 var mag = (worldPosition - position).sqrMagnitude;
                 
@@ -157,7 +177,7 @@ namespace Survivors.Managers
             if (closestIndex < 0)
                 return default;
 
-            return _enemies[closestIndex].health;
+            return _enemyHealths[closestIndex];
         }
 
         #endregion //Closest Enemy
@@ -172,16 +192,17 @@ namespace Survivors.Managers
             if (Application.isPlaying == false)
                 return;
 
-            if (_enemies == null)
+            if (_enemyTransforms == null)
                 return;
             
             Gizmos.color = Color.red;
-            for (int i = 0; i < _enemies.Count; i++)
+            for (int i = 0; i < _enemyTransforms.Count; i++)
             {
-                Gizmos.DrawWireSphere(_enemies[i].Item2.position, 0.1f);
+                Gizmos.DrawWireSphere(_enemyTransforms[i].position, 0.1f);
 
             }
         }
 #endif
+
     }
 }

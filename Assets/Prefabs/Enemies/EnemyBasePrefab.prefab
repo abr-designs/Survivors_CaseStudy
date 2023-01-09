@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8890724569449704324}
   - component: {fileID: 8890724569449704327}
   - component: {fileID: 8890724569449704345}
-  - component: {fileID: 8890724569449704347}
   m_Layer: 0
   m_Name: EnemyBasePrefab
   m_TagString: Untagged
@@ -54,7 +53,6 @@ MonoBehaviour:
   enemyHealth: {fileID: 8890724569449704326}
   enemyMovementController: {fileID: 8890724569449704324}
   animationControllerBase: {fileID: 8890724569449704327}
-  collider2D: {fileID: 0}
 --- !u!114 &8890724569449704326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 10
-  currentHealth: 10
+  Damage: 0
 --- !u!114 &8890724569449704324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,24 +144,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &8890724569449704347
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8890724569449704346}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4

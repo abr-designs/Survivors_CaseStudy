@@ -43,5 +43,21 @@ namespace Survivors.Utilities
 
             return hasCollision;
         }
+        
+        public static bool CirlceIsCollidingFast(in float px1, in float py1, in float r1, in float px2, in float py2, in float r2)
+        {
+            var a = r1 + r2;
+            var dx = px1 - px2;
+            var dy = py1 - py2;
+            return a * a > (dx * dx + dy * dy);
+        }
+
+        //https://stackoverflow.com/a/2556688
+        public static float FastSquareMagnitude(in float px1, in float py1, in float px2, in float py2)
+        {
+            var x = (px1 - px2);
+            var y = (py1 - py2);
+            return x * x + y * y;
+        }
     }
 }

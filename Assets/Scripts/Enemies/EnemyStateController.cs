@@ -1,7 +1,5 @@
-﻿using System;
-using Survivors.Base;
+﻿using Survivors.Base;
 using Survivors.Factories;
-using Survivors.Player;
 using Survivors.ScriptableObjets.Enemies;
 using UnityEngine;
 
@@ -15,9 +13,6 @@ namespace Survivors.Enemies
         private EnemyMovementController enemyMovementController;
         [SerializeField]
         private AnimationControllerBase animationControllerBase;
-
-        [SerializeField] 
-        private new Collider2D collider2D;
 
         private int _xpDrop;
         
@@ -57,20 +52,6 @@ namespace Survivors.Enemies
             enemyHealth.Damage = enemyProfile.baseDamage;
             _xpDrop = enemyProfile.xpDrop;
 
-            collider2D.offset = enemyProfile.colliderOffset;
-
-            switch (collider2D)
-            {
-                case BoxCollider2D boxCollider2D:
-                    boxCollider2D.size = enemyProfile.boxColliderSize;
-                    break;
-                case CircleCollider2D circleCollider2D:
-                    circleCollider2D.radius = enemyProfile.circleColliderRadius;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            
             animationControllerBase.SetAnimationProfile(enemyProfile.animationProfile);
             SetState(enemyProfile.defaultState);
         }

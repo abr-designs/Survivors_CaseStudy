@@ -3,13 +3,7 @@ using UnityEngine;
 
 namespace Survivors.ScriptableObjets.Enemies
 {
-    public enum COLLIDER_TYPE
-    {
-        NONE,
-        BOX,
-        CIRCLE
-    }
-    
+
     [CreateAssetMenu(fileName = "Enemy Profile", menuName = "ScriptableObjects/Enemy Profile")]
     public class EnemyProfileScriptableObject : ScriptableObject
     {
@@ -27,13 +21,5 @@ namespace Survivors.ScriptableObjets.Enemies
         public float baseSpeed;
         public float baseHealth;
         public float baseDamage;
-        
-        [Header("Collider")]
-        public COLLIDER_TYPE colliderType;
-        public Vector2 colliderOffset;
-        [Min(0f)]
-        public float circleColliderRadius;
-        [Min(0f)]
-        public Vector2 boxColliderSize;
     }
 }
