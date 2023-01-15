@@ -6993,6 +6993,7 @@ MonoBehaviour:
     enemyProfiles: []
     minSpawn: 1
     spawnInterval: 0
+  playerReady: 0
 --- !u!1 &1557720685
 GameObject:
   m_ObjectHideFlags: 0
@@ -9497,6 +9498,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6861079318410336876, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 8260094094567917899, guid: cb4adf413fdefc24384fbace5f8e7d0c, type: 3}
+    - target: {fileID: 6861079318410336876, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
+      propertyPath: enemyStateControllerBoxPrefab
+      value: 
+      objectReference: {fileID: 8293968221079877051, guid: 4d3f05ed26b910f428cf217e3e4043e5, type: 3}
+    - target: {fileID: 6861079318410336876, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
+      propertyPath: enemyStateControllerCirclePrefab
+      value: 
+      objectReference: {fileID: 8293968221079877051, guid: f20b05d087aef334da711620e02d9fcd, type: 3}
     - target: {fileID: 6861079318410336877, guid: dc6181413c46f3b42b48c906fd40bdca, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -9652,6 +9665,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8860911365941812807, guid: a9ca8a0a7b34b2944919b88d71557641, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860911366294374880, guid: a9ca8a0a7b34b2944919b88d71557641, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8860911366962921090, guid: a9ca8a0a7b34b2944919b88d71557641, type: 3}

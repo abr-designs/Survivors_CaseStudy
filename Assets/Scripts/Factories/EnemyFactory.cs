@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using Survivors.Enemies;
-using Survivors.Player;
 using Survivors.ScriptableObjets.Enemies;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Survivors.Factories
 {
-    public class EnemyFactory : FactoryBase<EnemyStateController>
+    public class EnemyFactory : FactoryBase<SpriteRenderer>
     {
-        private readonly Transform _playerTransform;
-        
-        private readonly EnemyStateController _boxColliderEnemyStateControllerPrefab;
+        private readonly SpriteRenderer _enemyBoxPrefab;
         private readonly Dictionary<string, EnemyProfileScriptableObject> _enemyProfiles;
 
         //Constructor
         //============================================================================================================//
         public EnemyFactory(
-            EnemyStateController circleColliderEnemyStateControllerPrefab, 
-            EnemyStateController boxColliderEnemyStateControllerPrefab,
-            IEnumerable<EnemyProfileScriptableObject> enemyProfiles) : base(circleColliderEnemyStateControllerPrefab)
+            SpriteRenderer enemyCirclePrefab, 
+            SpriteRenderer enemyBoxPrefab,
+            IEnumerable<EnemyProfileScriptableObject> enemyProfiles) : base(enemyCirclePrefab)
         {
             _enemyProfiles = new Dictionary<string, EnemyProfileScriptableObject>();
             foreach (var enemyProfile in enemyProfiles)
@@ -28,33 +23,33 @@ namespace Survivors.Factories
                 _enemyProfiles.Add(enemyProfile.name, enemyProfile);
             }
 
-            _boxColliderEnemyStateControllerPrefab = boxColliderEnemyStateControllerPrefab;
-
-            _playerTransform = Object.FindObjectOfType<PlayerHealth>().transform;
+            _enemyBoxPrefab = enemyBoxPrefab;
         }
 
         //============================================================================================================//
         //FIXME I should be using a GUID or something
-        public void CreateEnemy(in string name, in Vector2 worldPosition, in float difficultyMultiplier = 1f, in Transform parent = null)
+        public (SpriteRenderer, Collider2D) CreateEnemy(in string name, in Vector2 worldPosition, in Transform parent = null)
         {
             if (_enemyProfiles.TryGetValue(name, out var enemyProfile) == false)
                 throw new KeyNotFoundException($"No enemy with name {name}");
 
-            EnemyStateController newEnemyStateController;
+            SpriteRenderer newEnemySpriteRenderer;
             switch (enemyProfile.colliderType)
             {
                 case COLLIDER_TYPE.BOX:
-                    newEnemyStateController = Create(_boxColliderEnemyStateControllerPrefab, worldPosition, parent);
+                    newEnemySpriteRenderer = Create(_enemyBoxPrefab, worldPosition, parent);
                     break;
                 case COLLIDER_TYPE.CIRCLE:
-                    newEnemyStateController = Create(worldPosition, parent);
+                    newEnemySpriteRenderer = Create(worldPosition, parent);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(enemyProfile.colliderType), enemyProfile.colliderType, null);
             }
 
-            newEnemyStateController.name = $"{name}_Instance";
-            newEnemyStateController.SetupEnemy(_playerTransform, enemyProfile, difficultyMultiplier);
+            newEnemySpriteRenderer.name = $"{name}_Instance";
+
+            //FIXME There has to be a better way of getting the Collider
+            return (newEnemySpriteRenderer, newEnemySpriteRenderer.GetComponent<Collider2D>());
         }
     }
 }

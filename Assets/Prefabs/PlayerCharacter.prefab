@@ -9,10 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8260094094567917908}
-  - component: {fileID: 3111930516915142465}
-  - component: {fileID: 8260094094567917909}
-  - component: {fileID: 8120966354950536133}
-  - component: {fileID: 6208799600933371534}
   - component: {fileID: 8260094094567917899}
   m_Layer: 0
   m_Name: PlayerCharacter
@@ -36,61 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3111930516915142465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260094094567917898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5bea50f32d74de08edff10ea76dcd94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultAnimationState: 1
-  shadowOffset: -0.125
---- !u!114 &8260094094567917909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260094094567917898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ae69a80d8948e3ad9aeceb65407839, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8120966354950536133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260094094567917898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4531834a6d0d4bcbbf1f7f6ea0876502, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.75
---- !u!114 &6208799600933371534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260094094567917898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f072dff0e5b4c01bcf36e9e5ae1bea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 25
-  layermask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!212 &8260094094567917899
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -2,50 +2,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using Survivors.Base;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.Enemies;
 using Survivors.Managers;
 using UnityEngine;
 
 namespace Survivors.Player
 {
-    public class PlayerHealth : HealthBase
+    public class PlayerHealth : HealthBase, IUpdate
     {
         protected override float DamageFlashTime => 0.5f;
         public override bool ShowHealthDamage => false;
         public override bool ShowHealthBar => true;
         public override bool ShowDamageEffect => true;
 
+        private HashSet<EnemyHealth> _hitEnemies;
+        private MonoBehaviour _coroutineCaller;
+
+        public PlayerHealth(in MonoBehaviour coroutineCaller, in SpriteRenderer spriteRenderer) : base(in spriteRenderer)
+        {
+            PassiveManager.OnMaxHealthChanged += OnMaxHealthChanged;
+            SetStartingHealth(StartingHealth);
+            _hitEnemies = new HashSet<EnemyHealth>();
+            _coroutineCaller = coroutineCaller;
+        }
+        
         //Unity Functions
         //============================================================================================================//
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            
-            PassiveManager.OnMaxHealthChanged += OnMaxHealthChanged;
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            
-            SetStartingHealth(StartingHealth);
-            _hitEnemies = new HashSet<EnemyHealth>();
-        }
-
-        private HashSet<EnemyHealth> _hitEnemies;
-        private void Update()
+        public void Update()
         {
             var hitEnemies = EnemyManager.GetEnemiesInRange(transform.position, 0.125f, _hitEnemies);
-            
-            if (hitEnemies.Count == 0)
+
+            if (hitEnemies == null || hitEnemies.Count == 0)
                 return;
 
             float healthChangeSum = 0;
             foreach (var enemyHealth in hitEnemies)
             {
                 healthChangeSum -= enemyHealth.Damage;
-                StartCoroutine(EnemyHitCooldownCoroutine(enemyHealth, 0.5f, _hitEnemies));
+                _coroutineCaller.StartCoroutine(EnemyHitCooldownCoroutine(enemyHealth, 0.5f, _hitEnemies));
             }
 
             ChangeHealth(healthChangeSum);
@@ -60,11 +56,6 @@ namespace Survivors.Player
                 yield break;
             
             hitEnemies.Remove(enemy);
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
         }
 
         //Health Base Functions

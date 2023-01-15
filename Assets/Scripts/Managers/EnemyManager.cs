@@ -1,66 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
+using Survivors.Base;
+using Survivors.Base.Interfaces;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
 using Survivors.Enemies;
+using Survivors.Factories;
+using Survivors.Managers.MonoBehaviours;
+using Survivors.Player;
+using Survivors.ScriptableObjets.Enemies;
 using Survivors.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Survivors.Managers
 {
-    public class EnemyManager : ManagerBase, IEnable
+    public class EnemyManager : ManagerBase, IEnable, IUpdate
     {
         private const float ENEMY_RADIUS = 0.1f;
 
         private static EnemyManager _instance;
+
+        private Transform _playerTransform;
         
-        private List<(EnemyHealth health, Transform transform)> _enemies;
+        //private List<(EnemyHealth health, Transform transform)> _enemies;
+
+        private int _enemyCount;
+        private List<Transform> _enemyTransforms;
+        private List<EnemyStateController> _enemyStateControllers;
+        private List<EnemyHealth> _enemyHealths;
+        private List<EnemyMovementController> _enemyMovementControllers;
+        private List<IAnimationController> _enemyAnimationControllers;
 
         //============================================================================================================//
         
         public EnemyManager()
         {
+            _enemyTransforms = new List<Transform>();
+            _enemyStateControllers = new List<EnemyStateController>();
+            _enemyHealths = new List<EnemyHealth>();
+            _enemyMovementControllers = new List<EnemyMovementController>();
+            _enemyAnimationControllers = new List<IAnimationController>();
             
+            PlayerManager.OnPlayerCreated += GameManagerOnOnPlayerCreated;
         }
 
+        //IUpdate Implementation
+        //============================================================================================================//
+        
+        public void Update()
+        {
+            var count = _enemyCount - 1;
+            for (int i = count; i >= 0; i--)
+            {
+                if (_enemyHealths[i].CurrentHealth <= 0)
+                {
+                    DestroyEnemyAt(i);
+                    continue;
+                }
+                
+                _enemyStateControllers[i].Update();
+                _enemyMovementControllers[i].Update();
+                _enemyAnimationControllers[i].Update();
+            }
+        }
+        
         //IEnable Implementation
         //============================================================================================================//
-        
-        public void OnEnable()
-        {
-            _instance = this;
-            
-            EnemyHealth.OnNewEnemy += OnNewEnemy;
-            EnemyHealth.OnEnemyRemoved += OnEnemyRemoved;
-        }
 
-        public void OnDisable()
-        {
-            EnemyHealth.OnNewEnemy -= OnNewEnemy;
-            EnemyHealth.OnEnemyRemoved -= OnEnemyRemoved;
-        }
+        public void OnEnable() => _instance = this;
+
+        public void OnDisable() { }
 
         //============================================================================================================//
-        private void OnNewEnemy(EnemyHealth enemyHealth)
-        {
-            if (_enemies == null)
-                _enemies = new List<(EnemyHealth, Transform)>();
-            
-            _enemies.Add((enemyHealth, enemyHealth.transform));
-        }
-        private void OnEnemyRemoved(EnemyHealth enemyHealth)
-        {
-            if (_enemies == null)
-                return;
 
-            var index = _enemies.FindIndex(x => x.Item1 == enemyHealth);
-
-            if (index < 0)
-                throw new Exception();
-            
-            _enemies.RemoveAt(index);
+        public static void RequestNewEnemy(in EnemyProfileScriptableObject profile, in Vector3 position)
+        {
+            _instance.CreateNewEnemy(profile, position);
         }
-        
+        private void CreateNewEnemy(in EnemyProfileScriptableObject profile, in Vector3 position)
+        {
+            var (spriteRenderer, collider2D) = FactoryManager
+                .GetFactory<EnemyFactory>()
+                .CreateEnemy(profile.name, position);
+            
+            var index = _enemyCount++;
+            var transform = spriteRenderer.transform;
+            var health = new EnemyHealth(spriteRenderer);
+            var movement = new EnemyMovementController(transform);
+            var animation = new AnimationControllerBase(spriteRenderer);
+            
+            _enemyTransforms.Insert(index, transform);
+            _enemyHealths.Insert(index, health);
+            _enemyMovementControllers.Insert(index, movement);
+            _enemyAnimationControllers.Insert(index, animation);
+            _enemyStateControllers.Insert(index, new EnemyStateController(
+                _playerTransform, 
+                profile,
+                health,
+                collider2D,
+                movement,
+                animation, 
+                spriteRenderer));
+        }
+
+        private void DestroyEnemyAt(in int index)
+        {
+            var gameObject = _enemyTransforms[index].gameObject;
+            
+            _enemyTransforms.RemoveAt(index);
+            _enemyHealths.RemoveAt(index);
+            _enemyMovementControllers.RemoveAt(index);
+            _enemyAnimationControllers.RemoveAt(index);
+            _enemyStateControllers.RemoveAt(index);
+
+            _enemyCount--;
+            
+            Object.Destroy(gameObject);
+        }
+
         //============================================================================================================//
         private List<EnemyHealth> _outList;
 
@@ -73,20 +131,21 @@ namespace Survivors.Managers
         
         private IReadOnlyList<EnemyHealth> TryGetEnemiesInRange(in Vector2 position, in float radius, in HashSet<EnemyHealth> toIgnore)
         {
-            if (_enemies == null || _enemies.Count == 0)
+            if (_enemyHealths == null || _enemyHealths.Count == 0)
                 return default;
             
             if (_outList == null)
                 _outList = new List<EnemyHealth>();
             else _outList.Clear();
 
-            foreach (var (enemyHealth, enemyTransform) in _enemies)
+            for (var i = 0; i < _enemyHealths.Count; i++)
             {
-                if(toIgnore != null && toIgnore.Contains(enemyHealth))
+                var enemyHealth = _enemyHealths[i];
+                if (toIgnore != null && toIgnore.Contains(enemyHealth))
                     continue;
-                if(SMath.CirclesIntersect(radius, ENEMY_RADIUS, position, enemyTransform.position) == false)
+                if (SMath.CirclesIntersect(radius, ENEMY_RADIUS, position, _enemyTransforms[i].position) == false)
                     continue;
-                
+
                 _outList.Add(enemyHealth);
             }
 
@@ -106,18 +165,19 @@ namespace Survivors.Managers
         
         private IReadOnlyList<EnemyHealth> TryGetEnemiesInBounds(in Bounds bounds)
         {
-            if (_enemies == null || _enemies.Count == 0)
+            if (_enemyHealths == null || _enemyHealths.Count == 0)
                 return default;
             
             if (_outList == null)
                 _outList = new List<EnemyHealth>();
             else _outList.Clear();
 
-            foreach (var (enemyHealth, enemyTransform) in _enemies)
+            for (var i = 0; i < _enemyHealths.Count; i++)
             {
-                if(SMath.CircleOverlapsRect(enemyTransform.position, ENEMY_RADIUS, bounds) == false)
+                var enemyHealth = _enemyHealths[i];
+                if (SMath.CircleOverlapsRect(_enemyTransforms[i].position, ENEMY_RADIUS, bounds) == false)
                     continue;
-                
+
                 _outList.Add(enemyHealth);
             }
 
@@ -136,14 +196,14 @@ namespace Survivors.Managers
         }
         private EnemyHealth TryGetClosestEnemy(in Vector2 worldPosition)
         {
-            if (_enemies == null || _enemies.Count < 0)
+            if (_enemyHealths == null || _enemyHealths.Count < 0)
                 return default;
             
             var closestIndex = -1;
             var shortestDistance = 9999f;
-            for (int i = 0; i < _enemies.Count; i++)
+            for (int i = 0; i < _enemyHealths.Count; i++)
             {
-                var position = (Vector2)_enemies[i].transform.position;
+                var position = (Vector2)_enemyTransforms[i].position;
 
                 var mag = (worldPosition - position).sqrMagnitude;
                 
@@ -157,10 +217,17 @@ namespace Survivors.Managers
             if (closestIndex < 0)
                 return default;
 
-            return _enemies[closestIndex].health;
+            return _enemyHealths[closestIndex];
         }
 
         #endregion //Closest Enemy
+
+        //Callbacks
+        //============================================================================================================//
+        private void GameManagerOnOnPlayerCreated(Transform playerTransform, PlayerHealth _1, SpriteRenderer _)
+        {
+            _playerTransform = playerTransform;
+        }
 
         //Unity Editor Functions
         //============================================================================================================//
@@ -172,16 +239,16 @@ namespace Survivors.Managers
             if (Application.isPlaying == false)
                 return;
 
-            if (_enemies == null)
+            if (_enemyTransforms == null)
                 return;
             
             Gizmos.color = Color.red;
-            for (int i = 0; i < _enemies.Count; i++)
+            for (int i = 0; i < _enemyTransforms.Count; i++)
             {
-                Gizmos.DrawWireSphere(_enemies[i].Item2.position, 0.1f);
-
+                Gizmos.DrawWireSphere(_enemyTransforms[i].position, 0.1f);
             }
         }
 #endif
+
     }
 }

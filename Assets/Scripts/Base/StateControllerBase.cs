@@ -1,49 +1,53 @@
 using System;
 using Survivors.Base.Interfaces;
+using Survivors.Base.Managers.Interfaces;
 using UnityEngine;
 
 namespace Survivors.Base
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    [RequireComponent(typeof(IAnimationController))]
-    [RequireComponent(typeof(IMovementController))]
-    public abstract class StateControllerBase : MonoBehaviour, IShadow
+    public abstract class StateControllerBase : IShadow, IEnable, IUpdate
     {
         //Properties
         //============================================================================================================//
+        public Transform transform { get; }
+
         private bool _isDead;
         
         protected IAnimationController AnimationController;
         protected IMovementController MovementController;
         protected SpriteRenderer SpriteRenderer;
 
-        [SerializeField]
-        protected STATE defaultAnimationState;
         private STATE _currentAnimationState;
 
         public float ShadowOffset => shadowOffset;
-        [SerializeField] protected float shadowOffset;
+        protected float shadowOffset;
+        //============================================================================================================//
+
+        public StateControllerBase(
+            in IMovementController movementController,
+            in IAnimationController animationController, 
+            in SpriteRenderer spriteRenderer,
+            in STATE defaultAnimationState)
+        {
+            transform = spriteRenderer.transform;
+            SpriteRenderer = spriteRenderer;
+
+            MovementController = movementController;
+            AnimationController = animationController;
+
+            SetState(defaultAnimationState);
+
+        }
 
         //Unity Functions
         //============================================================================================================//
 
-        protected virtual void OnEnable()
+        public virtual void OnEnable()
         {
             IShadow.OnAddShadow?.Invoke(this);
         }
 
-        // Start is called before the first frame update
-        //FIXME I dont want this to be a virtual, to prevent accidental overwrites
-        protected virtual void Start()
-        {
-            MovementController = GetComponent<IMovementController>();
-            AnimationController = GetComponent<IAnimationController>();
-            SpriteRenderer = GetComponent<SpriteRenderer>();
-
-            SetState(defaultAnimationState);
-        }
-
-        private void Update()
+        public void Update()
         {
             if (_isDead)
                 return;
@@ -51,7 +55,7 @@ namespace Survivors.Base
             UpdateState();
         }
 
-        protected virtual void OnDisable()
+        public virtual void OnDisable()
         {
             IShadow.OnRemoveShadow?.Invoke(this);
         }
@@ -67,7 +71,8 @@ namespace Survivors.Base
             {
                 case STATE.DEATH:
                     _isDead = true;
-                    MovementController.SetActive(false);
+                    throw new NotImplementedException("Need to stop movement");
+                    //MovementController.SetActive(false);
                     break;
             }
         }

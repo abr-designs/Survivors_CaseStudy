@@ -1,5 +1,6 @@
 ﻿using System;
 using Survivors.Base;
+using Survivors.Base.Interfaces;
 using Survivors.Factories;
 using Survivors.Player;
 using Survivors.ScriptableObjets.Enemies;
@@ -9,52 +10,44 @@ namespace Survivors.Enemies
 {
     public class EnemyStateController  : StateControllerBase
     {
-        [SerializeField]
-        private EnemyHealth enemyHealth;
-        [SerializeField]
-        private EnemyMovementController enemyMovementController;
-        [SerializeField]
-        private AnimationControllerBase animationControllerBase;
+        private EnemyHealth _enemyHealth;
+        private EnemyMovementController _enemyMovementController;
+        private IAnimationController _animationControllerBase;
 
-        [SerializeField] 
-        private new Collider2D collider2D;
+        //private Collider2D collider2D;
 
-        private int _xpDrop;
+        private readonly int _xpDrop;
         
-        private Transform _playerTransform;
+        private readonly Transform _playerTransform;
         
         //============================================================================================================//
 
-        protected override void OnEnable()
+        public EnemyStateController(
+            in Transform playerTransform, 
+            in EnemyProfileScriptableObject enemyProfile,
+            in EnemyHealth enemyHealth, 
+            in Collider2D collider2D,
+            
+            in EnemyMovementController enemyMovementController,
+            in IAnimationController animationController, 
+            in SpriteRenderer spriteRenderer,
+            in float difficultyMultiplier = 1f) : 
+            base(enemyMovementController, in animationController, in spriteRenderer, in enemyProfile.defaultState)
         {
-            base.OnEnable();
-            enemyHealth.OnKilled += OnKilled;
-        }
-
-        protected override void Start()
-        { }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            enemyHealth.OnKilled -= OnKilled;
-        }
-
-        //============================================================================================================//
-
-        public void SetupEnemy(in Transform playerTransform, in EnemyProfileScriptableObject enemyProfile, in float difficultyMultiplier = 1f)
-        {
-            MovementController = enemyMovementController;
-            AnimationController = animationControllerBase;
-            SpriteRenderer = GetComponent<SpriteRenderer>();
+            if (playerTransform == null)
+                throw new Exception();
+            
             _playerTransform = playerTransform;
+            _enemyHealth = enemyHealth;
+            _enemyMovementController = enemyMovementController;
+            _animationControllerBase = animationController;
             
             SpriteRenderer.sprite = enemyProfile.defaultSprite;
-            enemyHealth.SetStartingHealth(enemyProfile.baseHealth * difficultyMultiplier);
-            enemyMovementController.SetSpeed(enemyProfile.baseSpeed * difficultyMultiplier);
+            _enemyHealth.SetStartingHealth(enemyProfile.baseHealth * difficultyMultiplier);
+            _enemyMovementController.SetSpeed(enemyProfile.baseSpeed * difficultyMultiplier);
             shadowOffset = enemyProfile.shadowOffset;
 
-            enemyHealth.Damage = enemyProfile.baseDamage;
+            _enemyHealth.Damage = enemyProfile.baseDamage;
             _xpDrop = enemyProfile.xpDrop;
 
             collider2D.offset = enemyProfile.colliderOffset;
@@ -71,9 +64,24 @@ namespace Survivors.Enemies
                     throw new NotImplementedException();
             }
             
-            animationControllerBase.SetAnimationProfile(enemyProfile.animationProfile);
+            animationController.SetAnimationProfile(enemyProfile.animationProfile);
             SetState(enemyProfile.defaultState);
+            OnEnable();
         }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            _enemyHealth.OnKilled += OnKilled;
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            _enemyHealth.OnKilled -= OnKilled;
+        }
+
+        //============================================================================================================//
 
         protected override void RunState()
         {
@@ -82,7 +90,7 @@ namespace Survivors.Enemies
 
             var dir = (playerPosition - currentPosition).normalized;
             
-            enemyMovementController.SetMoveDirection(dir);
+            _enemyMovementController.SetMoveDirection(dir);
             
             OnMovementChanged(dir.x, default);
         }
@@ -94,10 +102,11 @@ namespace Survivors.Enemies
         
         private void OnKilled()
         {
+            OnDisable();
             FactoryManager
                 .GetFactory<CollectableFactory>()
                 .CreateXpCollectable(_xpDrop, transform.position);
         }
-        
+
     }
 }

@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Survivors.Base
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    public abstract class HealthBase : MonoBehaviour, IHealth
+    public abstract class HealthBase : IHealth
     {
         public static event Action<IHealth> OnNewHealth;
         public static event Action<IHealth> OnHealthRemoved;
 
+        public Transform transform { get; }
         public float StartingHealth => startingHealth;
         [SerializeField]
         private float startingHealth;
@@ -31,22 +31,13 @@ namespace Survivors.Base
 
         //============================================================================================================//
 
-        //FIXME This should be using the observer pattern.
-        protected virtual void OnEnable()
+        public HealthBase(in SpriteRenderer spriteRenderer)
         {
+            transform = spriteRenderer.transform;
+            _spriteRenderer = spriteRenderer;
             OnNewHealth?.Invoke(this);
         }
-
-        protected virtual void Start()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
-        protected virtual void OnDisable()
-        {
-            OnHealthRemoved?.Invoke(this);
-        }
-
+        
         //============================================================================================================//
 
         public void SetStartingHealth(in float startingHealth)
@@ -73,9 +64,7 @@ namespace Survivors.Base
 
         public virtual void Kill()
         {
-            //TODO Maybe do a death animation?
-            
-            Destroy(gameObject);
+            OnHealthRemoved?.Invoke(this);
         }
         //============================================================================================================//
     }

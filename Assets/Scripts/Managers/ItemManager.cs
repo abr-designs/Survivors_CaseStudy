@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
+using Survivors.Managers.MonoBehaviours;
 using Survivors.Passives.Enums;
 using Survivors.Player;
 using Survivors.ScriptableObjets.Weapons.Items;
@@ -14,22 +15,6 @@ namespace Survivors.Managers
 {
     public class ItemManager : ManagerBase, IEnable, IUpdate
     {
-        public static Transform PlayerTransform
-        {
-            get
-            {
-                if (_playerTransform == null)
-                {
-                    var player = Object.FindObjectOfType<PlayerHealth>();
-                    _playerTransform = player?.transform;
-                }
-
-                return _playerTransform;
-            }
-        }
-        private static Transform _playerTransform;
-        
-        
         private static WeaponManager _weaponManager;
         private static PassiveManager _passiveManager;
 

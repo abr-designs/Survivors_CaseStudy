@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Survivors.Managers.MonoBehaviours;
+using Survivors.Player;
 using Survivors.Weapons;
 using Survivors.Weapons.Enums;
 using Survivors.ScriptableObjets.Weapons.Items;
@@ -17,9 +19,13 @@ namespace Survivors.Managers
         private HashSet<WEAPON_TYPE> _activeWeaponTypes;
         private List<WeaponBase_v2> _activeWeapons;
 
+        private Transform _playerTransform;
+        private SpriteRenderer _playerSpriteRenderer;
+
         public WeaponManager(in WeaponProfileScriptableObject[] weaponProfiles)
         {
             this.weaponProfiles = weaponProfiles;
+            PlayerManager.OnPlayerCreated += OnPlayerCreated;
         }
 
         //Unity Functions
@@ -37,8 +43,6 @@ namespace Survivors.Managers
                 var weaponProfile = weaponProfiles[i];
                 _weaponIndicies.Add(weaponProfile.type, i);
             }
-
-
         }
 
         public void Update()
@@ -46,10 +50,7 @@ namespace Survivors.Managers
             if (_ready == false)
                 return;
             
-            if (ItemManager.PlayerTransform == null)
-                return;
-            
-            WeaponBase_v2.PlayerPosition = ItemManager.PlayerTransform.position;
+            WeaponBase_v2.PlayerPosition = _playerTransform.position;
             var deltaTime = Time.deltaTime;
             
             for (var i = 0; i < _activeWeapons.Count; i++)
@@ -64,6 +65,7 @@ namespace Survivors.Managers
         public void OnDisable()
         {
             PassiveManager.OnScaleChanged -= OnScaleChanged;
+            PlayerManager.OnPlayerCreated -= OnPlayerCreated;
         }
 
         //============================================================================================================//
@@ -93,7 +95,7 @@ namespace Survivors.Managers
             {
                 _activeWeapons = new List<WeaponBase_v2>();
                 _activeWeaponTypes = new HashSet<WEAPON_TYPE>();
-                _ready = true;
+                //_ready = true;
             }
 
             //------------------------------------------------//
@@ -124,7 +126,7 @@ namespace Survivors.Managers
                     newWeapon = new RadiusWeapon(attackProfile);
                     break;
                 case WEAPON_TYPE.WHIP:
-                    newWeapon = new WhipWeapon(attackProfile);
+                    newWeapon = new WhipWeapon(_playerSpriteRenderer, attackProfile);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(weaponType), weaponType, null);
@@ -158,6 +160,13 @@ namespace Survivors.Managers
 
         //Callbacks
         //============================================================================================================//
+        
+        private void OnPlayerCreated(Transform playerTransform, PlayerHealth _, SpriteRenderer playerSpriteRenderer)
+        {
+            _playerTransform = playerTransform;
+            _playerSpriteRenderer = playerSpriteRenderer;
+            _ready = true;
+        }
         
         private void OnScaleChanged(float newScale)
         {

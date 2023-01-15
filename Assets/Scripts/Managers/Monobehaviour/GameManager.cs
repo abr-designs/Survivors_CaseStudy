@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using Cinemachine;
+using Survivors.Base;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
 using Survivors.Factories;
+using Survivors.Player;
 using Survivors.ScriptableObjets;
 using Survivors.ScriptableObjets.Weapons.Items;
 using Survivors.ScriptableObjets.Items;
@@ -15,6 +17,7 @@ namespace Survivors.Managers.MonoBehaviours
     [DefaultExecutionOrder(-1000)]
     public class GameManager : MonoBehaviour
     {
+        //============================================================================================================//
         [SerializeField, Header("Player")]
         private PlayerProfileScriptableObject selectedPlayer;
         
@@ -68,18 +71,21 @@ namespace Survivors.Managers.MonoBehaviours
         private IUpdate[] _updates;
         private ILateUpdate[] _lateUpdates;
 
+        private Transform _playerTransform;
+
         //Unity Functions
         //============================================================================================================//
         
         // Start is called before the first frame update
         private void Awake()
         {
-
             CreateManagers();
         }
 
         private void CreateManagers()
         {
+            PlayerManager.OnPlayerCreated += OnPlayerCreated;
+
             _managers = new ManagerBase[]
             {
                 new InputDelegator(),
@@ -89,7 +95,8 @@ namespace Survivors.Managers.MonoBehaviours
                 new DamageTextManager(textPrefab, yOffset, fadeTime, scaleCurve, scaleMultiplier, colorCurve, startColor, endColor),
                 new HealthManager(healthBarPrefab, healthBarYOffset),
                 new ShadowCastManager(transform, shadowPrefab),
-                new XpManager()
+                new XpManager(),
+                new PlayerManager(this, selectedPlayer)
             };
 
             _enables = _managers
@@ -115,16 +122,6 @@ namespace Survivors.Managers.MonoBehaviours
             }
         }
 
-        private void Start()
-        {
-            var playerStateControllerBase = FactoryManager
-                .GetFactory<PlayerFactory>()
-                .CreatePlayer(selectedPlayer.name, Vector2.zero);
-
-            var virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-            virtualCamera.Follow = playerStateControllerBase.transform;
-        }
-
         private void Update()
         {
             for (var i = 0; i < _updates.Length; i++)
@@ -148,8 +145,20 @@ namespace Survivors.Managers.MonoBehaviours
                 _enables[i].OnDisable();
             }
             
+            PlayerManager.OnPlayerCreated -= OnPlayerCreated;
         }
 
+        //============================================================================================================//
+
+        private void OnPlayerCreated(Transform playerTransform, PlayerHealth _1, SpriteRenderer _)
+        {
+            _playerTransform = playerTransform;
+            FindObjectOfType<WaveSpawnManager>().playerReady = true;
+            
+            var virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            virtualCamera.Follow = _playerTransform;
+        }
+        
         //============================================================================================================//
     }
 }

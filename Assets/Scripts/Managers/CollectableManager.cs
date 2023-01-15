@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Survivors.Base.Interfaces;
 using Survivors.Base.Managers;
 using Survivors.Base.Managers.Interfaces;
+using Survivors.Managers.MonoBehaviours;
 using Survivors.Player;
 using Survivors.ScriptableObjets;
 using Survivors.Utilities;
@@ -29,6 +30,7 @@ namespace Survivors.Managers
         private readonly float initialPickupPush;
         
         private PlayerHealth _playerHealth;
+        private Transform _playerTransform;
         
         private List<CollectableData> _itemsToPickup;
 
@@ -43,6 +45,7 @@ namespace Survivors.Managers
             this.pickupRange = pickupRange;
             this.pickupSpeed = pickupSpeed;
             this.initialPickupPush = initialPickupPush;
+            PlayerManager.OnPlayerCreated += OnPlayerCreated;
         }
 
         //Unity Functions
@@ -60,10 +63,10 @@ namespace Survivors.Managers
             if (_itemsToPickup == null)
                 return;
 
-            if (ItemManager.PlayerTransform == null)
+            if (_playerTransform == null)
                 return;
             
-            var playerPosition = (Vector2)ItemManager.PlayerTransform.position;
+            var playerPosition = (Vector2)_playerTransform.position;
             var deltaTime = Time.deltaTime;
             
             for (var i = _itemsToPickup.Count - 1; i >= 0; i--)
@@ -106,6 +109,7 @@ namespace Survivors.Managers
         {
             ICollectable.OnAddItem -= OnAddItem;
             ICollectable.OnRemoveItem -= OnRemoveItem;
+            PlayerManager.OnPlayerCreated -= OnPlayerCreated;
         }
         //============================================================================================================//
 
@@ -120,8 +124,6 @@ namespace Survivors.Managers
                     XpManager.AddXp(collectable.Value);
                     break;
                 case PICKUP.HEAL:
-                    if (_playerHealth == null)
-                        _playerHealth = Object.FindObjectOfType<PlayerHealth>();
                     _playerHealth.ChangeHealth(collectable.Value);
                     break;
                 default:
@@ -132,6 +134,12 @@ namespace Survivors.Managers
 
         //IItem Callbacks
         //============================================================================================================//
+        private void OnPlayerCreated(Transform playerTransform, PlayerHealth playerHealth, SpriteRenderer _)
+        {
+            _playerTransform = playerTransform;
+            _playerHealth = playerHealth;
+        }
+        
         private void OnAddItem(ICollectable collectable)
         {
             if (_itemsToPickup == null)

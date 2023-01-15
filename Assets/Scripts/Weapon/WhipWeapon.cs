@@ -19,9 +19,9 @@ namespace Survivors.Weapons
 
         private readonly SpriteRenderer _playerSpriteRenderer;
 
-        public WhipWeapon(in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
+        public WhipWeapon(in SpriteRenderer playerSpriteRenderer, in WeaponProfileScriptableObject weaponProfile) : base(in weaponProfile)
         {
-            _playerSpriteRenderer = ItemManager.PlayerTransform.GetComponent<SpriteRenderer>();
+            _playerSpriteRenderer = playerSpriteRenderer;
             projectileSprite = weaponProfile.projectileSprite;
             spriteColor = weaponProfile.projectileSpriteColor;
 

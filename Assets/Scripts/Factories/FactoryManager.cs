@@ -16,14 +16,14 @@ namespace Survivors.Factories
     {
         //============================================================================================================//
         [SerializeField, Header("Players")]
-        private PlayerStateControllerBase playerStateControllerPrefab;
+        private SpriteRenderer playerPrefab;
         [SerializeField]
         private List<PlayerProfileScriptableObject> playerProfiles;
         
         [SerializeField, Header("Enemies")] 
-        private EnemyStateController enemyStateControllerCirclePrefab;
+        private SpriteRenderer enemyStateControllerCirclePrefab;
         [SerializeField] 
-        private EnemyStateController enemyStateControllerBoxPrefab;
+        private SpriteRenderer enemyStateControllerBoxPrefab;
         [SerializeField]
         private List<EnemyProfileScriptableObject> enemyProfiles;
         
@@ -69,7 +69,7 @@ namespace Survivors.Factories
             IFactory newFactory;
             if (type == typeof(PlayerFactory))
             {
-                newFactory = new PlayerFactory(playerStateControllerPrefab, playerProfiles);
+                newFactory = new PlayerFactory(playerPrefab, playerProfiles);
             }
             else if (type == typeof(EnemyFactory))
             {

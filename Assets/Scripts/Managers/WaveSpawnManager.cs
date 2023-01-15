@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Survivors.Factories;
 using Survivors.ScriptableObjets.Enemies;
 using Survivors.Utilities;
 using UnityEngine;
@@ -32,6 +31,8 @@ namespace Survivors.Managers
         //FIXME Move this into a Stage Profile Scriptable Object
         private SpawnData[] spawnDatas;
 
+        public bool playerReady;
+
         private Rect _cameraRect;
         private int _seconds;
         private float _secondsTimer;
@@ -45,6 +46,9 @@ namespace Survivors.Managers
 
         private void Update()
         {
+            if (playerReady == false)
+                return;
+            
             if (_secondsTimer < 1f)
             {
                 _secondsTimer += Time.deltaTime;
@@ -83,6 +87,8 @@ namespace Survivors.Managers
         {
             const float MIN_DIST = 0.2f;
             const float MAX_DIST = 1f;
+
+            yield return new WaitUntil(() => playerReady);
             
             var delay = spawnData.spawnInterval;
             var waitForSeconds = new WaitForSeconds(delay);
@@ -96,11 +102,9 @@ namespace Survivors.Managers
                     horizontal ? _cameraRect.xMin - Random.Range(1, 3f) : _cameraRect.xMax + Random.Range(1, 3f),
                     vertical ? _cameraRect.yMin - Random.Range(1, 3f) : _cameraRect.yMax + Random.Range(1, 3f));
 
-                var enemy = spawnData.enemyProfiles.GetRandomElement();
+                var enemyProfile = spawnData.enemyProfiles.GetRandomElement();
 
-                FactoryManager
-                    .GetFactory<EnemyFactory>()
-                    .CreateEnemy(enemy.name, position);
+                EnemyManager.RequestNewEnemy(enemyProfile, position);
 
                 yield return waitForSeconds;
             }
@@ -112,13 +116,11 @@ namespace Survivors.Managers
 
                 var position = new Vector2(
                     horizontal ? _cameraRect.xMin - Random.Range(MIN_DIST, MAX_DIST) : _cameraRect.xMax + Random.Range(MIN_DIST, MAX_DIST),
-                    vertical ? _cameraRect.yMin - Random.Range(  MIN_DIST, MAX_DIST) : _cameraRect.yMax + Random.Range(MIN_DIST, MAX_DIST));
+                    vertical ? _cameraRect.yMin - Random.Range(MIN_DIST, MAX_DIST) : _cameraRect.yMax + Random.Range(MIN_DIST, MAX_DIST));
 
-                var enemy = spawnData.enemyProfiles.GetRandomElement();
+                var enemyProfile = spawnData.enemyProfiles.GetRandomElement();
 
-                FactoryManager
-                    .GetFactory<EnemyFactory>()
-                    .CreateEnemy(enemy.name, position);
+                EnemyManager.RequestNewEnemy(enemyProfile, position);
 
                 yield return waitForSeconds;
             }

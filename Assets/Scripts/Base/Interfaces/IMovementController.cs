@@ -7,6 +7,5 @@
         float Speed { get; }
 
         void SetSpeed(in float speed);
-        void SetActive(bool state);
     }
 }

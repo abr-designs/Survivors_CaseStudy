@@ -1,19 +1,22 @@
 ﻿using Survivors.Base;
+using Survivors.Base.Interfaces;
 using Survivors.Managers;
 using Survivors.ScriptableObjets;
+using UnityEngine;
 
 namespace Survivors.Player
 {
     public class PlayerStateControllerBase : StateControllerBase
     {
         //============================================================================================================//
-        
-        public void SetupPlayer(in PlayerProfileScriptableObject playerProfile)
+        public PlayerStateControllerBase(
+            in PlayerHealth playerHealth,
+            in PlayerProfileScriptableObject playerProfile,
+            in IMovementController movementController, 
+            in IAnimationController animationController, 
+            in SpriteRenderer spriteRenderer, 
+            in STATE defaultAnimationState) : base(in movementController, in animationController, in spriteRenderer, in defaultAnimationState)
         {
-            base.Start();
-
-            var playerHealth = GetComponent<PlayerHealth>();
-            
             playerHealth.SetStartingHealth(playerProfile.startingHealth);
             MovementController.SetSpeed(playerProfile.moveSpeed);
             shadowOffset = playerProfile.shadowOffset;
@@ -22,21 +25,19 @@ namespace Survivors.Player
 
             AnimationController.SetAnimationProfile(playerProfile.animationProfile);
             SetState(STATE.IDLE);
+            OnEnable();
         }
         
         //Unity Functions
         //============================================================================================================//
         
-        protected override void OnEnable()
+        public override void OnEnable()
         {
             base.OnEnable();
             InputDelegator.OnMovementChanged += OnMovementChanged;
         }
 
-        protected override void Start()
-        { }
-
-        protected override void OnDisable()
+        public override void OnDisable()
         {
             base.OnDisable();
             InputDelegator.OnMovementChanged -= OnMovementChanged;
@@ -63,6 +64,10 @@ namespace Survivors.Player
         }
 
         protected override void DeathState()
-        { }
+        {
+            
+        }
+
+
     }
 }

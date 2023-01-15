@@ -1,8 +1,9 @@
-﻿using Survivors.ScriptableObjets.Animation;
+﻿using Survivors.Base.Managers.Interfaces;
+using Survivors.ScriptableObjets.Animation;
 
 namespace Survivors.Base.Interfaces
 {
-    public interface IAnimationController
+    public interface IAnimationController : IUpdate
     {
         void SetAnimationProfile(in AnimationProfileScriptableObject animationProfileScriptableObject);
 

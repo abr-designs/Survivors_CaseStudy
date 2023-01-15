@@ -63,14 +63,13 @@ namespace Survivors.Managers
         {
             _healthBarPrefab = healthBarPrefab;
             _healthBarYOffset = healthBarYOffset;
-        }
-
-        //============================================================================================================//
-        public void OnEnable()
-        {
+            
             HealthBase.OnNewHealth += TryAddTrackedHealth;
             HealthBase.OnHealthRemoved += TryRemoveTrackedHealth;
         }
+
+        //============================================================================================================//
+        public void OnEnable() { }
 
         public void LateUpdate()
         {

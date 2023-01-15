@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using Survivors.Animation;
 using Survivors.Base.Interfaces;
+using Survivors.Base.Managers.Interfaces;
 using Survivors.ScriptableObjets.Animation;
 using UnityEngine;
 
 namespace Survivors.Base
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    [DefaultExecutionOrder(-100)]
-    public class AnimationControllerBase : MonoBehaviour, IAnimationController
+    public class AnimationControllerBase : IAnimationController
     {
         //============================================================================================================//
 
@@ -29,14 +28,12 @@ namespace Survivors.Base
 
         //Unity Functions
         //============================================================================================================//
-
-        private void Start()
+        public AnimationControllerBase(in SpriteRenderer spriteRenderer)
         {
-            
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = spriteRenderer;
         }
 
-        private void Update()
+        public void Update()
         {
             if (_currentState == STATE.NONE)
                 return;
@@ -56,7 +53,6 @@ namespace Survivors.Base
                 else
                     return;
             }
-
 
             _spriteRenderer.sprite = animationData.sprites[_currentAnimationIndex++];
             _frameTimer = 0f;
@@ -95,7 +91,7 @@ namespace Survivors.Base
                 return;
             
             if (_currentStateIndicies.ContainsKey(state) == false)
-                throw new NotImplementedException($"{gameObject.name} does not contain state: {state}");
+                throw new NotImplementedException($"{_spriteRenderer.gameObject.name} does not contain state: {state}");
             
             _currentState = state;
             _currentStateIndex = _currentStateIndicies[state];

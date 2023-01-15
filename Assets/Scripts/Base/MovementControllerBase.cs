@@ -1,9 +1,10 @@
 ﻿using Survivors.Base.Interfaces;
+using Survivors.Base.Managers.Interfaces;
 using UnityEngine;
 
 namespace Survivors.Base
 {
-    public abstract class MovementControllerBase : MonoBehaviour, IMovementController
+    public abstract class MovementControllerBase : IMovementController, IUpdate
     {
         private Transform _transform;
 
@@ -19,13 +20,14 @@ namespace Survivors.Base
         protected float XDirection, YDirection;
 
         //============================================================================================================//
-        private void Start()
+
+        public MovementControllerBase(in Transform transform)
         {
-            _transform = gameObject.transform;
+            _transform = transform;
         }
 
         // Update is called once per frame
-        private void Update()
+        public void Update()
         {
             if (_isMoving == false)
                 return;
@@ -40,11 +42,6 @@ namespace Survivors.Base
         public void SetSpeed(in float speed)
         {
             this.speed = speed;
-        }
-
-        public void SetActive(bool state)
-        {
-            enabled = state;
         }
 
         //============================================================================================================//

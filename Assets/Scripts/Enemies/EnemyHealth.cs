@@ -7,8 +7,7 @@ namespace Survivors.Enemies
 {
     public class EnemyHealth : HealthBase
     {
-        public static event Action<EnemyHealth> OnNewEnemy; 
-        public static event Action<EnemyHealth> OnEnemyRemoved;
+        
 
         public event Action OnKilled;
         
@@ -20,19 +19,11 @@ namespace Survivors.Enemies
 
         public float Damage;
 
-        //Unity Functions
         //============================================================================================================//
-        
-        protected override void OnEnable()
+        public EnemyHealth(in SpriteRenderer spriteRenderer) : base(in spriteRenderer)
         {
-            OnNewEnemy?.Invoke(this);
         }
 
-        protected override void OnDisable()
-        {
-            OnEnemyRemoved?.Invoke(this);
-        }
-        
         //============================================================================================================//
         
         public override void ChangeHealth(in float healthDelta)
@@ -59,5 +50,6 @@ namespace Survivors.Enemies
         }
         
 #endif
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Survivors.Base;
 using Survivors.Managers;
+using UnityEngine;
 
 namespace Survivors.Player
 {
@@ -7,12 +8,12 @@ namespace Survivors.Player
     {
         public override float Speed => speed * PassiveManager.MoveSpeed;
 
-        private void OnEnable()
+        public PlayerMovementController(in Transform transform) : base(in transform)
         {
             InputDelegator.OnMovementChanged += OnMovementChanged;
         }
-        
-        private void OnDisable()
+
+        ~PlayerMovementController()
         {
             InputDelegator.OnMovementChanged -= OnMovementChanged;
         }
